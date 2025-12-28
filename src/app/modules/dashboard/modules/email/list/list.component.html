@@ -1,0 +1,183 @@
+<div class="edit_webPage_tab_body_bg">
+
+  <!-- -- Mail page TAB section top --  -->
+  <div class="page_top_title filter-headingArea">
+    <div class="edit_webPage_tab_leftRight_btn mb_0">
+      <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)"  (click)="saveDetails('next')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+      <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" [ngClass]="'disabled'"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+    </div>
+    <div class="filterArea">
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()">
+        <img src="assets/images/filter-search-icon.png">
+      </a>
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <a class="pinkbtnsmall" href="javascript:void(0)" [routerLink]="['/email-template/template-create']">Add Templates</a>
+    </div>
+  </div>
+  <div class="block_sec_title_row">
+    <h4 class="block_sec_title green_text">Email Mail Templates List</h4>
+  </div>
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec" *ngIf="seachFilter" >
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by mail template name" formControlName="search" (keyup)="getEmailList(current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getEmailList(current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button"  (click)="clear()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getEmailList(current)">
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="Draft">Draft</option>
+                      <option value="Publish">Ready to send</option>
+                      <option value="Published">Published</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getEmailList(current)">
+                      <option value="" disabled selected hidden>Sort by template name</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="filter_input_box_btn">
+              <button class="button_appearance_none filter_btn_clear" (click)="ResetFilterData()">Reset</button>
+            </div>
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+
+
+  <!-- -- Mail page TAB section bottom --  -->
+
+
+  <div class="dashboard_panel_bg memberlistpage group_listing_page">
+
+    <!-- table area start -->
+    <div class="tableBox">
+      <div class="table-responsive">
+        <table class="table_list" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Mail Template Name</th>
+                    <!-- <th>Event Id</th> -->
+                    <th>Event Name</th>
+                    <th>Contact Type</th>
+                    <th>Status</th>
+                    <th>Action Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of getListData, let i = index">
+                  <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                    {{'M100'+(current*10-(9-i))}}
+                  </td>
+                  <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                    {{'M10'+(current*10-(9-i))}}
+                  </td>
+                  <td class="td_readMore_bg">
+                    <div class="td_img_round_block">
+                      <span *ngIf="item.mailTemplateName">
+                        <img [src]="item?.bannerImage ? item.bannerImage : 'assets/images/no-image-found-3.png' ">
+                        {{item.mailTemplateName | truncate:35}}
+                      </span>
+                      <span *ngIf="!item.mailTemplateName">
+                        {{"N/A"}}
+                      </span>
+                    </div>
+                    <div class="td_readMore_block textRight " *ngIf="item.mailTemplateName && item.mailTemplateName.length > 35">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                    </div>
+                  </td>
+                  <!-- <td>{{"N/A"}}</td> -->
+                  <td>{{item.eventName ? item.eventName : 'N/A'}}</td>
+                  <td>{{item.contactType ? item.contactType : 'N/A'}}</td>
+                  <!-- <td>Web Visitor</td> -->
+                  <td>
+                    <button class="button_appearance_none td_status_btn td_inactive_btn pointer_event_none">{{item?.status === 'Publish' ? 'Ready to Send' : (item.status ? item.status : 'N/A')}}</button>
+                    <!-- <button class="button_appearance_none td_active_btn">Draft</button>
+                    <button class="button_appearancenone td_status_btn">Published</button> -->
+                  </td>
+                  <td>
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="mail" [ngClass]="{'disabled': item?.status === 'Published' || item?.status === 'Draft'}" (click)="sendEmail(item.id)">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                      </button>
+                      <button class="button_appearance_none active_item_td_btn td_btn_green" title="edit" (click)="editTemplate(item.id)" [ngClass]="{'disabled': item?.status === 'Published' || item?.status === 'Publish'}">
+                        <img src="assets/images/active_item_btn_01.png" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              <tr *ngIf="!getListData?.length">
+                  <td colspan="6">No Data Found</td>
+              </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+      <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+          <span *ngIf="totalData > limit"><app-pagination
+          [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+          ></app-pagination></span>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+        </div>
+      </div>
+    </ng-template>
+        <!-- ---  table bottom Pagination section -- end --  -->
+    </div>
+    <!-- table area end -->
+
+
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="blogNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mail Template Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+               {{getTemplateName ? getTemplateName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

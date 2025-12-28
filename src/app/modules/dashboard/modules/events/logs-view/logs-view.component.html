@@ -1,0 +1,105 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title filter-headingArea">
+      <!-- <h4>Cron Log List</h4> -->
+       <h4>Supplier Log Records: </h4>
+       <div class="filterArea">
+        <a href="javascript:void(0)" class="pinkbtnsmall" (click)="exportLogsView()">Export</a>
+       </div>
+    </div>
+    <!-- page title -- section -- end  -->
+  
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/events/supply-management/list/'+eventId]">Back to supply list</a>
+    </div>  
+    <!-- table area start -->
+    <div class="tableBox">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Age</th>
+                    <th>Age Category</th>
+                    <th>Quantity Provided</th>
+                    <th>Status</th>
+                    <th>Status Update Date</th>
+                    <th>Status Update Time</th>
+                    <th>Access Platform</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+  
+                <tbody>
+                  <tr *ngFor="let item of logList, let i = index">
+  
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                      {{'LOG100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                      {{'LOG10'+(current*10-(9-i))}}
+                    </td>
+                    <td>
+                        {{item?.name ? (item.name | titlecase) : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.number ? item.number : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.age ? item.age : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.type ? (item.type | titlecase) : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.userQuantity ? item.userQuantity : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.status ? (item.status | titlecase) : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item.acceptedDate ? item.acceptedDate : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item.acceptedTime ? item.acceptedTime : 'N/A'}}
+                    </td>
+                    <td>
+                      {{item?.portal ? (item.portal | titlecase) : 'N/A'}}
+                    </td>
+                    <td [ngClass]="{'disabled': item?.portal === 'app' || (item?.isActive === false || item?.isActive === null)}">
+                      <button class="button_appearance_none" [ngClass]="item.isActive ? 'td_active_btn': 'td_inactive_btn'" (click)="changeStatus(item.id,i,item.isActive)">{{item.isActive ? 'Active' : 'Inactive'}}</button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!logList?.length">
+                    <td colspan="10">No Data Found</td>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+        <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > limit"><app-pagination
+              [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template>
+    </div>
+    <!-- table area end -->
+  
+  
+  </div>
+
+  
+  
+  
+  

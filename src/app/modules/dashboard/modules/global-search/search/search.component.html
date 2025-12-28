@@ -1,0 +1,234 @@
+<div class="dashboard_panel_bg memberlistpage">
+    <!-- page title -- section -- start  -->
+    <!-- <div class="page_top_title">
+        <h4>{{comName}}</h4>
+    </div> -->
+    <!-- page title -- section -- end  -->
+
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+        <a href="javascript:void(0)" (click)="back()">Back to previous page</a>
+    </div>
+    <!-- -- back btn section start --  -->
+
+
+
+    <!----Start Member List----->
+    <div class="filter-headingArea">
+        <h4 class="block_sec_title headeingArea">Member list</h4>
+    </div>
+
+    <div class="searchList_table_section">
+
+      <div class="searchList_table_block_bg">
+        <!-- table area start -->
+        <div class="tableBox">
+            <div class="table-responsive">
+                <table class="table_list" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Member name</th>
+                            <th>Member Email</th>
+                            <th>Phone</th>
+                            <th>User Type</th>
+                            <th>Last Activity On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let memberItem of memberSearchData; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{memberItem.members.user.name  ? memberItem.members.user.name : 'N/A'}}</td>
+                            <td>{{memberItem.members.user.email ? memberItem.members.user.email : 'N/A'}}</td>
+                            <td>{{memberItem.members.user.phone ? memberItem.members.user.phone : 'N/A'}}</td>
+                            <td>{{memberItem.members.roles ? memberItem.members.roles :'N/A'}}</td>
+                            <td>{{memberItem.members.joinedAt | date:'fullDate'}}</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                      <tr *ngIf="!memberSearchData?.length">
+                        <td class="td_nodata" colspan="6">No recent items match your search.</td>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!---table area end-->
+        <!--End Group List-->
+      </div>
+
+      <div class="searchList_table_block_bg">
+        <!----Start Group List----->
+        <div class="filter-headingArea">
+            <h4 class="block_sec_title headeingArea">Group list</h4>
+        </div>
+        <!-- table area start -->
+        <div class="tableBox">
+            <div class="table-responsive">
+                <table class="table_list" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Group name</th>
+                            <th>Community Name</th>
+                            <th>Created By</th>
+                            <th>Members <br>Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let groupItem of groupSearchData; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>
+                                <div class="td_img_round_block">
+                                <img [src]="groupItem?.image ? groupItem?.image : 'assets/images/no-image-found-3.png' ">
+                                {{groupItem.name ? groupItem.name : 'N/A'}}
+                              </div>
+                            </td>
+                            <td>{{groupItem.community ? groupItem.community?.communityName : 'N/A'}}</td>
+                            <td>{{groupItem.createdBy ? groupItem.createdBy : 'N/A'}}</td>
+                            <td>{{groupItem?.memberCount}}</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                      <tr *ngIf="!groupSearchData?.length">
+                        <td class="td_nodata" colspan="5">No recent items match your search.</td>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!---table area end-->
+        <!--End Group List-->
+      </div>
+
+      <div class="searchList_table_block_bg">
+        <!----Start Announcement List----->
+        <div class="filter-headingArea">
+            <h4 class="block_sec_title headeingArea">Announcement list</h4>
+        </div>
+        <!-- table area start -->
+        <div class="tableBox">
+            <div class="table-responsive">
+                <table class="table_list" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Announcement name</th>
+                            <th>Community Name</th>
+                            <th>Type</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let annoncementItem of announcementSearchData; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{annoncementItem.title ? annoncementItem.title : 'N/A'}}</td>
+                            <td>{{'N/A'}}</td>
+                            <td>{{annoncementItem.toWhom ? annoncementItem.toWhom : 'N/A'}}</td>
+                            <td>{{annoncementItem.endDate | date:'fullDate'}}</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                      <tr *ngIf="!announcementSearchData?.length">
+                        <td class="td_nodata"  colspan="5">No recent items match your search.</td>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!---table area end-->
+        <!--End Announcement List-->
+      </div>
+
+      <div class="searchList_table_block_bg">
+        <!----Start Event List----->
+        <div class="filter-headingArea">
+            <h4 class="block_sec_title headeingArea">Event list</h4>
+        </div>
+        <!-- table area start -->
+        <div class="tableBox">
+            <div class="table-responsive">
+                <table class="table_list" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Event name</th>
+                            <th>Event Image</th>
+                            <th>Community Name</th>
+                            <th>Created By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let eventItem of eventSearchData; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{eventItem.title ? eventItem.title : 'N/A'}}</td>
+                            <td>
+                                <div class="td_img_squre_block">
+                                    <img [src]="eventItem.image ? eventItem.image : 'assets/images/no-image-found-3.png' " />
+                                </div>
+                            </td>
+                            <td>{{'N/A'}}</td>
+
+                            <td>{{'N/A'}}</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                      <tr *ngIf="!eventSearchData?.length">
+                        <td class="td_nodata" colspan="5">No recent items match your search.</td>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!---table area end-->
+        <!--End Event List-->
+      </div>
+
+      <div class="searchList_table_block_bg">
+        <!----Start Event List----->
+        <div class="filter-headingArea">
+            <h4 class="block_sec_title headeingArea">Feedback list</h4>
+        </div>
+        <!-- table area start -->
+        <div class="tableBox">
+            <div class="table-responsive">
+                <table class="table_list" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Contact Email</th>
+                            <th>Message Content</th>
+                            <th>Feedback Recieved date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let feedbackItem of feedbackSearchData; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{feedbackItem.email ? feedbackItem.email : 'N/A'}}</td>
+                            <td>
+                                <div class="td_msg_cont">
+                                    {{feedbackItem.message | truncate: 35 }}
+                                </div>
+                            </td>
+                            <td>{{feedbackItem.createdAt | date:'medium'}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr *ngIf="!feedbackSearchData?.length">
+                        <td class="td_nodata" colspan="4" >No recent items match your search.</td>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!---table area end-->
+        <!--End Event List-->
+      </div>
+
+    </div>
+
+</div>

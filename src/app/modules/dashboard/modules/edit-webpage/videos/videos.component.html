@@ -1,0 +1,135 @@
+
+
+  <!-- ===  Edit Web-Page /  -- start === -->
+    <form [formGroup]="videoForm">
+      <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+      <div class="edit_webPage_tab_body_bg">
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Create your own video list
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText">
+                Allow showing up to 07 video links, restricted to YouTube and Vimeo videos. The videos themselves are shown embedded in the page, on a grid, which may be resized as the browser is resized.
+              </div>
+            </div>
+          </h4>
+          <!-- <button (click)="addVideoDetails">Add Field</button> -->
+        </div>
+        <div class="edit_webPage_tab_leftRight_btn">
+          <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" (click)="save('previous')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+          <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="save('next')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+
+        <!-- Announcements -- row -- start -->
+<!--
+        <div class="onboard_form_row announcement_row ">
+          <div class="block_sec_title_row">
+            <h4 class="block_sec_title green_text">Create your own video list
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false">
+                </button>
+                <div class="tooltip_hover_text" *ngIf="changeText">
+                  Allow showing up to 07 video links, restricted to YouTube and Vimeo videos. The videos themselves are shown embedded in the page, on a grid, which may be resized as the browser is resized.
+                </div>
+              </div>
+            </h4>
+          </div>
+        </div>
+ -->
+        <!-- Announcements -- row -- end -->
+
+
+        <!-- === Video List Block -- start === -->
+        <div class="video_list_section">
+
+          <ol cdkDropList class="example-list video_list_ol" (cdkDropListDropped)="drop($event)">
+            <div class="video_ol_div" formArrayName="videoArray">
+              <ng-container  *ngFor="let videoArray of videoArray.controls; let i = index;">
+                <div class="video_list_li_div" [formGroupName]="i">
+                  <li class="example-box video_list_ol_li" cdkDrag>
+                    <!-- ====  -->
+                    <div class="video_list">
+                      <div class="videoList_content">
+
+                        <div class="videoList_left">
+                          <div class="videoThumb_block">
+                            <iframe class="videoList_block" [src]="getVideoLink(i) | safe"  allowfullscreen></iframe>
+                          </div>
+                        </div>
+
+                        <div class="videoList_mid">
+                          <!-- <div formArrayName="videoArray"> -->
+                                <div class="video_link_url">
+                                  <input class="input_appearance_none video_link_input" type="url" placeholder="Enter Your Video URL"  formControlName="link" (paste)="getURLDetails($event,i)">
+                                </div>
+                                <div class="video_title">
+                                  <input class="input_appearance_none video_link_input" type="text"  placeholder="Enter Your Video Title" formControlName="title">
+                                </div>
+                                <div class="video_description">
+                                  <div class="textArea_block editWebPage_row">
+                                    <textarea class="input_appearance_none editWeb_textArea" placeholder="Enter Your Video Description" formControlName="description"></textarea>
+                                    <!-- <div class="text_count_block">
+                                      123/500
+                                    </div> -->
+                                  </div>
+                                </div>
+                          <!-- </div> -->
+                        </div>
+                      </div>
+                      <div class="videoList_right">
+                        <div class="paste_btn_block">
+                          <!-- <button class="button_appearance_none video_paste_btn">
+                            <img class="" src="assets/images/paste-icon.png">
+                          </button> -->
+                          <button class="button_appearance_none video_reset_btn pink_btn" (click)="resetVideo($event,i)">Reset</button>
+                        </div>
+                        <div class="drag_number_block">
+                          <button class="button_appearance_none drag_num_btn ">
+                            <div class="blue_box">
+                              <img class="" src="assets/images/drag-icon.png">
+                            </div>
+                            <div class="num_block">
+                              {{i}}
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ====  -->
+                  </li>
+                </div>
+              </ng-container>
+            </div>
+          </ol>
+
+        </div>
+
+        <!-- === Video List Block -- end   === -->
+
+
+
+      </div>
+      <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_gray" type="submit" (click)="save('previous')">Save Settings & Previous</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" (click)="save('')" >Save Settings</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="save('next')">Save Settings & Next</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    <!-- edit web page Form Card -- end --  -->
+    </form>
+  <!-- ===  Edit Web-Page /  -- end === -->
+
+

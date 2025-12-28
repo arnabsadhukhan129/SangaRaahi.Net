@@ -1,0 +1,623 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>{{eventData?.title}} - Event Supply List</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="searchToggle()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+
+      <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+      <a class="pinkbtnsmall"  [routerLink]="['/events/supply-management/create-supplier/'+ eventId]" >Add supply for event</a>
+      <a href="javascript:void(0)" class="pinkbtnsmall" (click)="supplierExport()">Export</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/events/payment-history-list/'+ eventId]">Back to Payment List</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec" *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Supply Item Name" formControlName="search" (keyup)="getList(current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getList(current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button"  (click)="clear()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getList(current)">
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="1">Done</option>
+                      <option value="0">Not Done</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" (change)="sortData($event)">
+                      <option value="" disabled selected hidden>Sort</option>
+                      <option value="date" >Sort by date</option>
+                      <option value="name">Sort by supplier name</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select" *ngIf="sortDate">
+                    <select class="input_appearance_none filter_input" formControlName="sortByDate" (change)="getList(current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascDate" >Ascending order</option>
+                      <option value="descDate">Descending order</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select" *ngIf="sortName">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getList(current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- list page -- counter block section -- start  -->
+  <div class="listPage_countBlock_sec">
+    <div class="listPage_countBlock_bg">
+
+      <div class="countblock">
+        <h4><span>{{getCountData.openOrders}}</span></h4>
+        <p>Opened Orders</p>
+     </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.closedOrders}}</span></h4>
+        <p>Closed Orders</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.assignedOrders}}</span></h4>
+        <p>Assigned Orders</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.fulfilledOrders}}</span></h4>
+        <p>Fulfilled Orders</p>
+      </div>
+    </div>
+  </div>
+  <!-- list page -- counter block section -- end  -->
+
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Supply Item</th>
+                  <th>Quantity</th>
+                  <th>Needed for</th>
+                  <th>Required within</th>
+                  <th>Assigned Members</th>
+                  <th>History</th>
+                  <th class="textCenter">Submitted Quantity</th>
+                  <th class="textCenter">Already Volunteered Quantity </th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of getSupplierDetails, let i = index">
+                  <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                    <span class="td_modal_link" (click)="supplierModal(item,'S0'+(current*10-(9-i)))">{{'S0'+(current*10-(9-i))}}</span>
+                  </td>
+                  <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                    <span class="td_modal_link" (click)="supplierModal(item,'S'+(current*10-(9-i)))">{{'S'+(current*10-(9-i))}}</span>
+                  </td>
+                  <td class="td_readMore_bg">
+                    <p>{{item.supplyItem | truncate: 35}}</p>
+                    <div class="td_readMore_block textRight" *ngIf="item.supplyItem && item.supplyItem.length > 35">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreSupplyDetails(item)">Read more</a>
+                    </div>
+                  </td>
+                  <td>
+                    {{item.quantity ? item.quantity : 0}}
+                  </td>
+                  <td class="td_readMore_bg">
+                    <p>{{item.neededFor | truncate: 35}}</p>
+                    <div class="td_readMore_block textRight" *ngIf="item.neededFor && item.neededFor.length > 35">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                    </div>
+                  </td>
+                  <td>
+                    {{item.requiredDate | date: 'dd MMMM y'}}<br>
+                    {{item.time.to | date: 'hh:mm a':'UTC'}}{{item?.time?.timezone ? '('+item?.time?.timezone+')' : ''}}
+                  </td>
+                  <td>
+                    <span *ngIf="item.assignedMembers.length > 2">
+                      <b>{{item.assignedMembers[0]?.name | firstname}} , {{item.assignedMembers[1]?.name | firstname}}</b> & <span class="td_modal_link" (click)="assignMembersModal(item.assignedMembers)">{{item.assignedMembersCount ?  item.assignedMembersCount - 2 : ''}} Others</span>
+                    </span>
+                    <span *ngIf="item.assignedMembers.length === 0">
+                      <b>{{'N/A'}}</b>
+                    </span>
+                    <span *ngIf="item.assignedMembers.length === 1">
+                      <b>{{item.assignedMembers[0]?.name}}</b>
+                    </span>
+                    <span *ngIf="item.assignedMembers.length === 2">
+                      <b>{{item.assignedMembers[0]?.name | firstname}} & <span class="td_modal_link" (click)="assignMembersModal(item.assignedMembers)"> 1 Others</span></b>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="td_modal_link" (click)="taskLogModal(item.id)" >
+                      Logs
+                    </span>
+                  </td>
+
+
+                  <td class="textCenter">
+                    <!-- <ng-container *ngIf="isUserAssigned(item); else noMembers">
+                      <ng-container *ngFor="let val of item.assignedMembers">
+                        <ng-container *ngIf="userId === val.userId">
+                          <div class="plus_minus_btn_block">
+                            <input
+                              class="input_appearance_none remove-arrows count_num_show"
+                              type="number"
+                              placeholder="Enter number"
+                              inputmode="numeric"
+                              *ngIf="!item.isDone"
+                              [value]="val.userQuantity || 0"
+                              [(ngModel)]="val.userQuantity"
+                            />
+                            <button
+                              class="button_appearance_none count_btn td_btn_green"
+                              (click)="saveQuaintyData(item.id, val.userQuantity)"
+                              *ngIf="!item.isDone"
+                              [ngClass]="{ 'disabled': !(val.userQuantity > 0) }"
+                            >
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container> -->
+                  
+                    <ng-container >
+                      <div class="plus_minus_btn_block" *ngIf="!item.isDone">
+                        <input
+                          class="input_appearance_none remove-arrows count_num_show"
+                          type="number"
+                          placeholder="Enter number"
+                          inputmode="numeric"
+                          (keyup)="sendVal($event,item?.id)"
+                        />
+                        <button
+                          class="button_appearance_none count_btn td_btn_green"
+                          (click)="saveQuaintyData(item.id, storeVal)"
+                          [ngClass]="{ 'disabled': (item.id !== getId) || storeVal <= 0 || storeVal === '' }"
+                        >
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </ng-container>
+                  
+                    <div *ngIf="item.isDone">Done</div>
+                  </td>
+                  
+
+                  <td class="textCenter">{{item.alreadyTaken ? item.alreadyTaken : 0}}</td>
+
+
+                  <!-- <td>
+                    <div class= "plus_minus_btn_block">
+                      <button class="button_appearance_none count_btn bg_pink" (click)="savePreviousVolunteerData(item.id,i)" [ngClass]="{'disabled': item.alreadyTaken=== 0}" *ngIf="!item.isDone" ><i class="fa fa-times" aria-hidden="true"></i></button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number"  placeholder="Enter number of Volunteer" inputmode="numeric" *ngIf="!item.isDone" [value]="item.alreadyTaken ? item.alreadyTaken : 0" [(ngModel)]="item.alreadyTaken">
+                      <button class="button_appearance_none count_btn td_btn_green" (click)="saveVolunteerData(item.alreadyTaken,item.id,item.quantity)" *ngIf="!item.isDone" [ngClass]="{'disabled': item.alreadyTaken=== 0}"><i class="fa fa-check" aria-hidden="true"></i></button>
+                    </div>
+                    <div class=""*ngIf="item.isDone">Done</div>
+                  </td> -->
+
+                  <td>
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_green" title="Supplier Log Records" [routerLink]="['/events/supply-management/logs-view/'+item.id+'/'+eventId]">
+                        <img src="assets/images/active_item_btn_02.png" />
+                      </button>
+
+                      <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editSpplier(item.id)" [ngClass]="{'disabled': item.isDone}">
+                        <img src="assets/images/active_item_btn_01.png" />
+                      </button>
+
+                      <button class="button_appearance_none active_item_td_btn active_item_td_btn_icon td_btn_green" title="View"  (click)="supplierAddModal(item.id,item)">
+                        <i class="fa fa-plus-circle"></i>
+                      </button>
+
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteSupplier(item.id,i)">
+                        <img src="assets/images/active_item_btn_06.png" />
+                      </button>
+
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tfoot>
+                <tr >
+                  <td colspan="8" *ngIf="getSupplierDetails?.length === 0">No Data Found</td>
+                </tr>
+              </tfoot>
+          </table>
+      </div>
+       <!-- ---  table bottom Pagination section -- start --  -->
+       <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit">
+              <app-pagination
+                [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              >
+              </app-pagination>
+            </span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+    <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+</div>
+<div class="modal fade custom_modal taskId_modal" id="taskId_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Task ID </h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_task_cont_block">
+            <div class="modal_task_cont">
+              <label>Task Name : </label>
+            </div>
+            <div class="modal_task_cont">
+              <label>Task Priority : </label> <span class="red">fghfgh</span>
+            </div>
+            <div class="modal_task_cont">
+              <label>Task Deadline : </label> <span class="">hgfh</span>
+            </div>
+            <div class="modal_task_cont">
+              <label>Event Description :  </label> <br>
+              <p>ghgfh</p>
+            </div>
+            <div class="modal_task_cont border_b_none">
+              <label>Required Team Size : </label> <br>
+              <div class="modal_count_num_block">
+
+                <div class="listPage_countBlock_bg">
+                  <div class="countblock active">
+                    <h4><span>fgg</span></h4>
+                    <p>Adults</p>
+                  </div>
+                  <div class="countblock">
+                    <h4><span>dfdfd</span></h4>
+                    <p>Teenagers</p>
+                  </div>
+                  <div class="countblock">
+                    <h4><span>fggfg</span></h4>
+                    <p>Children</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal_no_data" >
+          No data found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- td member modal -- start  -->
+<div class="modal fade custom_modal " id="assignMemberModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">All Assigned Members</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_body_list_box modal_body_assign_member">
+            <div class="modal_user_row" *ngFor="let value of getAssignMembersDetails">
+              <div class="modal_user_row_left">
+                <span class="modal_user_row_avatar">
+                  <img src="{{value.profileImage ? value.profileImage : 'assets/images/header-user.png'}}" >
+                </span>
+                <h4>{{value?.name}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal_no_data" *ngIf="getAssignMembersDetails?.length === 0">
+          No data found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- td member modal -- end  -->
+
+<!-- td member modal -- start  -->
+<div class="modal fade custom_modal " id="logsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log List Members</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_body_btn_box">
+            <button class="button_appearance_none small_capsule_btn green_btn" [ngClass]="{'disabled': isAccepted}" (click)="getAcceptedRejectedList(getSupplierId,'Accepted')">Accepted</button>
+            <button class="button_appearance_none small_capsule_btn pink_btn" [ngClass]="{'disabled': !isAccepted}"  (click)="getAcceptedRejectedList(getSupplierId,'Rejected')">Rejected</button>
+          </div>
+
+          <div class="modal_body_list_box">
+            <div class="modal_user_row" *ngFor="let data of getAcceptRejectDetails">
+              <div class="modal_user_row_left">
+                <span class="modal_user_row_avatar">
+                  <img src="assets/images/header-user.png" >
+                </span>
+                <h4>{{data?.name}}<br>
+                  <span><b>Phone No. -</b>{{data?.number}}</span> | <span><b> Age -</b>{{data?.age}}</span>
+                </h4>
+              </div>
+              <div class="modal_user_row_right">
+                <p>
+                  {{data?.acceptedDate | date: 'dd MMMM y'}}
+                  | {{data?.acceptedTime | customTimeFormatPipe}}
+                  <!-- 13th Oct. 2023 <br>4:54 PM. -->
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal_no_data" *ngIf="getAcceptRejectDetails?.length === 0">
+          No data found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- td member modal -- end  -->
+
+<!-- == table list Task Add -- modal -- start ===  -->
+<div class="modal fade custom_modal supplierAdd_modal" id="supplierAdd_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Team Members</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <h5>{{eventData?.title}}</h5>
+          <p>As Per Event Task Settings, you are required to assign the following member types ; Please select any type to select respective Members</p>
+          <h5>Required Member Count</h5>
+          <div class="modal_count_num_block">
+
+            <div class="listPage_countBlock_bg">
+              <div class="countblock hover_pointer" [ngClass]="{'active': typeVal=== 'adult'}" (click)="getUser(1)">
+                <h4><span>{{adultsData ? adultsData : 0}}
+                  <!-- {{getTeamDetails && getTeamDetails.adult ? getTeamDetails.adult : 0}} -->
+                </span></h4>
+                <p>Adults</p>
+              </div>
+              <div class="countblock hover_pointer" [ngClass]="{'active': typeVal=== 'teenager'}" (click)="getUser(2)">
+                <h4><span>{{teenagersData ? teenagersData : 0}}
+                  <!-- {{getTeamDetails && getTeamDetails.teenager ? getTeamDetails.teenager : 0}} -->
+                </span></h4>
+                <p>Teenagers</p>
+              </div>
+              <div class="countblock hover_pointer" (click)="getUser(3)" [ngClass]="{'active': typeVal=== 'children'}">
+                <h4><span>{{childrenData ? childrenData : 0}}
+                  <!-- {{getTeamDetails && getTeamDetails.children ? getTeamDetails.children : 0}} -->
+                </span></h4>
+                <p>Children</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal_footer_btn" >
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="assignMemberModal()" [ngClass]="{'disabled':!isAssignDisabled}"> + Assign Member </button>
+        </div>
+        <!-- <div class="modal_no_data" *ngIf="getTeamDetails?.length === 0">
+          No data found.
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- == table list Task Add -- modal -- end ===  -->
+
+<!-- == table list Task Add -- modal -- start ===  -->
+<div class="modal fade custom_modal assignMemberListModal" id="assignMemberListModal"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Member List</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_list_box">
+            <div class="modal_user_row" *ngFor="let userData of getUserData; let i = index">
+              <div class="modal_user_row_left">
+                <span class="modal_user_row_avatar">
+                  <img src="{{userData.profileImage ? userData.profileImage : 'assets/images/header-user.png'}}" >
+                </span>
+                <h4>{{userData?.name}}<br>
+                  <span><b>Phone No. - </b> {{userData?.number}}</span> | <span><b> Age - </b> {{userData?.age}}</span>
+                </h4>
+              </div>
+              <div class="modal_user_row_right">
+                <div class="modal_user_btn modal_user_btn_assign">
+                  <button class="button_appearance_none onboard_form_btn onboard_form_btn_green modal_user_row_btn" type="button" (click)="userAssignButton(userData,i)" *ngIf="!userData.showAssign">+Assign</button>
+                </div>
+                <div class="modal_user_btn modal_user_btn_permission">
+                  <button class="button_appearance_none active_item_td_btn td_btn_green modal_user_row_btn" type="button" *ngIf="userData.showAssign" (click)="saveAssignedMember(i)" [ngClass]="{'disabled': userData.isSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                  </button>
+                  <button class="button_appearance_none active_item_td_btn td_btn_pink modal_user_row_btn" type="button" *ngIf="userData.showAssign" (click)="deleteAssignedMember(i,userData.id)" [ngClass]="{'disabled': !userData.isSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal_data_not_found" *ngIf="getUserData?.length === 0"> No data found.</div>
+        </div>
+        <div class="modal-footer">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- == table list Task Add -- modal -- end ===  -->
+
+<div class="modal fade custom_modal supplierId_modal" id="supplierId_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Task ID - {{supplierId}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_task_cont_block">
+            <div class="modal_task_cont">
+              <label>Supply Item : </label> {{getSupplierValue?.supplyItem}}
+            </div>
+            <div class="modal_task_cont">
+              <label>Supply Item Description :  </label> <br>
+              <p class="textJustify">{{getSupplierValue?.supplyItemDescription}}</p>
+            </div>
+            <div class="modal_task_cont">
+              <label>Needed For : </label> <span class="">{{getSupplierValue?.neededFor}}</span>
+            </div>
+            <div class="modal_task_cont">
+              <label>Required Date : </label> <span class="">{{getSupplierValue?.requiredDate | date:'dd MMMM, yyyy'}}</span>
+            </div>
+            <div class="modal_task_cont border_b_none">
+              <label>Assigned Member Size: </label> <br>
+
+            </div>
+            <div class="modal_task_cont border_b_none flex_center">
+
+              <div class="modal_count_num_block">
+                <div class="listPage_countBlock_bg">
+                  <div class="countblock">
+                    <h4><span>{{getSupplierValue?.teamSize?.adult}}</span></h4>
+                    <p>Adults</p>
+                  </div>
+                  <div class="countblock">
+                    <h4><span>{{getSupplierValue?.teamSize?.teenager}}</span></h4>
+                    <p>Teenagers</p>
+                  </div>
+                  <div class="countblock">
+                    <h4><span>{{getSupplierValue?.teamSize?.children}}</span></h4>
+                    <p>Children</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal_no_data" *ngIf="getSupplierValue?.length === 0">
+          No data found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="supplyModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="modal_body_block">
+            <h5>
+              Supply Item : {{getSupplyName ? getSupplyName : 'N/A'}}
+            </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade custom_modal " id="supplyModal1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Needed For</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+             {{getSupplyNeeded ? getSupplyNeeded : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

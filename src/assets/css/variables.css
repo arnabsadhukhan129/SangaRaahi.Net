@@ -1,0 +1,25 @@
+/* Colors variables */
+:root {
+  --blue: #008C88;
+  --white: #ffffff;
+  --black: #000;
+  --orenge:#ED8015;
+  --yellow: #FFB345;
+  --pink:#E15C5D;
+  --lightpink:#ff8686;
+  --lightBlue: #008C88;
+  --lightGreen: #00bbb5;
+  --lightskyblue: #0971c5;
+  --navyblue: #0036cc;
+  --darkyellow:#FCA62A;
+  --darkgrey:#141414;
+  --lightgrey:#2D2D2D;
+  /* --grey:#3E3E3E; */
+  --grey:#626262;
+  --btnHoverColor: #ED8015;
+  --tdcolor:#181818;
+  --whitegrey:#a5a5a5;
+  --inputColor:#c2c2c2;
+}
+
+/* var(--lightBlue); */

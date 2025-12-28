@@ -1,0 +1,104 @@
+<!-- ------------  New code --- start  -->
+<div class=" dflex_justify_end mb_20">
+  <div class="filterArea dflex_justify_end">
+    <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+  </div>
+</div>
+
+<!-- ===  new filter section -- adjust start === -->
+<div class="fliter_sec_bg" *ngIf="toggleFilter">
+  <div class="filter_sec_block">
+    <form [formGroup]="filterForm">
+      <div class="form_row">
+        <div class="input_block_box w_50">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_select">
+              <ng-select formControlName="userOrFamily" [items]="activeMembersList" bindLabel="user.name" bindValue="user.id"
+                placeholder="Select User" [searchable]="true" (change)="applyFilter()" class="input_appearance_none filter_input ngSelect_dropDown">
+            
+                <ng-template ng-option-tmp let-item="item" class="">
+                  {{ item.user?.name }}
+                </ng-template>
+            
+              </ng-select>
+            
+            </div>
+          </div>
+        </div>
+
+        <div class="input_block_box w_50">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_select">
+              <select class="input_appearance_none filter_input" formControlName="community" (change)="applyFilter()">
+                <option value="" disabled selected hidden>Select Communities</option>
+                <option *ngFor="let community of communities" [value]="community.id">
+                  {{ community.communityName }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form_row">
+        <div class="input_block_box">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_date">
+              <mat-form-field>
+                <mat-label>Date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate matInput placeholder="Start date" formControlName="startDate"
+                    (dateChange)="applyFilter()">
+                  <input matEndDate matInput placeholder="End date" formControlName="endDate"
+                    (dateChange)="applyFilter()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ===  new filter section -- adjust end === -->
+
+<div class="chart-card card_analytics">
+
+  <h2 class="title">Event Type wise Participation</h2> 
+  <p class="subtitle">Always Yes, with Count</p>
+
+   <div class="chart-layout">
+    
+    <!-- PIE CHART -->
+    <div class="chart-container">
+      <canvas
+        baseChart
+        [type]="pieChartType"
+        [data]="pieChartDataObj"
+        [options]="pieChartOptions">
+      </canvas>
+    </div>
+
+    <!-- CUSTOM LEGEND -->
+    <div class="legend analytics_dataBlock">
+      <div *ngFor="let item of legendItems; let i = index" class="legend-row analyticsRow" (click)="toggleSlice(i)"
+        [style.opacity]="!item.isVisible ? 0.4 : 1" [class.disabled]="isNoDataChart">
+        <div class="color-dot" [style.background]="item.color"></div>
+    
+        <div class="legend-text analyticsText">
+          <div class="label">{{ item.label }}</div>
+          <div class="value">{{ item.value }} </div>
+      </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+  <!-- TOTAL CONTRIBUTION -->
+  <!-- TOTAL CONTRIBUTION -->
+
+

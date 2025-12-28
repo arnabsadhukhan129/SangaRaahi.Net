@@ -1,0 +1,49 @@
+.chart-wrapper {
+  background: #FFF6E5;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #777;
+  margin: 0 0 20px 0;
+}
+
+
+
+/* canvas {
+  width: 320px !important;
+  height: 320px !important;
+} */
+
+.legend {
+  list-style: none;
+  margin-left: 40px;
+  padding: 0;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.color-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.ng-select {
+  width: 100%;
+  opacity: 1;
+}

@@ -1,0 +1,728 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+ @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+ @import url('./../../../../../assets/css/variables.css');
+
+ body, html{
+   overflow-x: hidden;
+}
+
+ .wrpperContainer {
+    width:1224px;
+    margin:0 auto;
+    position:relative;
+ }
+
+ /* logo area start */
+ .logoArea {
+    padding:45px 0;
+    text-align:center;
+ }
+
+ /* logo area end */
+
+ /* welcome area start */
+ .welcomearea {
+    margin: 0;
+    padding: 0;
+ }
+
+ .welcomearea h1 {
+    color: var(--lightBlue);
+    font-size:28px;
+    line-height:38px;
+    font-weight: 600;
+ }
+
+ .welcomearea h2 {
+    color: var(--white);
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border-top: 1px dashed #404040;
+    border-bottom: 1px dashed #404040;
+    padding-top: 28px;
+    padding-bottom: 28px;
+ }
+
+ .welcomearea h2 span {
+    font-weight: 700;
+ }
+
+ /* welcome area end */
+
+ /* select option area start */
+ .selectOption {
+    width: 519px;
+    border-bottom: 1px solid var(--grey);
+    display: flex;
+    flex-direction: row;
+    padding: 40px 0;
+    /* justify-content: space-between; */
+    align-items: center;
+    position: relative;
+ }
+
+ .selectheading {
+    color: var(--lightBlue);
+    font-size: 20px;
+    line-height:28px;
+    font-weight: 400;
+    margin-right: 20px;
+ }
+
+ .custom-select {
+    width: 127px;
+    position: relative;
+
+ }
+
+ .custom-select select {
+    width: 127px;
+    color: var(--btnHoverColor);
+    font-size: 20px;
+    line-height:28px;
+    font-weight: 400;
+    background-color: transparent;
+    border: none;
+    -webkit-appearance: none;
+    background-image: url(./../../../../../assets/images/select-drop-icon.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+ }
+
+ .custom-select select option {
+    color: var(--btnHoverColor);
+    font-size: 25.4px;
+    line-height: 38.09px;
+    font-weight: 700;
+ }
+
+ .memberno {
+    color: var(--btnHoverColor);
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 900;
+ }
+
+
+ /* select option area end */
+
+ /* accept invitaion area start */
+ .acceptArea {
+    margin: 0;
+    padding: 0;
+ }
+
+ .acceptArea h3 {
+    font-size:20px;
+    color:var(--pink);
+    line-height:28px;
+    font-weight:400;
+    padding:53px 0;
+    margin-bottom:0;
+ }
+
+ .actionbtnarea {
+    display: flex;
+    justify-content:flex-start;
+    flex-direction: row;
+    margin-bottom:75px;
+ }
+
+ .acceptBtn {
+    background-color: var(--yellow);
+    border: 2px solid #fff;
+    padding: 13px 20px;
+    width: 30%;
+    max-width:267px;
+    border-radius: 70px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--black);
+    font-size: 18px;
+    line-height: 24px;
+    height:59px;
+    margin-right: 17px;
+ }
+
+ .rejectBtn {
+    background-color: var(--lightBlue);
+    border: 2px solid #fff;
+    padding: 13px 20px;
+    width: 30%;
+    max-width:267px;
+    border-radius: 70px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--white);
+    font-size: 18px;
+    line-height: 24px;
+    height:59px;
+    margin-right: 17px;
+ }
+
+ .blockBtn {
+    background-color: var(--pink);
+    border: 2px solid #fff;
+    padding: 13px 20px;
+    width: 30%;
+    max-width:267px;
+    border-radius: 70px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--white);
+    font-size: 18px;
+    line-height: 24px;
+    height:59px;
+ }
+
+ .toggleArea {
+    margin: 0 0 30px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+ }
+
+ .toggleArea .form-switch {
+    /* width: 30%; */
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+    min-width:340px;
+ }
+
+ .toggleArea .form-switch .form-check-label {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    color: var(--lightBlue);
+    padding-left: 30px;
+ }
+
+ .toggleArea .form-check-input {
+    background-color: var(--yellow);
+    width:67px;
+    height: 28px;
+    border-radius: 25px;
+ }
+
+ /* .toggleArea .form-switch .form-check-input{
+    background-image: url(./../../../../../assets/images/toggle.png);
+ }
+ .form-switch .form-check-input:checked{
+    background-image: url(./../../../../../assets/images/toggleactive.png);
+ } */
+ .form-switch .form-check-input{
+   background-color: #DEEAE9;
+ }
+ .form-switch .form-check-input:checked{
+   background-color: var(--yellow);
+ }
+ .form-check-input:checked,
+ .form-check-input:focus {
+    border: none;
+    box-shadow: none;
+ }
+
+ .dropdownBox {
+    position: absolute;
+    left: 0;
+    background-color: var(--darkgrey);
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--lightgrey);
+    width: 100%;
+ }
+
+ .dropdownBox ul {
+    margin: 0;
+    padding: 0;
+ }
+
+ .dropdownBox ul li {
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: 1.37047px dashed #393939;
+    color: var(--yellow);
+ }
+
+ .dropdownBox ul li:last-child {
+    border-bottom: none;
+ }
+
+
+ /* accept invitaion area end */
+
+ /* music live area start */
+ .musicliveBox {
+    background-color: var(--darkgrey);
+    padding: 39px;
+    border-radius: 18px;
+    border: 1px solid var(--lightgrey);
+    margin-bottom: 60px;
+    position: relative;
+ }
+ .musicliveBox.musicliveBox2{
+   margin-bottom: 0;
+ }
+
+
+ .musicliveBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 19px;
+ }
+
+ .musicContnt {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--whitegrey);
+    padding-left: 20px;
+ }
+
+ .musicContnt span {
+    font-weight: 700;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 35px;
+ }
+
+ /* music live area end */
+
+ /* personal details start */
+ .heading {
+    font-weight: 700;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 35px;
+    margin-bottom: 18px;
+ }
+
+ .formArea {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+ }
+
+ .formArea form {
+    width: 100%;
+ }
+
+ .formBlock {
+    width: 48%;
+    margin-bottom: 46px;
+ }
+
+ .formBlock select {
+  background-color: var(--darkgrey);
+  color: #fff;
+ }
+
+ .formBlock label {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--lightBlue);
+    width: 100%;
+ }
+
+ .personalfld {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--grey);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: transparent;
+    padding: 10px 0;
+    color: var(--inputColor);
+ }
+
+ .personalfld::placeholder {
+    color: var(--inputColor);
+    opacity: 1;
+ }
+
+ .editIcon {
+    position: absolute;
+    right: -27px;
+    top: -33px;
+ }
+
+ .crossIcon {
+    position: absolute;
+    right: -27px;
+    top: -33px;
+ }
+
+ .tickIcon {
+    position: absolute;
+    right: 74px;
+    top: -33px;
+ }
+
+ .whiteArrow {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+ }
+
+
+ /* personal details end */
+ /* --- Modal Adjust -- start --- */
+ .modal-dialog {
+   min-height: 90vh;
+   max-width: 650px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   top: 40px;
+   margin: 50px auto 50px;
+}
+ /* --- Modal Adjust -- end --- */
+
+ /* accept modal start */
+ .envelopIcon {
+    width: 25%;
+    height: auto;
+    margin-top: -80px;
+ }
+
+ #acceptInvitation .modal-header {
+    justify-content: center;
+    flex-direction: column;
+ }
+
+ #acceptInvitation .modal-header .modal-title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 20px;
+    text-transform: capitalize;
+ }
+
+ #acceptInvitation .modal-body {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--white);
+    padding: 15px 20px 30px 20px;
+ }
+
+ .acceptButton {
+    background-color:var(--lightBlue);
+    border:2px solid #fff;
+    padding:15px 20px;
+    width:100%;
+    border-radius:70px;
+    text-align:center;
+    font-weight:700;
+    color:var(--white);
+    font-size:18px;
+    line-height:24px;
+    max-width:295px;
+    max-height:65px;
+ }
+
+ .acceptButton:hover {
+    background-color: var(--btnHoverColor);
+ }
+
+ .btnArea {
+    margin-top: 30px;
+ }
+
+ /* accept modal end */
+
+ /* reject modal start */
+ #rejectInvitation .modal-header {
+    justify-content: center;
+    flex-direction: column;
+ }
+
+ #rejectInvitation .modal-header .modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 20px;
+    text-transform: capitalize;
+ }
+
+ #rejectInvitation .modal-body {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--white);
+    padding: 15px 20px 30px 20px;
+ }
+
+ .commenttextarea {
+    height: 100px;
+    border: none;
+    border-bottom: 1px solid var(--white);
+    width: 100%;
+    background-color: transparent;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.3;
+    color: var(--white);
+    margin-top: 20px;
+ }
+
+ .commenttextarea::placeholder {
+    color: var(--white);
+ }
+
+ /* reject modal end */
+
+ /* block modal start */
+ #blockInvitation .modal-header {
+    justify-content: center;
+    flex-direction: column;
+ }
+
+ #blockInvitation .modal-header .modal-title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 20px;
+    text-transform: capitalize;
+ }
+
+ #blockInvitation .modal-body {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--white);
+    padding: 15px 20px 30px 20px;
+ }
+
+ .blockButton {
+    background-color: var(--pink);
+    border: 2px solid #fff;
+    padding:15px 20px;
+    width: 100%;
+    border-radius: 70px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--white);
+    font-size:18px;
+    line-height:1.5;
+    max-width:295px;
+    max-height:65px;
+ }
+
+ .blockButton:hover {
+    background-color: var(--btnHoverColor);
+ }
+
+ /* block modal end */
+
+ /* Responsive height */ 
+ @media (max-height:767px) {
+
+   .modal-dialog {
+      margin: 90px auto 100px;
+   }
+
+ }
+ /* Responsive height */
+
+ @media (max-width:767px) {
+
+    .wrpperContainer {
+       padding: 0 30px;
+       width: 100%;
+    }
+
+    .logoArea {
+       padding: 45px 0 20px 0;
+    }
+
+    .selectOption {
+       width: 100%;
+    }
+
+    .welcomearea h1 {
+       font-size: 20px;
+       margin: 0;
+       padding: 0;
+    }
+    .welcomearea h2{
+      font-size: 15px;
+      line-height: 19px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .selectOption{
+      padding: 20px 0;
+    }
+    .selectheading{
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+    }
+    .memberno{
+      font-size: 14px;
+      line-height: 21px;
+    }
+    .dropdownBox{
+      width: 90%;
+      margin: 0 20px;
+    }
+
+    .dropdownBox ul li{
+      font-size: 14px;
+    }
+    .acceptBtn, .rejectBtn, .blockBtn{
+      font-size: 14px;
+      width: 101px;
+      height: 43px;
+      padding: 0;
+    }
+    .actionbtnarea{
+      margin-top: 30px;
+      margin-bottom: 30px;
+      border-bottom:1px dashed #404040;
+      padding-bottom:30px;
+    }
+    .toggleArea .form-check-input{
+      width: 64px;
+      height: 26px;
+    }
+    .toggleArea .form-switch .form-check-label{
+      font-size: 14px;
+      line-height: 21px;
+    }
+    .toggleArea .form-switch{
+      margin-bottom: 32px;
+      margin-right: 0;
+    }
+    .toggleArea .form-switch:last-child{
+      margin-bottom: 15px;
+    }
+    .toggleArea{
+      margin-bottom: 15px;
+    }
+    .musicliveBox{
+      padding: 15px;
+      margin-bottom: 27px;
+    }
+    .musicContnt{
+      font-size: 13px;
+      font-weight: 400;
+    }
+    .musicContnt span{
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 21px;
+    }
+    .musicliveBlock img{
+      width: 24px;
+      height: 24px;
+    }
+    .location img{
+      width:24px;
+      height: 24px;
+    }
+    .musicliveBlock{
+      margin-bottom: 5px;
+      align-items: flex-start;
+    }
+    .heading{
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 21px;
+    }
+    .tickIcon img, .crossIcon img, .editIcon img{
+      width: 50px;
+      height: 50px;
+    }
+    .tickIcon{
+      right: 53px;
+      top: -26px;
+    }
+    .crossIcon, .editIcon{
+      right: 0;
+      top: -26px;
+    }
+    .formArea{
+      flex-direction: column;
+    }
+    .formBlock{
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .formBlock label{
+      font-size: 13px;
+    }
+    .personalfld{
+      padding: 5px 0;
+    }
+
+    #acceptInvitation .modal-header .modal-title, #rejectInvitation .modal-header .modal-title, #blockInvitation .modal-header .modal-title{
+      font-size: 19px;
+      line-height: 20px;
+      font-weight: 700;
+    }
+    #acceptInvitation .modal-body, #blockInvitation .modal-body{
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+      padding: 0 20px 30px 20px;
+    }
+    .commenttextarea{
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+    
+    }
+    .btnArea{
+      margin-top: 35px;
+    }
+    .acceptButton, .blockButton{
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .acceptArea h3 {
+      font-size:15px;
+      padding:15px 0 0 0;
+    }
+    .logoArea img{
+      max-width:170px;
+    }
+ }
+
+ @media screen and (min-width:768px) and (max-width:1400px){
+   .wrpperContainer{
+      width:100%;
+      max-width:100%;
+      padding-right:100px;
+      padding-left:100px;
+   }
+   .editIcon, .tickIcon, .crossIcon{
+      width:60px;
+      height:60px;
+   }
+   .tickIcon{
+      right:40px;
+   }
+   .dropdownBox{
+      margin-right:100px;
+      margin-left:100px;
+      width: calc(100% - 200px);
+   }
+   .modal-dialog{
+      max-width:400px;
+   }
+ }

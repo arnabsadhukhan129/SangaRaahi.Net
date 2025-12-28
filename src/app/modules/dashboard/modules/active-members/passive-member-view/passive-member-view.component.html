@@ -1,0 +1,339 @@
+<!-- -- Dashboard panel / My Community details bg -- start --  -->
+<div class="dashboard_panel_bg community_details_bg">
+    <div class="community_details">
+  
+      <!-- page title -- section -- start  -->
+      <div class="page_top_title">
+        <h4>View Track User</h4>
+      </div>
+      <div class="top_back_section">
+        <a href="javascript:void(0)" [routerLink]="['/active-members/track']">Back To List Page</a>
+      </div>
+      <!-- page title -- section -- end  -->
+      <form [formGroup]="passiveUserEditForm">
+        <div class="edit_profile_top">
+          <div class="edit_profile_top_left">
+            <div class="left_img_block">
+              <div class="profile_edit_img">
+                <img src="{{memberDetails?.profileImage ? memberDetails.profileImage : 'assets/images/header-user.png'}}">
+              </div>
+              <!--
+              <button class="button_appearance_none profile_edit_btn">
+                <img src="assets/images/profileimage-edit-btn.png">
+              </button>
+              -->
+  
+              <!-- img / upload img -- start -->
+              <!-- <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event)"/>
+              </div> -->
+              <!-- img / upload img -- end -->
+               <!-----Image croped start----->
+              <!-- <div class="crop_window"  *ngIf="openCropImageModal">
+                <image-cropper
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]="1"
+                      (imageCropped)="cropImg($event)"
+                      (imageLoaded)="imgLoad()"
+                      (cropperReady)="initCropper()"
+                      (loadImageFailed)="imgFailed()">
+                >
+              </image-cropper>
+              <div class="crop_btn_bottom">
+                <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                  <img src="assets/images/crosspink.png">
+                </button>
+                <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                  <img src="assets/images/tick.png">
+                </button>
+              </div>
+            </div> -->
+              <!-----Image croped end------->
+  
+            </div>
+          </div>
+          <!-- <div class="edit_profile_top_right">
+            <div class="block_sec_title_row">
+              <h4 class="block_sec_title">Mira Kumari <br> Board Member</h4>
+              <div class="block_title_btn_div">
+                <button type="submit" class="button_appearance_none block_title_btn pink_btn">View more</button>
+              </div>
+            </div>
+          </div> -->
+        </div>
+  
+        <div class="edit_profile_box">
+          <div class="editprofile_form passive_users_form">
+            
+            <div class="edit_webPage_tab_body_bg">
+              <div class="onboard_form onboard_form_big edit_webPage onboard_form_event">
+  
+                <div class="onboard_form_row form_row gpa_30">
+                  <div class="onboard_form_box width_100">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Name *</label>
+                          <input class="input_appearance_none pr_10" type="text" placeholder="Name" formControlName="name" [ngClass]="{'disabled': true}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="onboard_form_row form_row gpa_30">
+                  <div class="onboard_form_box width_100">
+                    <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">Email *</label>
+                        <span class="width_100 " >
+                          <input class="input_appearance_none pr_10" type="text" placeholder="email" formControlName="email"  [ngClass]="{'disabled': true}">
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="onboard_form_row form_row gpa_30">
+  
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Primary Phone No. *</label>
+                        <input class="input_appearance_none" type="text" placeholder="Primary Phone No." formControlName="phone" [ngClass]="{'disabled': true}">
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Secondary Phone No.</label>
+                        <input class="input_appearance_none" type="text" placeholder="Secondary Phone No." formControlName="secondaryPhone" [ngClass]="{'disabled': true}">
+                      </div>
+                    </div>
+                  </div>
+  
+                </div>
+  
+                <div class="onboard_form_row form_row gpa_30">
+  
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Year of birth *</label>
+                        <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth" [ngClass]="{'disabled': true}">
+                          <option value="" disabled selected hidden>Select Year of birth</option>
+                          <ng-container *ngFor="let year of arrYear">
+                            <option [value]="year">
+                              {{year}}
+                            </option>
+                          </ng-container>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Gender *</label>
+                        <select class="input_appearance_none filter_input onboard_select" formControlName="gender" [ngClass]="{'disabled': true}">
+                          <option value="" disabled selected hidden>Select Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Non Binary">Non Binary</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="onboard_form_row gpa_30 " >
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Hobbies</label>
+                        <input class="input_appearance_none" type="text" placeholder="Hobbies" formControlName="hobbies" [ngClass]="{'disabled': true}">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Profession</label>
+                        <input class="input_appearance_none" type="text" placeholder="Profession" formControlName="profession" [ngClass]="{'disabled': true}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="onboard_form_row describe_textarea editWeb_subSection">
+                  <label class="form_label_green mb_10">About Yourself *</label>
+                  <div class="textArea_block editWebPage_row">
+                    <textarea class="input_appearance_none editWeb_textArea" placeholder="About Yourself" formControlName="aboutYourself" [ngClass]="{'disabled': true}"></textarea>
+                  </div>
+                </div>
+  
+                <div class="onboard_form_row gpa_30 " >
+                  <div class="onboard_form_box width_50">
+                      <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">Address Line 1*</label>
+                            <input class="input_appearance_none" type="text" placeholder="Address Line 1" formControlName="firstAddressLine" [ngClass]="{'disabled': true}">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="onboard_form_box width_50">
+                        <div class="onboard_form_input ">
+                            <div class="onboard_form_input onboard_input_border">
+                                <label class="form_label_green mb_10">Address Line 2</label>
+                                <input class="input_appearance_none" type="text" placeholder="Address Line 2" formControlName="secondAddressLine" [ngClass]="{'disabled': true}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  
+                <div class="onboard_form_row gpa_30 " >
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Country *</label>
+                        <select class="input_appearance_none filter_input onboard_select"  formControlName="country"  (change)="changeState($event)" [ngClass]="{'disabled': true}">
+                            <option value="" disabled selected hidden>Select Country</option>
+                            <ng-container *ngFor="let country of filteredOptions">
+                            <option [value]="country.code">
+                                {{country.name}}
+                            </option>
+                            </ng-container>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">State *</label>
+                            <select class="input_appearance_none filter_input onboard_select" formControlName="state" [ngClass]="{'disabled': true}">
+                              <option value="" disabled selected hidden>Select State</option>
+                              <ng-container *ngFor="let state of getState">
+                                  <option [value]="state.stateCode">
+                                  {{state.name}}
+                                  </option>
+                              </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+  
+            <div class="onboard_form_row gpa_30 " >
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">City *</label>
+                      <input class="input_appearance_none" type="text" placeholder="City" formControlName="city" [ngClass]="{'disabled': true}">
+                  </div>
+                </div>
+              </div>
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <label class="form_label_green mb_10">Zip Code *</label>
+                    <div class="onboard_form_input onboard_input_border">
+                        <input class="input_appearance_none" type="text" placeholder="ZipCode *" formControlName="zipcode" [ngClass]="{'disabled': true}">
+                    </div>
+                    <!-- <div class="onboard_form_input onboard_input_border" *ngIf="code === 'GB' || code === 'CA'">
+                        <input class="input_appearance_none" type="text" placeholder="ZipCode *" oninput="this.value = this.value.toUpperCase()" (keypress)="onlyCapsValue($event)" formControlName="zipcode">
+                    </div> -->
+                </div>
+              </div>
+          </div>
+  
+           <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+           <!-- <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" [routerLink]="['/active-members/track']">Cancel</button>
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()">Submit</button>
+          </div> -->
+          <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+          </div>
+        </div>
+
+
+
+      <!-- table area start -->
+      <div class="tableBox ">
+        <div class="page_top_title">
+          <h5>Member Details:</h5>
+        </div>
+        <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Member ID</th>
+                    <th>Member Name</th>
+                    <th>Member Email</th>
+                    <th>Member Phone</th>
+                    <th>Relative Information</th>
+                    <th>Age Group</th>
+                    <th>Gender</th>
+                    <th>Year of Birth</th>
+                    <!-- <th>Action</th> -->
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of addActiveMemberDetails; let i = index">
+                <td>{{current*10-(9-i)}}</td>
+                <td>{{item.memberName ? item.memberName : 'N/A'}}</td>
+                <td>{{item.email ? item.email : 'N/A'}}</td>
+                <td>{{item.phone ? ((item.phoneCode ? item.phoneCode : '')+item.phone) : 'N/A'}}</td>
+                <td>{{ item.relationType ? (item.relationType | titleCase) : 'N/A' }}</td>
+                <td>{{item.ageOfMinority ? (item.ageOfMinority | titleCase) : 'N/A'}}</td>
+                <td>{{item.gender ? item.gender : 'N/A'}}</td>
+                <td>{{item.yearOfBirth ? item.yearOfBirth : 'N/A'}}</td>
+                <!-- <td>
+                  <div class="active_item_td">
+                    <button *ngIf="item.ageOfMinority !== 'spouse'" class="button_appearance_none active_item_td_btn td_btn_yellow ng-star-inserted" title="Edit" (click)="editFamilyMemberDetails(item.id)">
+                      <img src="assets/images/active_item_btn_01.png">
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_green ng-star-inserted" title="View" (click)="viewFamilyMemberDetails(item.id)">
+                      <img src="assets/images/active_item_btn_02.png">
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_pink ng-star-inserted" title="Delete" (click)="deleteFamilyMember(item.id,i)">
+                      <img src="assets/images/active_item_btn_06.png">
+                    </button>
+                  </div>
+                </td> -->
+              </tr>
+              <tr *ngIf="!addActiveMemberDetails?.length">
+                <td colspan="8">No Data Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- <ng-template [ngIf]="total && total!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > 10"><app-pagination
+              [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing 1 - {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template> -->
+      </div>
+       <!-- table area end -->
+      
+      </div>
+    </div>
+  </form>
+  </div>
+  </div>
+  
+  <!-- -- Dashboard panel / My Community details bg -- end --  -->
+  

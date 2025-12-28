@@ -1,0 +1,333 @@
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <h4 class="block_sec_title headeingArea">Active member list</h4>
+      <div class="filterArea">
+          <!-- <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a> -->
+          <a href="javascript:void(0)" class="track" (click)="track()">Track</a>
+          <a href="javascript:void(0)" class="pinkbtnsmall" (click)="onboardUser()">Onboard Users</a>
+          <a href="javascript:void(0)" class="pinkbtnsmall" [routerLink]="['/active-members/edit-profille/'+ userId]" *ngIf="sameUser">Edit Profile</a>
+      </div>
+  </div>
+  <!-- ===  new filter search start === -->
+
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- ===  new filter section start === -->
+
+  <!-- ===  new filter section end === -->
+  <!-- filter and heading area end -->
+
+  <!-- ===  Active member section -- start === -->
+
+  <div class="active_member_sec_bg">
+    <!-- member details top section -- start ---  -->
+      <div class="top_back_section">
+        <a href="javascript:void(0)" (click)="back()">Back to Member List</a>
+      </div>
+      <div class="member_top_sec">
+        <div class="member_top_left_sec">
+          <div class="memberDetails_round_img memberDetails_round_img_border">
+            <img src="{{activeMemberDetails?.profileImage ? activeMemberDetails.profileImage : 'assets/images/header-user.png'}}" alt="">
+            <!-- <img src="assets/images/announcement-img-01.jpg"> -->
+          </div>
+          <div class="member_details_des">
+            <h3>{{activeMemberDetails?.name ? activeMemberDetails.name : 'N/A'}}</h3>
+            <p>{{userRole ? userRole : 'N/A'}}</p>
+            <!-- <p>{{addActiveMemberDetails?.role ? addActiveMemberDetails.role : 'N/A'}}</p> -->
+            <!-- <p>{{activeMemberDetails.id ? activeMemberDetails.id : 'N/A'}}</p> -->
+          </div>
+        </div>
+        <div class="member_top_right_sec">
+          <ul class="mem_details_top_ul">
+            <!-- <li>About the user:  I am passionate painter & digital illustrator</li> -->
+            <li *ngIf="!activeMemberDetails?.aboutYourself">About the user: {{'N/A'}}</li>
+            <li *ngIf="activeMemberDetails?.aboutYourself">About the user: {{activeMemberDetails?.aboutYourself | truncate: 200}}
+
+              <div class="td_readMore_block textRight ">
+                <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(activeMemberDetails?.aboutYourself)" *ngIf="activeMemberDetails?.aboutYourself && activeMemberDetails?.aboutYourself.length > 200">Read more</a>
+              </div>
+
+            <li>No of Family Members:  {{totalData}}</li>
+          </ul>
+        </div>
+      </div>
+      <!-- member details top section -- end ---  -->
+      <!-- member details mid block section -- start ---  -->
+      <div class="details_block_bg">
+        <!-- details_block_box -- left -- start  -->
+        <div class="details_block_box">
+          <h4>Personal Details</h4>
+          <div class="destails_list">
+            <ul>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Email
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.email ? activeMemberDetails.email : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Primary Phone Number
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.phoneCode ? activeMemberDetails.phoneCode : ''}} {{activeMemberDetails?.phone ? activeMemberDetails.phone : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Secondary Phone Number
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.secondaryPhoneCode ? activeMemberDetails.secondaryPhoneCode : ''}} {{activeMemberDetails?.secondaryPhone ? activeMemberDetails.secondaryPhone : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  YOB
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  <ng-container *ngIf="activeMemberDetails?.yearOfBirth">
+                    <!-- {{activeMemberDetails?.dateOfBirth['value'] | date: 'MMMM d'}} -->
+                    {{activeMemberDetails?.yearOfBirth}}
+                  </ng-container>
+                  <ng-container *ngIf="activeMemberDetails?.yearOfBirth === null">
+                    {{'N/A'}}
+                  </ng-container>
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Gender
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.gender ? activeMemberDetails.gender : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Profession
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  <ng-container *ngIf="activeMemberDetails?.profession.length > 0">
+                    {{activeMemberDetails?.profession.join(',')}}
+                  </ng-container>
+                  <ng-container *ngIf="activeMemberDetails?.profession.length === 0">
+                    {{'N/A'}}
+                  </ng-container>
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Hobbies
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  <ng-container *ngIf="activeMemberDetails?.hobbies.length > 0">
+                    {{activeMemberDetails?.hobbies.join(',')}}
+                  </ng-container>
+                  <ng-container *ngIf="activeMemberDetails?.hobbies.length === 0">
+                    {{'N/A'}}
+                  </ng-container>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- details_block_box -- left -- end  -->
+        <!-- details_block_box -- right -- start  -->
+        <div class="details_block_box">
+          <h4>Residential Details</h4>
+          <div class="destails_list">
+            <ul>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Address 1
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.firstAddressLine ? activeMemberDetails.firstAddressLine : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Address 2
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.secondAddressLine ? activeMemberDetails.secondAddressLine : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Country
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{countryName ? countryName : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  State
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{stateName ? stateName : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  City
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.city ? activeMemberDetails.city : 'N/A'}}
+                </div>
+              </li>
+              <li>
+                <div class="details_list_block details_list_block_left">
+                  Zipcode
+                </div>
+                <div class="details_list_block details_list_block_right">
+                  {{activeMemberDetails?.zipcode ? activeMemberDetails.zipcode : 'N/A'}}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- details_block_box -- right -- end  -->
+
+
+      </div>
+
+      <!-- member details mid block section -- end ---  -->
+
+      <!-- table area start -->
+      <div class="tableBox ">
+        <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Member ID</th>
+                    <th>Member Name</th>
+                    <th>Relationship</th>
+                    <th>Gender</th>
+                    <th>Year of Birth</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of addActiveMemberDetails; let i = index">
+                <td>{{current*10-(9-i)}}</td>
+                <!-- <td>{{i+1}}</td> -->
+                <td *ngIf="item.memberName">{{item.memberName}}</td>
+                <td *ngIf="!item.memberName">{{'N/A'}}</td>
+                <!-- <td>{{item.memberName ? item.memberName : 'N/A'}}</td> -->
+                <td>{{item.relationType ? item.relationType : 'N/A'}}</td>
+                <td>{{item.gender ? item.gender : 'N/A'}}</td>
+                <td>{{item.yearOfBirth ? item.yearOfBirth : 'N/A'}}</td>
+                <td>{{item.email ? item.email : 'N/A'}}</td>
+                <td>{{item.phone ? item.phone : 'N/A'}}</td>
+                <td>
+                  <div class="active_item_td">
+                    <button *ngIf="item.ageOfMinority !== 'spouse'" class="button_appearance_none active_item_td_btn td_btn_yellow ng-star-inserted" title="Edit" (click)="editFamilyMemberDetails(item.id)">
+                      <img src="assets/images/active_item_btn_01.png">
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_green ng-star-inserted" title="View" (click)="viewFamilyMemberDetails(item.id)">
+                      <img src="assets/images/active_item_btn_02.png">
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_pink ng-star-inserted" title="Delete" (click)="deleteFamilyMember(item.id,i)">
+                      <img src="assets/images/active_item_btn_06.png">
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!addActiveMemberDetails?.length">
+                <td colspan="8">No Data Found</td>
+              </tr>
+
+               <!-- <tr>
+                  <td>ID1234</td>
+                  <td>Mr. Jhone Doe</td>
+                  <td>Spouse / Partner</td>
+                  <td>Male</td>
+                  <td>1990</td>
+                  <td>jhone@gmail.com</td>
+                  <td>+91 000 000 0000</td>
+                </tr>
+                <tr>
+                  <td>ID1234</td>
+                  <td>Mr. Jhone Doe</td>
+                  <td>Spouse / Partner</td>
+                  <td>Male</td>
+                  <td>1990</td>
+                  <td>jhone@gmail.com</td>
+                  <td>+91 000 000 0000</td>
+                </tr>
+                <tr>
+                  <td>ID1234</td>
+                  <td>Mr. Jhone Doe</td>
+                  <td>Spouse / Partner</td>
+                  <td>Male</td>
+                  <td>1990</td>
+                  <td>jhone@gmail.com</td>
+                  <td>+91 000 000 0000</td>
+                </tr>
+                <tr>
+                  <td>ID1234</td>
+                  <td>Mr. Jhone Doe</td>
+                  <td>Spouse / Partner</td>
+                  <td>Male</td>
+                  <td>1990</td>
+                  <td>jhone@gmail.com</td>
+                  <td>+91 000 000 0000</td>
+                </tr> -->
+
+            </tbody>
+          </table>
+        </div>
+        <ng-template [ngIf]="total && total!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > 10"><app-pagination
+              [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing 1 - {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+       <!-- table area end -->
+  </div>
+  <!-- ===  Active member section -- end === -->
+</div>
+
+<div class="modal fade custom_modal " id="aboutModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">About The User</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+               {{aboutDetails ? aboutDetails : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+
+ <!-- -- Dashboard panel / My Community details bg -- start --  -->
+ <div class="dashboard_panel_bg community_details_bg">
+  <div class="community_details">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>SMS App Number Verification</h4>
+  </div>
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="backPreviousPage()">Back To Community Profile</a>
+  </div>
+  <!-- page title -- section -- end  -->
+
+    <form [formGroup]="phoneVerificationForm">
+    <div class="edit_profile_sec">
+
+      <div class="edit_profile_box">
+        <div class="editprofile_form passive_users_form">
+          <!-- <form> -->
+
+            <!-- ========  New form field -- start ====  -->
+
+            <!-- ========  New form field -- end ====  -->
+
+            <!-- ========  SMS App Number Verification  form field -- Start ====  -->
+            <div class="editprofile_form passive_users_form">
+              <!-- <h6>SMS App Number Verification</h6> -->
+              <div class="form_row ">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_row onboard_form_row_tel">
+                      <div class="form_country_code ">
+                        <div class="form_input_row onboard_input_border">
+                          <div class="onboard_form_input_icon">
+                            <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+                          </div>
+                          <div class="onboard_form_input">
+                            <div class="loginformflidArea">
+                              <input type="text" class="countryno countryno_mat" placeholder="Pick one" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (keyup)="searchCountry($event)" formControlName="phoneCode">
+                                
+                              <ng-container class="login_mat_select_with_map_ngContainer">
+                                <mat-autocomplete #auto="matAutocomplete"
+                                  class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                                  <mat-option *ngFor="let country of filteredOptions" [value]="country.dialCode"
+                                    (click)="addCountryCode(country)">
+                                    <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </ng-container>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form_tel_num ">
+                        <div class="form_input_row onboard_input_border">
+                          <div class="onboard_form_input ">
+                            <span class="form_field_input onboard_form_currency_input">
+                              <input class="input_appearance_none" type="tel" placeholder="000 000 0000"
+                                formControlName="phone">
+
+                              <span class="currency_input_block">
+                                <button type="submit" class="button_appearance_none block_title_btn pink_btn"
+                                  (click)="emailOpenModal()" *ngIf="!isVerified">Verify Number</button>
+                                <span *ngIf="isVerified">Veified</span>
+                              </span>
+
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ========  SMS App Number Verification  form field -- End ====  -->
+
+
+            <!-- <div class="form_row form_row_btn_area "> -->
+            <br>
+            <div class="onboard_form_row onboard_form_row_btn flex_center">
+
+              <button class="button_appearance_none profile_settings_btn btn_global pink_btn" (click)="submitOTPData()">Submit</button>
+            </div>
+            <!-- </div> -->
+
+          <!-- </form> -->
+        </div>
+      </div>
+
+
+      <div class="edit_profile_bg_img_sec">
+        <img class="edit_profile_bg_img" src="assets/images/community-profile-page-bg.png">
+      </div>
+    </div>
+  </form>
+
+    
+  </div>
+</div>
+<!-- -- Dashboard panel / My Community details bg -- end --  -->
+
+
+
+<!------Open Phone Modal------>
+<div class="modal fade custom_modal" id="emailVerifyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otp send to your phone number</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="otpSubmissionForm">
+          <!-- <input class="remove-arrows " type="number" placeholder="Please put your otp here" inputmode="numeric" formControlName="otp"> -->
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Enter OTP *</label>
+              <input class="input_appearance_none" type="password" placeholder="Please put your otp here" inputmode="numeric" formControlName="otp"  maxlength="6">
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Error Message
+              </div>
+            </div> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeEmailModal()">Close</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button" (click)="otpSubmit()" [ngClass]="{'disabled': !otpSubmissionForm.valid}">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!---End Phone Modal-->
+
+ 
+

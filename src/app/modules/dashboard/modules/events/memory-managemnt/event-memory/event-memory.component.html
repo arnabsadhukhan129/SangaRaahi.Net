@@ -1,0 +1,342 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>{{eventData?.title}} - Event Memories</h4>
+
+    <div class="filterArea">
+
+      <!-- <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+        <img src="assets/images/filter-search-icon.png" />
+      </a> -->
+
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <a href="javascript:void(0)" class="pinkbtnsmall" (click)="imageUploadModal()">Upload Pictures</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)"  [routerLink]="['/events/payment-history-list/'+ eventId]">Back To Payment List</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <!-- <div class="filter_search_sec">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form>
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Announcement Name">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div> -->
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_date">
+                    <mat-form-field>
+                      <!-- <mat-label>Join date range</mat-label> -->
+                      <mat-label>Date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate matInput placeholder="Start date" formControlName="fromDate">
+                        <input matEndDate matInput placeholder="End date" formControlName="toDate">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="form_row">
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" (click)="getMemoryList(0, current)">Submit</button>
+                <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Reset</button>
+              </div>
+            </div>
+
+        </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+
+  <!-- list page -- counter block section -- start  -->
+  <div class="listPage_countBlock_sec">
+    <div class="listPage_countBlock_bg">
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.totalPhoto ? getCountData.totalPhoto : 0}}</span></h4>
+        <p>Total Uploaded Photos</p>
+     </div>
+
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.approvedPhoto ? getCountData.approvedPhoto : 0}}</span></h4>
+        <p>Approved photos This Month</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.rejectedPhoto ? getCountData.rejectedPhoto : 0}}</span></h4>
+        <p>Rejected Photos</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.uploadedThisWeek ? getCountData.uploadedThisWeek : 0}}</span></h4>
+        <p>Photos Uploaded This Week</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.uploadedThisMonth ? getCountData.uploadedThisMonth : 0}}</span></h4>
+        <p>Photos Uploaded This Month</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter">{{getCountData.activePhoto ? getCountData.activePhoto : 0}}</span></h4>
+        <p>Current Active Photos</p>
+      </div>
+    </div>
+  </div>
+  <!-- list page -- counter block section -- end  -->
+
+  <div class="block_list_sec">
+
+    <div class="edit_webPage_top_tab block_list">
+      <div class="tab_link_bg">
+        <ul>
+          <li [ngClass]="{'active': !isActive}">
+            <a  href="javascript:void(0)" (click)="getMemoryList(0,current)">
+               Recently Uploaded Images
+            </a>
+          </li>
+          <li [ngClass]="{'active': isActive}">
+            <a href="javascript:void(0)" (click)="getMemoryList(1,current)">
+               Active Image For Website
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block_listing_bg" >
+      <div class="block_list" >
+        <div class="list_block" *ngFor="let item of memoryList, let i = index">
+          <div class="list_block_img">
+            <img [src]="item.uploadedImage ? item.uploadedImage : 'assets/images/no-image-found-02.png'" />
+          </div>
+          <div class="list_block_cont">
+            <h4 class="green_text">{{item.uploadedBy ? item.uploadedBy : 'N/A'}} ( {{item.phoneNumber ? item.phoneNumber : 'N/A'}} )</h4>
+            <h5 class="pink_text">Published Date - {{item.createdAt | date: 'dd-MM-YYYY'}}</h5>
+          </div>
+          <div class="list_block_hoverBg">
+            <div class="active_item_td">
+              <!--toggle button-->
+              <div class="toggle_btn" *ngIf="item?.imageApprove === true">
+                <label class="switch" for="checkbox-{{item.id}}">
+                  <input type="checkbox" id="checkbox-{{item.id}}" (change)="statusChange(item.id,1)" [checked]="item?.imageStatus === true"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <!--toggle button-->
+              <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteUploadImage(item.id,0)" *ngIf="item?.imageApprove === false">
+                <!-- <img src="assets/images/active_item_btn_06.png"> -->
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+              <button class="button_appearance_none active_item_td_btn td_btn_green" title="Check" (click)="approvedImage(item.id,0)" *ngIf="item?.imageApprove === false">
+                <!-- <img src="assets/images/active_item_btn_01.png"> -->
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </button>
+              <button class="button_appearance_none active_item_td_btn btn_black" title="View" (click)="getUploadImage(item.uploadedImage,item.imageApprove,item.id,item.imageStatus,item.imageDeadLine)">
+                <img src="assets/images/active_item_btn_02.png">
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!memoryList.length">
+          No Data Found
+        </div>
+      </div>
+    </div>
+    <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit"><app-pagination
+            [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+  </div>
+</div>
+
+<div class="modal fade custom_modal assignMemberListModal" id="imageUploadModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload pictures as Event Memories</h5>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="uploadForm">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Photo Validity</label>
+                <input class="input_appearance_none custom_date_input" type="date"  placeholder="Required within" formControlName="requiredDate" [min]="tomorrow">
+            </div>
+            <!-- <div class="form_input_row_error " *ngIf="(uploadForm.get('requiredDate')?.errors?.['InvalidValue'] && (uploadForm.get('requiredDate')?.dirty || uploadForm.get('requiredDate')?.touched))">
+              <div class="form_field_error_msg error_text_black">
+                  Photo validity is required.
+              </div>
+            </div> -->
+          </div>
+          <div class="announcement_box_block announcement_box_pink">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <img *ngIf="!image" class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+                <img *ngIf="image" class="announcement_left_upload_img"  src="{{image}}">
+              </div>
+              <div class=" up_img_delete_btn_block" *ngIf="image">
+                <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage()">
+                  <img src="assets/images/trash-delete.png">
+                </button>
+              </div>
+              <div class="announcement_top_des">
+
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file" accept="image/*" (change)="previewImage($event, 'image')" #fileImage/>
+                </div>
+                <!-- img / upload img -- end -->
+
+                <h4>Upload Picture</h4>
+                <p>(Maximum Size will be from 2-5MB )</p>
+              </div>
+
+              <!-----Image croped start----->
+              <div class="crop_window"  *ngIf="cropImageModal">
+                <image-cropper
+                [imageChangedEvent]="ImageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="5 / 2"
+                (imageCropped)="cropImg($event,'image')"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()">
+                >
+                </image-cropper>
+                <div class="crop_btn_bottom">
+                  <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="cropImageModal" (click)="closeImage('image')">
+                    <img src="assets/images/crosspink.png">
+                  </button>
+                  <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="cropImageModal" (click)="saveImage('image')">
+                    <img src="assets/images/tick.png">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button"  (click)="saveUploadImage()">Submit</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--Open Upload Image Modal-->
+<div class="modal fade custom_modal" id="uploadImage">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title">QR Code</h5>
+      </div> -->
+      <div class="modal-body">
+        <div class="modal_qr_block">
+          <img src="{{getUploadImg ? getUploadImg : ''}}">
+        </div>
+
+          <!--toggle button-->
+        <!--
+          <div class="toggle_btn" *ngIf="approveStatus">
+            <label class="switch" for="checkbox-1">
+                <input type="checkbox" id="checkbox-1" (change)="statusChange(imgId,2)" [checked]="imgStatus === true"/>
+                <div class="slider round"></div>
+            </label>
+          </div>
+        -->
+            <h6 class="textCenter text color_black pad_t_20" *ngIf="imageCutOffDate"><b>Image Expiry Date :</b> {{imageCutOffDate  | date: 'dd-MM-YYYY'}}</h6>
+            <h6 class="textCenter text color_black pad_t_20" *ngIf="!imageCutOffDate"><b>Image Expiry Date :</b> N/A</h6>
+          <!--toggle button-->
+
+        <!--
+          <button class="button_appearance_none active_item_td_btn td_btn_green" (click)="approvedImage(imgId,1)" *ngIf="!approveStatus">
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </button>
+          <button class="button_appearance_none active_item_td_btn td_btn_pink" (click)="deleteUploadImage(imgId,1)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        -->
+
+
+      </div>
+      <div class="modal-footer">
+
+        <!--toggle button -- Condition - 01 -->
+        <div class="active_item_td">
+          <div class="toggle_btn" *ngIf="approveStatus">
+            <label class="switch" for="checkbox-1">
+                <input type="checkbox" id="checkbox-1" (change)="statusChange(imgId,2)" [checked]="imgStatus === true"/>
+                <div class="slider round"></div>
+            </label>
+          </div>
+        </div>
+        <!--toggle button -- Condition - 01 -->
+
+        <!--toggle button -- Condition - 02 -->
+        <button class="button_appearance_none active_item_td_btn td_btn_green" title="Approved" (click)="approvedImage(imgId,1)" *ngIf="!approveStatus">
+          <!-- <img src="assets/images/active_item_btn_01.png"> -->
+          <i class="fa fa-check" aria-hidden="true"></i>
+        </button>
+        <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteUploadImage(imgId,1)">
+          <!-- <img src="assets/images/active_item_btn_06.png"> -->
+          <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+        <!--toggle button -- Condition - 02 -->
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--Close Upload Image Modal-->
+
+

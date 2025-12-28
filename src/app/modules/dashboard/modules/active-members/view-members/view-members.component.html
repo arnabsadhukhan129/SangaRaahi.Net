@@ -1,0 +1,89 @@
+
+<div ng-reflect-name="familyMember"
+  class="ng-untouched ng-pristine ng-invalid">
+  <div class="page_top_title filter-headingArea">
+    <h4>View Member Details</h4>
+  </div>
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/active-members/view/'+userId]">Back to Member List</a>
+  </div>
+  <div class="onboard_form onboard_form_big ng-star-inserted">
+    <div ng-reflect-name="0" class="ng-untouched ng-pristine ng-invalid">
+      <div class="onboard_form_row gpa_30">
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border"><input type="text" placeholder="Name"
+                class="input_appearance_none ng-untouched ng-pristine ng-invalid" ng-reflect-name="name" readonly>
+                {{ getMemberDetails?.memberName ? (getMemberDetails?.memberName | capitalize) : 'N/A' }}
+              </div>
+          </div>
+        </div>
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border"><input type="text" placeholder="User Group"
+                class="input_appearance_none ng-untouched ng-pristine ng-invalid" ng-reflect-name="memberType" readonly>
+                {{getMemberDetails?.ageOfMinority ? getMemberDetails?.ageOfMinority : 'N/A'}}
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="onboard_form_row gpa_30">
+        <div class="onboard_form_box width_33">
+          <div class="onboard_form_input onboard_input_border"><input type="text" placeholder="Relation"
+              class="input_appearance_none ng-untouched ng-pristine ng-invalid" ng-reflect-name="relationType" readonly>
+            {{getMemberDetails?.relationType ? getMemberDetails?.relationType : 'N/A'}}
+          </div>
+        </div>
+        <div class="onboard_form_box width_25">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border ng-star-inserted"><input
+                type="text" placeholder="Year of birth"
+                class="input_appearance_none ng-untouched ng-pristine ng-valid" ng-reflect-name="yearOfBirth" readonly>
+              {{getMemberDetails?.yearOfBirth ? getMemberDetails?.yearOfBirth : 'N/A'}}
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_box width_33">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border ng-star-inserted"><input
+                type="text" placeholder="Gender"
+                class="input_appearance_none ng-untouched ng-pristine ng-valid" ng-reflect-name="gender" readonly>
+              {{getMemberDetails?.gender ? getMemberDetails?.gender : 'N/A'}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="onboard_form_row gpa_30 ng-star-inserted">
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border ng-star-inserted"><input
+                type="text" placeholder="Email"
+                class="input_appearance_none ng-untouched ng-pristine ng-valid" ng-reflect-name="email" readonly>
+              {{getMemberDetails?.email ? getMemberDetails?.email : 'N/A'}}
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_row onboard_form_row_tel">
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input">
+                <div class="onboard_form_input onboard_input_border"><input
+                    type="text" placeholder="Phone Code"
+                    class="input_appearance_none ng-untouched ng-pristine ng-valid" ng-reflect-name="Phone Code" readonly>
+                    {{getMemberDetails?.phoneCode ? getMemberDetails?.phoneCode : 'N/A'}}
+                  </div>
+              </div>
+            </div>
+            <div class="onboard_form_box width_75 ng-star-inserted">
+              <div class="onboard_form_input">
+                <div class="onboard_form_input onboard_input_border"><input
+                    type="text" placeholder="Phone"
+                    class="input_appearance_none ng-untouched ng-pristine ng-valid" ng-reflect-name="phone" readonly>
+                    {{getMemberDetails?.phone ? getMemberDetails?.phone : 'N/A'}}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

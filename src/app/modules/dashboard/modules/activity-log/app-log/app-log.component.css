@@ -1,0 +1,41 @@
+
+/* side-by-side container */
+.log-columns {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* each column */
+.log-column {
+  flex: 1;
+  min-width: 0; /* allow proper truncation */
+  border: 1px solid #eee;
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #fff;
+  /* overflow: auto; */
+  /* max-height: 60vh; scroll inside each column if content is long */
+}
+
+.log-column-title {
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background-color: rgb(105, 103, 103);
+  color: white;
+  align-items: center;
+  text-align: center;
+}
+
+.empty-text {
+  color: #777;
+  font-style: italic;
+}
+
+/* stack on small screens */
+@media (max-width: 768px) {
+  .log-columns {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,130 @@
+<!-- ------------  New code --- start  -->
+<div class="dflex_justify_end mb_20">
+  <div class="filterArea dflex_justify_end">
+    <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+  </div>
+</div>
+
+<div class="fliter_sec_bg" *ngIf="toggleFilter">
+  <div class="filter_sec_block">
+    <form [formGroup]="filterForm">
+
+      <div class="form_row">
+
+        <!-- USER DROPDOWN -->
+        <div class="input_block_box w_50">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_select">
+              <ng-select
+                formControlName="userId"
+                [items]="activeMembersList"
+                bindLabel="user.name"
+                bindValue="user.id"
+                placeholder="Select User"
+                (change)="applyFilter()" class="input_appearance_none filter_input ngSelect_dropDown">
+
+                <ng-template ng-option-tmp let-item="item">
+                  {{ item.user?.name }}
+                </ng-template>
+
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMUNITY DROPDOWN -->
+        <div class="input_block_box w_50">
+           <div class="input_block_box">
+            <div class="filter_input_block">
+              <div class="filter_input_box filter_search_date">
+                <mat-form-field>
+                  <mat-label>Date range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate matInput placeholder="Start date" formControlName="startDate" (dateChange)="applyFilter()">
+                    <input matEndDate matInput placeholder="End date" formControlName="endDate" (dateChange)="applyFilter()">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DATE RANGE -->
+<!-- 
+      <div class="form_row">
+       
+      </div>
+       -->
+      <!-- DATE RANGE -->
+
+    </form>
+  </div>
+</div>
+
+<!-- ===  new filter section -- adjust end === -->
+
+<div class="chart-card card_analytics">
+
+  <h2 class="title">Community Wise No Of Yes RSVPs</h2>
+  <p class="subtitle">Always Yes, with Count</p>
+
+  <div class="chart-layout">
+
+
+
+    <!-- PIE CHART -->
+    <div class="chart-container">
+        <canvas
+          baseChart
+          [data]="pieChartData"
+          [type]="pieChartType"
+          [options]="pieChartOptions">
+        </canvas>
+    </div>
+    <!-- PIE CHART -->
+    <!-- CUSTOM Chart Data -->
+    <!-- <ul class="legend analytics_dataBlock">
+      <li class="legend-row analyticsRow" *ngFor="let item of legendList">
+        <span class="dot color-dot" [style.background]="item.color"></span>
+        <div class="legend-text analyticsText">
+          <div class="label">{{ item.label }}</div>
+        </div>
+      </li>
+    </ul> -->
+    <!-- CUSTOM Chart Data -->
+
+    <!-- CUSTOM Chart Data -->
+    <div class="legend analytics_dataBlock">
+  <div class="legend-row analyticsRow" *ngFor="let item of legendList; let i = index"  (click)="toggleSlice(i)"
+       [style.opacity]="!item.isVisible ? 0.4 : 1" [class.disabled]="isNoDataChart">
+
+    <div class="color-box" [style.background]="item.color"></div>
+
+    <div class="legend-text analyticsText">
+      <div class="label">{{ item.label }}</div>
+      <div class="value">{{ item.value }}</div>  <!-- ⭐ SHOW VALUE -->
+    </div>
+
+  </div>
+</div>
+    <!-- CUSTOM Chart Data -->
+
+  </div>
+
+  <!-- TOTAL CONTRIBUTION -->
+  <!-- TOTAL CONTRIBUTION -->
+
+</div>
+
+<!-- ------------  New code --- end  -->
+
+
+
+
+
+
+   

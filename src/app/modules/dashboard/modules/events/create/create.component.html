@@ -1,0 +1,1460 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+  <h4 *ngIf="!eventId">Create Event</h4>
+  <h4 *ngIf="eventId">Edit Event</h4>
+  <div class="filterArea">
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a [routerLink]="['/events']" >Back to list</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+</div>
+<!-- page title -- section -- end  -->
+<form [formGroup]="eventForm">
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+
+
+    <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" >
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+
+        <div class="onboard_form_box width_50" *ngIf="paymentStatusValue === 'Paid'">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Payment Status *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="paymentStatus" (change)="paymentSatusChange($event)" [ngClass]="{'disabled': eventId}">
+                <!-- <option value="" disabled selected hidden>Select Payment Status *</option> -->
+                <option value="Free">Free Event</option>
+                <option value="Paid">Paid Event</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_100" *ngIf="paymentStatusValue !== 'Paid'">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Payment Status *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="paymentStatus" (change)="paymentSatusChange($event)" [ngClass]="{'disabled': eventId}">
+                <!-- <option value="" disabled selected hidden>Select Payment Status *</option> -->
+                <option value="Free" [attr.selected]="true">Free Event</option>
+                <option value="Paid" *ngIf="getPaymentStatus">Paid Event</option>
+
+              </select>
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Title Name is required.
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50" *ngIf="paymentStatusValue === 'Paid'">
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Payment Category *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="paymentCategory" (change)="paymentCategoryChange($event)" [ngClass]="{'disabled': eventId}">
+                <option value="" disabled selected hidden>Select Payment Category *</option>
+                <option value="per_head">Per Head Payment</option>
+                <option value="package_wise">Package Wise Payment</option>
+              </select>
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Type is required.
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Event Title *</label>
+                <input class="input_appearance_none" type="text" placeholder="Title *" formControlName="title" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('title')?.errors?.['required'] && (eventForm.get('title')?.dirty || eventForm.get('title')?.touched))">
+              <div class="form_field_error_msg">
+                Event title is required.
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('title')?.errors?.['longName'] && (eventForm.get('title')?.dirty || eventForm.get('title')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum of 10 words.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Event Type *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="type" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <option value="" disabled selected hidden>Select Type *</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Social">Social</option>
+                <option value="Religious" >Religious</option>
+                <option value="Health" >Health</option>
+                <option value="Educational" >Educational</option>
+                <option value="Other">Other</option>
+                <!--<option value="Community Service">Community Service</option>
+                <option value="Fundraising">Fundraising</option>
+                
+                <option value="Social">Social</option>
+                <option value="Outdoor Social">Outdoor Social</option>
+                <option value="Member Meeting">Member Meeting</option>
+                <option value="Executive Meeting">Executive Meeting</option>
+                <option value="Board Meeting">Board Meeting</option>
+                <option value="Celebration">Celebration</option> -->
+                
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('type')?.errors?.['required'] && (eventForm.get('type')?.dirty || eventForm.get('type')?.touched))">
+              <div class="form_field_error_msg">
+                Type is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Event Description *</label>
+        </div>
+        <div class="textArea_block editWebPage_row" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+          <!-- <textarea class="input_appearance_none editWeb_textArea" formControlName="description" [ngClass]="{'disabled': eventId && isRecurringEvent}"></textarea> -->
+          <ckeditor class="input_appearance_none editWeb_textArea" formControlName="description"></ckeditor>
+        </div>
+        <div class="form_input_row_error" *ngIf="(eventForm.get('description')?.errors?.['required'] && (eventForm.get('description')?.dirty || eventForm.get('description')?.touched))">
+          <div class="form_field_error_msg">
+            Description is required.
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+         <!--event image-->
+
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_pink">
+            <div class="announcement_left_round_img">
+              <img [class]="(eventImage && eventImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(eventImage && eventImage!='') ? eventImage : 'assets/images/banner-img-up.png' " >
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="eventImage && eventImage!=''">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage('eventImage')" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file"  accept="image/*"  (change)="uploadImage($event, 'eventImage')" />
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Choose Event Image *</h4>
+              <p>(Image size should be within 2-5MB)</p>
+            </div>
+
+             <!-----Image croped start----->
+             <div class="crop_window"  *ngIf="openCropImageModal">
+                  <image-cropper
+                        [imageChangedEvent]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="5/3"
+                        (imageCropped)="cropImg($event, 'eventImage')">
+                  >
+                </image-cropper>
+                <div class="crop_btn_bottom">
+                  <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage('eventImage')">
+                    <img src="assets/images/crosspink.png">
+                  </button>
+                  <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage('eventImage')">
+                    <img src="assets/images/tick.png">
+                  </button>
+                </div>
+              </div>
+                <!-----Image croped end------->
+
+
+          </div>
+        </div>
+
+
+        <!--logoImage-->
+
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_pink">
+            <div class="announcement_left_round_img">
+              <img [class]="(logoImage && logoImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(logoImage && logoImage!='') ? logoImage : 'assets/images/banner-img-up.png' " >
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="logoImage && logoImage!=''">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage('logoImage')" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file"  accept="image/*"  (change)="uploadImage($event, 'logoImage')" />
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Choose Logo Image *</h4>
+              <p>(Image size should be within 2-5MB)</p>
+            </div>
+
+             <!-----Image croped start----->
+             <div class="crop_window"  *ngIf="openLogoCropImageModal">
+                  <image-cropper
+                        [imageChangedEvent]="imageLogoChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="1"
+                        (imageCropped)="cropImg($event, 'logoImage')">
+                  >
+                </image-cropper>
+                <div class="crop_btn_bottom">
+                  <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openLogoCropImageModal"   (click)="closeImage('logoImage')">
+                    <img src="assets/images/crosspink.png">
+                  </button>
+                  <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openLogoCropImageModal" (click)="saveImage('logoImage')">
+                    <img src="assets/images/tick.png">
+                  </button>
+                </div>
+              </div>
+                <!-----Image croped end------->
+
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_33">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Select country code *</label>
+              <input type="text" class="countryno countryno_mat" placeholder="Country Code" aria-label="Number" matInput  formControlName="phoneCode" [matAutocomplete]="auto" (keyup)="searchCountry($event)" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+              <ng-container class="login_mat_select_with_map_ngContainer">
+                <mat-autocomplete #auto="matAutocomplete"
+                  class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                  <mat-option *ngFor="let country of filteredOptions" [value]="country.dialCode"
+                    (click)="addCountryCode(country)">
+                    <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                  </mat-option>
+                </mat-autocomplete>
+              </ng-container>
+            </div>
+            <div class="form_input_row_error"
+              *ngIf="(eventForm.get('phoneCode')?.errors && (eventForm.get('phoneCode')?.dirty || eventForm.get('phoneCode')?.touched))">
+              <div class="form_field_error_msg">
+                Country code is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_100">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Phone Number *</label>
+              <input class="input_appearance_none" type="text" placeholder="Phone Number" formControlName="phoneNo" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error"
+              *ngIf="(eventForm.get('phoneNo')?.errors?.['InvalidValue'] && (eventForm.get('phoneNo')?.dirty || eventForm.get('phoneNo')?.touched))">
+              <div class="form_field_error_msg">
+                Phone number is required.
+              </div>
+            </div>
+            <div class="form_input_row_error"
+              *ngIf="(eventForm.get('phoneNo')?.errors?.['invalidMobile'] && (eventForm.get('phoneNo')?.dirty || eventForm.get('phoneNo')?.touched))">
+              <div class="form_field_error_msg">
+                Phone Number must be 10 digits or 11 digits.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Country *</label>
+              <select class="input_appearance_none filter_input onboard_select" (change)="getStateDate($event)" formControlName="country" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <option value="" disabled selected hidden>Select Country *</option>
+                <option [value]="country.code" *ngFor="let country of countryData">{{country.name}}</option>
+              </select>
+            </div>
+            <div class="form_input_row_error"  *ngIf="(eventForm.get('country')?.errors?.['required'] && (eventForm.get('country')?.dirty || eventForm.get('country')?.touched))">
+              <div class="form_field_error_msg">
+                Country is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">State *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="state" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <option value="" disabled selected hidden>Select State *</option>
+                <option [value]="state.stateCode" *ngFor="let state of stateData">{{state.name}}</option>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('state')?.errors?.['required'] && (eventForm.get('state')?.dirty || eventForm.get('state')?.touched))">
+              <div class="form_field_error_msg">
+                State is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">City *</label>
+                <input class="input_appearance_none" type="text" placeholder="City" formControlName="city" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('city')?.errors?.['required'] && (eventForm.get('city')?.dirty || eventForm.get('city')?.touched))" >
+              <div class="form_field_error_msg">
+                City is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Zip Code *</label>
+              <input class="input_appearance_none" type="text" placeholder="Zip Code" formControlName="zipcode" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('zipcode')?.errors?.['required'] && (eventForm.get('zipcode')?.dirty || eventForm.get('zipcode')?.touched))">
+              <div class="form_field_error_msg">
+                Zip Code is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Address Line 1 *</label>
+                <input class="input_appearance_none" type="text" placeholder="Address Line 1"  formControlName="firstAddressLine" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error"
+              *ngIf="(eventForm.get('firstAddressLine')?.errors && (eventForm.get('firstAddressLine')?.dirty || eventForm.get('firstAddressLine')?.touched))">
+              <div class="form_field_error_msg">
+                Address Line 1 is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Address Line 2</label>
+              <input class="input_appearance_none" type="text" placeholder="Address Line 2"  formControlName="secondAddressLine" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Error Message
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+      <!---Recurring Start-->
+      <!-- <div *ngIf="eventId=== null"> -->
+        <div>
+        <div class="toggle_box mb_20 width_100" *ngIf="paymentStatusValue !== 'Paid'">
+          <div class="toggle_left ">
+            <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+              <label class="switch" for="checkbox-31">
+                <input type="checkbox" id="checkbox-31" (change)="recurringEventToggle($event)" formControlName="recurringEvent"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              This Event will be  Recurring Event
+            </div>
+          </div>
+          <div class="toggle_right toggle_tooltip">
+          </div>
+        </div>
+      </div>
+
+      <div  *ngIf="isRecurringEvent || eventForm?.value?.recurringEvent === true">
+        <div class="onboard_form_row gpa_30"  >
+          <div class="onboard_form_box width_100">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Recurring Type *</label>
+                <select class="input_appearance_none filter_input onboard_select" [ngClass]="{'disabled': eventId && isRecurringEvent}" (change)="statusChange($event)" formControlName="recurringType">
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30"  >
+          <!--
+            <div class="onboard_form_box width_100" *ngIf="!ismonthly">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10" >Repeat on the following weekdays every 1 week</label>
+                  <input type="checkbox" id="checkbox-20"  value=0 (change)="weekDayChange($event)"/> Sunday
+                  <input type="checkbox" id="checkbox-21"  value=1 (change)="weekDayChange($event)"/> Monday
+                  <input type="checkbox" id="checkbox-22"  value=2 (change)="weekDayChange($event)"/> Tuesday
+                  <input type="checkbox" id="checkbox-23"  value=3 (change)="weekDayChange($event)"/> Wednesday
+                  <input type="checkbox" id="checkbox-24"  value=4 (change)="weekDayChange($event)"/> Thrusday
+                  <input type="checkbox" id="checkbox-25"  value=5 (change)="weekDayChange($event)"/> Friday
+                  <input type="checkbox" id="checkbox-26"  value=6 (change)="weekDayChange($event)"/> Saturday
+                </div>
+              </div>
+            </div>
+            -->
+
+          <!-- DATE input test -- start == -->
+          <div class="onboard_form_box width_100" *ngIf="!ismonthly">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10" >Repeat on the following weekdays every 1 week</label>
+                <!-- <input type="checkbox" id="checkbox-20"  value=0 (change)="weekDayChange($event)"/> Sunday -->
+                <!-- <input type="checkbox" id="checkbox-21"  value=1 (change)="weekDayChange($event)"/> Monday -->
+                <!-- <input type="checkbox" id="checkbox-22"  value=2 (change)="weekDayChange($event)"/> Tuesday -->
+                <!-- <input type="checkbox" id="checkbox-23"  value=3 (change)="weekDayChange($event)"/> Wednesday -->
+                <!-- <input type="checkbox" id="checkbox-24"  value=4 (change)="weekDayChange($event)"/> Thrusday -->
+                <!-- <input type="checkbox" id="checkbox-25"  value=5 (change)="weekDayChange($event)"/> Friday -->
+                <!-- <input type="checkbox" id="checkbox-26"  value=6 (change)="weekDayChange($event)"/> Saturday -->
+
+              <div class="weekDayToggle_wrap">
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-20">
+                        <input type="checkbox" id="checkbox-20" value=0 [checked]="weeks.includes(0)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Sunday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-21">
+                        <input type="checkbox" id="checkbox-21" value=1 [checked]="weeks.includes(1)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Monday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-22">
+                        <input type="checkbox" id="checkbox-22" value=2 [checked]="weeks.includes(2)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Tuesday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-23">
+                        <input type="checkbox" id="checkbox-23" value=3 [checked]="weeks.includes(3)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Wednesday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-24">
+                        <input type="checkbox" id="checkbox-24" value=4 [checked]="weeks.includes(4)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Thrusday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                      <label class="switch" for="checkbox-25">
+                        <input type="checkbox" id="checkbox-25" value=5 [checked]="weeks.includes(5)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Friday
+                    </div>
+                  </div>
+                </div>
+
+                <div class="toggle_box">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn">
+                      <label class="switch" for="checkbox-26" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                        <input type="checkbox" id="checkbox-26" value=6  [checked]="weeks.includes(6)" (change)="weekDayChange($event)"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Saturday
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+              </div>
+            </div>
+          </div>
+          <!-- DATE input test -- end == -->
+
+        </div>
+
+        <div class="onboard_form_row gpa_30"  *ngIf="ismonthly">
+          <div class="onboard_form_box width_100" >
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border" *ngIf="!eventId">
+                <label class="form_label_green mb_10">Select Date *</label>
+                <select  class="input_appearance_none filter_input onboard_select" (change)="dateChange($event)" formControlName="dateIndex">
+                  <option value=0 disabled selected hidden>Select Date</option>
+                  <option *ngFor="let date of dates" [value]="date">{{ date }}</option>
+                </select>
+              </div>
+              <div class="onboard_form_input onboard_input_border" *ngIf="eventId">
+                <label class="form_label_green mb_10">Select Date *</label>
+                <select  class="input_appearance_none filter_input onboard_select"  formControlName="dateIndex">
+                  <option value="dd[0]" [attr.selected]="dd[0]" disabled hidden>{{dd[0]}}</option>
+                </select>
+              </div>
+            </div>
+            <!-- <div class="onboard_form_input mat_calendar_block">
+              <label class="form_label_green mb_10">Repeat on the following monthly every 1 month</label>
+                <mat-form-field appearance="fill">
+                  <input matInput [matDatepicker]="picker1" placeholder="" (dateInput)="dateChange($event)">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1 mode="single"></mat-datepicker>
+                </mat-form-field>
+            </div> -->
+          </div>
+
+        </div>
+
+        <div class="onboard_form_row gpa_30"  *ngIf="isRecurringEvent || eventForm?.value?.recurringEvent === true">
+          <div class="onboard_form_box width_100">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" (change)="occuranceWise($event)" formControlName="wise" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                  <option value="date">Date Wise</option>
+                  <option value="occurance">Occurrence wise</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30"  *ngIf="isOccuranceWise">
+          <div class="onboard_form_box width_100">
+            <div class="onboard_form_input onboard_form_input_quantity">
+                <div class="count_btn_row">
+                    <div class="count_btn_row_right">
+                        <div class="plus_minus_btn_block count_btn_block">
+                            <h4>After</h4>
+                            <button class="button_appearance_none count_btn" (click)="countDecrement()">-</button>
+                            <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="occurances">
+                            <button class="button_appearance_none count_btn mr_20" (click)="countIncrement()">+</button>
+                            <h4 class="">Occurrences</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!---start date wise-->
+    <div class="onboard_form_row gpa_30 " *ngIf="isRecurringEvent">
+      <div class="onboard_form_box width_50">
+        <div class="onboard_form_input mat_calendar_block">
+          <label class="form_label_green mb_10">Enter Start Date *</label>
+            <mat-form-field appearance="fill" [ngClass]="{'disabled': eventId}">
+              <input matInput [matDatepicker]="picker1"  [min]="todayDate ? todayDate : getFromDate | date:'yyyy-MM-dd'" placeholder="" formControlName="fromdate" (dateInput)="setEndDate($event)" [readonly]="eventId" >
+              <mat-datepicker-toggle matSuffix [for]="picker1"  [disabled]="eventId"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <!-- <div class="form_input_row_error" *ngIf="(eventForm.get('fromdate')?.errors?.['required'] && (eventForm.get('fromdate')?.dirty || eventForm.get('fromdate')?.touched))" >
+              <div class="form_field_error_msg">
+                Start Date is required.
+              </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="onboard_form_box width_50" *ngIf="!isOccuranceWise">
+        <div class="onboard_form_input mat_calendar_block">
+          <label class="form_label_green mb_10">Enter End Date *</label>
+            <mat-form-field appearance="fill" *ngIf="!eventId">
+              <input matInput [matDatepicker]="picker2" [min]="todate ? todate : getFromDate | date:'yyyy-MM-dd'" placeholder="" formControlName="todate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="fill" *ngIf="eventId">
+              <input matInput [matDatepicker]="picker2" [max]="getMaxDate()" [min]="currentDate()" placeholder="" formControlName="todate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <!-- <div class="form_input_row_error" *ngIf="(eventForm.get('todate')?.errors?.['required'] && (eventForm.get('todate')?.dirty || eventForm.get('todate')?.touched))"  >
+              <div class="form_field_error_msg">
+                End Date is required.
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- <div class="onboard_form_row gpa_30 ">
+      <div class="onboard_form_box width_50">
+        <div class="onboard_form_input ">
+          <div class="onboard_form_input onboard_input_border">
+            <label class="form_label_green mb_10">Enter Start Time *</label>
+              <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Start Time" formControlName="fromtime" >
+          </div>
+          <div class="form_input_row_error"  *ngIf="(eventForm.get('fromtime')?.errors?.['required'] && (eventForm.get('fromtime')?.dirty || eventForm.get('fromtime')?.touched))">
+            <div class="form_field_error_msg">
+              Start Time is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="onboard_form_box width_50">
+        <div class="onboard_form_input ">
+          <div class="onboard_form_input onboard_input_border">
+            <label class="form_label_green mb_10">Enter End Time *</label>
+            <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Date Time" formControlName="totime" >
+          </div>
+          <div class="form_input_row_error" *ngIf="(eventForm.get('totime')?.errors?.['required'] && (eventForm.get('totime')?.dirty || eventForm.get('totime')?.touched))">
+            <div class="form_field_error_msg">
+              End Time is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-----End date wise-->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " *ngIf="!isRecurringEvent  || eventForm?.value?.recurringEvent === false">
+        <div class="onboard_form_box width_50">
+
+          <!-- ---  mat date -- start --  -->
+          <div class="onboard_form_input mat_calendar_block">
+            <label class="form_label_green mb_10">Enter Start Date *</label>
+              <mat-form-field appearance="fill" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <!-- <mat-label>Enter start Date *</mat-label> -->
+                <input matInput [matDatepicker]="picker4"  [min]="todayDate ? todayDate : getFromDate | date:'yyyy-MM-dd'" placeholder="" formControlName="fromdate" (dateInput)="setEndDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+              <!-- <div class="form_input_row_error" *ngIf="(eventForm.get('fromdate')?.errors?.['required'] && (eventForm.get('fromdate')?.dirty || eventForm.get('fromdate')?.touched))" >
+                <div class="form_field_error_msg">
+                  Start Date is required.
+                </div>
+              </div> -->
+          </div>
+          <!-- ---  mat date -- end --  -->
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <!-- ---  mat date -- start --  -->
+          <div class="onboard_form_input mat_calendar_block">
+            <label class="form_label_green mb_10">Enter End Date *</label>
+              <mat-form-field appearance="fill">
+                <!-- <mat-label>Enter End Date *</mat-label> -->
+                <input matInput [matDatepicker]="picker5"  [min]="todate ? todate : getFromDate | date:'yyyy-MM-dd'"   placeholder="" formControlName="todate">
+                <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                <mat-datepicker #picker5></mat-datepicker>
+              </mat-form-field>
+              <!-- <div class="form_input_row_error" *ngIf="(eventForm.get('todate')?.errors?.['required'] && (eventForm.get('todate')?.dirty || eventForm.get('todate')?.touched))"  >
+                <div class="form_field_error_msg">
+                  End Date is required.
+                </div>
+              </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 ">
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border" >
+              <label class="form_label_green mb_10">Enter Start Time *</label>
+                <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Start Time" formControlName="fromtime" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error"  *ngIf="(eventForm.get('fromtime')?.errors?.['required'] && (eventForm.get('fromtime')?.dirty || eventForm.get('fromtime')?.touched))">
+              <div class="form_field_error_msg">
+                Start Time is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Enter End Time *</label>
+              <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Date Time" formControlName="totime" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('totime')?.errors?.['required'] && (eventForm.get('totime')?.dirty || eventForm.get('totime')?.touched))">
+              <div class="form_field_error_msg">
+                End Time is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <!---Recurring End-->
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Select Invitation Type *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="invitationType" (change)="getInvitationTypeValue($event)" [ngClass]="{'disabled': eventId}">
+                <option value="" disabled selected hidden>Select Invitation Type</option>
+                <option value="Public">Public</option>
+                <option value="Members">Members</option>
+                <option value="Private">Private</option>
+              </select>
+            </div>
+            <div class="form_input_row_error"  *ngIf="(eventForm.get('invitationType')?.errors?.['required'] && (eventForm.get('invitationType')?.dirty || eventForm.get('invitationType')?.touched))">
+              <div class="form_field_error_msg">
+                Invitation Type is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_box width_50">
+          <!-- ---  mat date -- start --  -->
+          <div class="onboard_form_input mat_calendar_block">
+            <label class="form_label_green mb_10" *ngIf="!isRecurringEvent">Enter RSVP End Date *</label>
+
+            <!-- <span [ngClass]="{'disabled': eventId && isRecurringEvent}"> -->
+              <!-- <mat-form-field appearance="fill" *ngIf="isRecurringEvent && !isOccuranceWise">
+                <input matInput [matDatepicker]="picker3" [max]="rsvpEndTime | date:'yyyy-MM-dd'"  formControlName="rsvpEndTime">
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" *ngIf="isRecurringEvent && isOccuranceWise">
+                <input matInput [matDatepicker]="picker3" placeholder="" formControlName="rsvpEndTime" [min]="minDate | date:'yyyy-MM-dd'" [max]="minDate | date:'yyyy-MM-dd'" >
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field> -->
+
+              <mat-form-field appearance="fill" *ngIf="!isRecurringEvent">
+                <!-- <mat-label>Enter End Date *</mat-label> -->
+                <input matInput [matDatepicker]="picker3" [min]="currentDate()" [max]="rsvpEndTime | date:'yyyy-MM-dd'"  formControlName="rsvpEndTime" (dateInput)="setEarlyBirdEndDate($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+              <div class="form_input_row_error" *ngIf="(eventForm.get('rsvpEndTime')?.errors?.['required'] && (eventForm.get('rsvpEndTime')?.dirty || eventForm.get('rsvpEndTime')?.touched))">
+                <div class="form_field_error_msg">
+                  RSVP End Date is required.
+                </div>
+              </div>
+            <!-- </span> -->
+
+          </div>
+        </div>
+        <!-- <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Enter RSVP End Date *</label>
+              <input class="input_appearance_none custom_date_input" type="date" [max]="rsvpEndTime | date:'yyyy-MM-dd'" placeholder="Enter RSVP End Date" formControlName="rsvpEndTime" (change)="setEarlyBirdEndDate($event)">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('rsvpEndTime')?.errors?.['required'] && (eventForm.get('rsvpEndTime')?.dirty || eventForm.get('rsvpEndTime')?.touched))">
+              <div class="form_field_error_msg">
+                RSVP End Date is required.
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <!-- onboard_form_row  -->
+
+    <!-- onboard_form_row ---- Multi select Row -- start  -->
+    <div class="onboard_form_row  gpa_10 flex_col" *ngIf="isPrivateInvitation">
+      <label class="form_label_green mb_10">Add member for this event</label>
+      <span [ngClass]="{'disabled': eventId && isRecurringEvent}">
+        <mat-form-field class="example-chip-list tag_input_mat">
+          <mat-label>Add member for this event</mat-label>
+          <mat-chip-grid #chipGrid1 aria-label="Fruit selection">
+            <!-- <mat-chip *ngFor="let memberData of members; trackBy: trackMember" (removed)="removeMember(memberData)"> -->
+              <mat-chip *ngFor="let memberData of members; trackBy: trackMember">
+              {{ memberData}}
+              <button matChipRemove [attr.aria-label]="'remove ' + memberData" (click)="cancelMember(memberData)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-grid>
+          <input class="mat_selectOption_input" placeholder="member" #memberInput formControlName="memberCtrl"
+            [matChipInputFor]="chipGrid1" [matAutocomplete]="auto2"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+            (matChipInputTokenEnd)="addMember($event)" />
+          <mat-autocomplete class="mat_select_dropOption" #auto2="matAutocomplete" (optionSelected)="selectedMember($event)">
+            <mat-option *ngFor="let member of getMemberData; trackBy: trackMember; let j = index" [value]="member?.members?.user?.id" [disabled]="member.isMemberDisabled === true || member.members.rsvpJoined === true" (click)="isMemberOptionDisabled(j)">
+              <img class="mat_option_img" with="20" height="20" [src]="member?.members?.user?.profileImage ? member?.members?.user?.profileImage : 'assets/images/no-image-found-01.png'">{{ member?.members?.user?.name}}({{member?.members?.user?.phone}})
+            </mat-option>
+            <!-- <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+              <div class="table_pagination_sec">
+                <div class="table_pagi_left pagination_block">
+                  <span *ngIf="totalData > limit"><app-pagination
+                  [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+                  ></app-pagination></span>
+                </div>
+              </div>
+            </ng-template> -->
+          </mat-autocomplete>
+        </mat-form-field>
+        <div class="form_input_row_error" style="display: none;" >
+          <div class="form_field_error_msg">
+            Any Error
+          </div>
+        </div>
+      </span>
+    </div>
+
+    <div class="onboard_form_row  gpa_10 flex_col" *ngIf="isPrivateInvitation">
+      <label class="form_label_green mb_10">Add group for this event *</label>
+      <span [ngClass]="{'disabled': eventId && isRecurringEvent}">
+        <mat-form-field class="example-chip-list tag_input_mat">
+        <mat-label>Add group for this event</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Fruit selection">
+          <!-- <mat-chip *ngFor="let groupData of groups; trackBy: trackGroup;" (removed)="remove(groupData)"> -->
+            <mat-chip *ngFor="let groupData of groups; trackBy: trackGroup;">
+            {{ groupData}}
+            <button matChipRemove [attr.aria-label]="'remove ' + groupData" (click)="cancelGroup(groupData)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-grid>
+        <input class="mat_selectOption_input" placeholder="group" #fruitInput formControlName="groupCtrl"
+          [matChipInputFor]="chipGrid" [matAutocomplete]="auto1"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)" />
+        <mat-autocomplete class="mat_select_dropOption" #auto1="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let group of getGroupData; trackBy: trackGroup; let i = index" [value]="group.id" [disabled]="group.isDisabled === true" (click)="isOptionDisabled(i)">
+            <img class="mat_option_img" with="20" height="20" [src]="group.image ? group.image : 'assets/images/no-image-found-01.png'">{{group.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="form_input_row_error" style="display: none;" >
+        <div class="form_field_error_msg">
+          Any Error
+        </div>
+      </div>
+      </span>
+    </div>
+    <!-- onboard_form_row ---- Multi select Row -- end  -->
+
+      <!-- onboard_form_row  -- packed card -- start -->
+      <div formArrayName="paymentPackage">
+        <ng-container *ngFor="let paymentPackage of paymentPackage.controls; let j = index;">
+          <div [formGroupName]="j">
+            <div *ngIf="paymentCategoryValue === 'per_head'">
+              <div class="onboard_form_row gpa_30 ">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Enter Package Rate*</label>
+                    <div class="onboard_form_currency_input">
+                      <input class="input_appearance_none remove-arrows" type="number" placeholder="Enter package rate*" inputmode="numeric" formControlName="packageRate" (keypress)="allowOnlyIntegers($event)" [readonly]="eventId" min="0">
+                      <div class="currency_input_block">
+                        <span class="currency_input_active"> {{getCurrency}} </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="onboard_form_row gpa_30 ">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input mat_calendar_block">
+                    <label class="form_label_green mb_10">Enter Package Description*</label>
+                      <div class="onboard_form_input onboard_input_border">
+                          <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea width_100" placeholder="Enter Package Description*" formControlName="description"></textarea>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="onboard_form_row gpa_30">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input mat_calendar_block">
+                    <label class="form_label_green mb_10">Enter early bird end date</label>
+                    <mat-form-field appearance="fill">
+                      <!-- <mat-label>mm/dd/yyyy</mat-label> -->
+                       <!-- <input matInput [matDatepicker]="picker" formControlName="earlyBirdDate" [max]="beforeDay | date:'yyyy-MM-dd'" placeholder="mm/dd/yyyy" [readonly]="eventId">
+-                      <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="eventId"></mat-datepicker-toggle> -->
+                      <input matInput [matDatepicker]="picker" formControlName="earlyBirdDate" [max]="beforeDay | date:'yyyy-MM-dd'" placeholder="mm/dd/yyyy">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <div class="under_label">
+                      **Early Bird RATE is applicable only between "Event creation date" AND before "RSVP end date".
+                    </div>
+                  </div>
+                </div>
+
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                    <label class="form_label_green mb_10">Enter early bird rate </label>
+                    <div class="onboard_form_input onboard_input_border onboard_form_currency_input">
+                       <!-- <input class="input_appearance_none remove-arrows" inputmode="numeric" type="number" placeholder="Enter early bird rate" formControlName="earlyBirdRate" (keypress)="allowOnlyIntegers($event)" [readonly]="eventId" min="0"> -->
+                      <input class="input_appearance_none remove-arrows" inputmode="numeric" type="number" placeholder="Enter early bird rate" formControlName="earlyBirdRate" (keypress)="allowOnlyIntegers($event)"  min="0">
+                      <div class="currency_input_block">
+                        <span class="currency_input_active"> {{getCurrency}} </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="onboard_form_row gpa_30 ">
+                <div class="onboard_form_box width_100">
+                  <div class="toggle_box mb_20 width_50">
+                    <div class="toggle_left ">
+                      <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                        <label class="switch" for="checkbox-12">
+                          <input type="checkbox" id="checkbox-12" formControlName="isActive"  />
+                          <div class="slider round"></div>
+                        </label>
+                      </div>
+                      <div class="toggle_text">
+                        Package Status *
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div formArrayName="paymentPackages">
+        <ng-container *ngFor="let paymentPackages of paymentPackages.controls; let i = index;">
+          <div [formGroupName]="i">
+            <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_20 onboard_form_row_packegCard" *ngIf="paymentCategoryValue === 'package_wise' && paymentStatusValue === 'Paid'">
+              <div class="package_card_block width_100 gpa_30 d_flex flex_row" >
+                  <div class="package_card_title ">
+                    <h3>Package {{i+1}} Name</h3>
+                  </div>
+                  <div class="onboard_form_box width_50 d_flex flex_col gpa_30">
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <!-- <label class="form_label_green mb_10">Please Enter Package Name *</label> -->
+                        <input class="input_appearance_none" type="text" placeholder="Please Enter Package Name *" formControlName="packageName">
+                      </div>
+                      <div class="form_input_row_error"  >
+                        <!-- <div class="form_field_error_msg">
+                          Error message shown
+                        </div> -->
+                      </div>
+                    </div>
+
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border onboard_form_currency_input">
+                        <!-- <label class="form_label_green mb_10">Enter Package rate *</label> -->
+                        <input class="input_appearance_none remove-arrows" inputmode="numeric" type="number" placeholder="Enter Package rate *" formControlName="packageRate" (keypress)="allowOnlyIntegers($event)" [readonly]="eventId" min="0">
+                        <div class="currency_input_block">
+                          <span class="currency_input_active"> {{getCurrency}} </span>
+                          <!-- INR / GBP /<span class="currency_input_active"> AUD </span>/ USD -->
+                        </div>
+                      </div>
+                      <!-- <div class="form_input_row_error"  >
+                        <div class="form_field_error_msg">
+                          Error message shown
+                        </div>
+                      </div> -->
+                    </div>
+
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea width_100" placeholder="Enter Package Description*" formControlName="description"></textarea>
+                      </div>
+                    </div>
+
+                   <!-- Early Bird Start -->
+                  <div class="onboard_form_input mat_calendar_block">
+                    <!-- <label class="form_label_green mb_10">Enter early bird end date</label> -->
+                    <mat-form-field appearance="fill">
+                      <mat-label>Enter early bird end date</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="picker"
+                        formControlName="earlyBirdDate"
+                        [max]="beforeDay | date:'yyyy-MM-dd'"
+                        [readonly]="eventId"
+                        placeholder="mm/dd/yyyy">
+                  <!-- <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="eventId"></mat-datepicker-toggle> -->
+
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <div class="under_label">
+                      **Early Bird RATES are applicable only between "Event Start date" AND before "RSVP end date".
+                    </div>
+                  </div>
+
+
+
+                    <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border onboard_form_currency_input">
+                        <!-- <input class="input_appearance_none remove-arrows" inputmode="numeric" type="number" placeholder="Enter early bird rate" formControlName="earlyBirdRate" (keypress)="allowOnlyIntegers($event)" [readonly]="eventId" min="0"> -->
+                        <input class="input_appearance_none remove-arrows" inputmode="numeric" type="number" placeholder="Enter early bird rate" formControlName="earlyBirdRate" (keypress)="allowOnlyIntegers($event)" [readonly]="eventId" min="0">
+                        <div class="currency_input_block">
+                          <span class="currency_input_active"> {{getCurrency}} </span>
+                        </div>
+                      </div>
+                    </div>
+                    <!---earlyBird start-->
+
+                    <!---For Package Status Start-->
+                      <div class="toggle_box mb_20 width_100">
+                        <div class="toggle_left ">
+                          <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                            <label class="switch" for="checkbox-11-{{i+1}}">
+                              <input type="checkbox" id="checkbox-11-{{i+1}}" formControlName="isActive"/>
+                              <div class="slider round"></div>
+                            </label>
+                          </div>
+                          <div class="toggle_text">
+                            Package Status *
+                          </div>
+                        </div>
+                      </div>
+                    <!---For Package Status End-->
+                  </div>
+
+                  <div class="announcement_box_block">
+                    <div class="announcement_box_block_top announcement_box_pink">
+                      <!-- Image Display -->
+                      <div class="announcement_left_round_img">
+                        <img
+                          [class]="packageLogo[i] && packageLogo[i] !== '' ? 'announcement_left_upload_img' : 'announcement_left_default_img'"
+                          [src]="packageLogo[i] && packageLogo[i] !== '' ? packageLogo[i] : 'assets/images/banner-img-up.png'"
+                          alt="Package Logo"
+                        />
+                      </div>
+
+                      <!-- Delete Button -->
+                      <div class="up_img_delete_btn_block" *ngIf="packageLogo[i] && packageLogo[i] !== ''">
+                        <button class="button_appearance_none up_img_delete_btn" (click)="deletePackageImage(i)">
+                          <img src="assets/images/trash-delete.png" alt="Delete" />
+                        </button>
+                      </div>
+
+                      <!-- Upload Image Trigger -->
+                      <div class="announcement_top_des">
+                        <div class="profile_img_edit_btn_block">
+                          <button class="button_appearance_none profile_edit_btn">
+                            <img src="assets/images/profileimage-edit-btn.png" alt="Edit" />
+                          </button>
+                          <input
+                            class="input_appearance_none input_upload_btn"
+                            type="file"
+                            accept="image/*"
+                            (change)="uploadPackageImage($event, 'packageLogo', i)"
+                          />
+                        </div>
+                        <h4>Upload Package Image</h4>
+                        <p>(Image size should be within 2-5MB)</p>
+                      </div>
+                    </div>
+                    <!-- Cropping Modal -->
+                    <div class="crop_window" *ngIf="openPackageCropImageModal[i]">
+                      <image-cropper
+                        [imageChangedEvent]="imagePackageChangedEvent[i]"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="1"
+                        [resizeToWidth]="300"
+                        format="png"
+                        (imageCropped)="cropPackageImg($event, 'packageLogo', i)"
+                      ></image-cropper>
+
+                      <div class="crop_btn_bottom">
+                        <button
+                          class="button_appearance_none crop_btn crop_btn_close"
+                          (click)="closePackageImage(i)"
+                        >
+                          <img src="assets/images/crosspink.png" alt="Cancel" />
+                        </button>
+                        <button
+                          class="button_appearance_none crop_btn crop_btn_done"
+                          (click)="savePackageImage(i)"
+                        >
+                          <img src="assets/images/tick.png" alt="Save" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="button_appearance_none onboard_form_close_btn"  type="button" *ngIf="i!==0 && i!==1 && i!==2"  (click)="removeDetails(i)">
+                    <img src="assets/images/crosspink.png" />
+                  </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="d_flex dflex_justify_end pad_tb_20" *ngIf="paymentPackages.controls.length < 10 && paymentStatusValue === 'Paid'">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow"  type="button" *ngIf="paymentCategoryValue === 'package_wise'" (click)="addFields()">
+            Add More Package
+          </button>
+        </div>
+      </div>
+      <!-- onboard_form_row  -- packed card -- end -->
+
+
+
+
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+<!--
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Events</h4>
+        </div>
+-->
+        <div class="editWebPage_row announcement_form_row_toggle ">
+
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <label class="switch" for="checkbox-10">
+                  <input type="checkbox" id="checkbox-10" formControlName="restrictNumberAttendees" (change)="showMaxAttandace($event)" />
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Restrict Number of Attendees *
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+            </div>
+          </div>
+
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <label class="switch" for="checkbox-9">
+                  <input type="checkbox" id="checkbox-9" formControlName="postEventAsCommunity"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Post Event as Community? *
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="editWebPage_row announcement_form_row_toggle ">
+
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <label class="switch" for="checkbox-7">
+                  <input type="checkbox" id="checkbox-7" formControlName="collectEventPhotos"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Collect Event Photos? *
+              </div>
+            </div>
+          </div>
+
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <label class="switch" for="checkbox-1">
+                  <input type="checkbox" id="checkbox-1" formControlName="attendeeListVisibilty"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Attendees List Visible? *
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- Announcements -- row -- end -->
+
+      <!-- onboard_form_row  -->
+      <!-- <div class="onboard_form_row gpa_30 " [hidden]="!eventForm.value.restrictNumberAttendees">
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Maximum Number of Attendees *</label>
+              <input class="input_appearance_none " type="number" placeholder="Maximum Number of Attendees"  formControlName="numberOfMaxAttendees" [required]="eventForm.value.restrictNumberAttendees">
+            </div>
+            <div class="form_input_row_error" *ngIf="(eventForm.get('numberOfMaxAttendees')?.errors?.['required'] && (eventForm.get('numberOfMaxAttendees')?.dirty || eventForm.get('numberOfMaxAttendees')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum Number of Attendees is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> -->
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -- count num -- start  -->
+      <div class="onboard_form_row gpa_30 onboard_form_row_count_num_block">
+
+        <!-- <div class="onboard_form_box width_50" [hidden]="!eventForm.value.restrictNumberAttendees"> -->
+          <div class="onboard_form_box width_50" *ngIf="isShowMaxNumber">
+          <div class="onboard_form_input ">
+            <!-- <label class="form_label_green mb_10">Maximum Number of Attendees *</label> -->
+
+            <div class="count_btn_row count_btn_row_yellow mb_10">
+              <div class="count_btn_row_left green_text">
+                Maximum Number of Attendees *
+              </div>
+              <div class="count_btn_row_right" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <div class="plus_minus_btn_block">
+                  <button class="button_appearance_none count_btn" (click)="attendeesCountDecrement()" [ngClass]="{'disabled': eventForm.value.attendanceCounts === 0 || eventForm.value.attendanceCounts === '' || eventForm.value.attendanceCounts === null}">-</button>
+                  <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="attendanceCounts">
+                  <!-- <span class="count_num_show"> {{attandanceCount}} </span> -->
+                  <button class="button_appearance_none count_btn" (click)="attendeesCountIncrement()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="onboard_form_box width_50" *ngIf="isShowMaxNumber || isShowWebVisitor">
+          <div class="onboard_form_input ">
+
+            <div class="count_btn_row count_btn_row_yellow mb_10">
+              <div class="count_btn_row_left green_text">
+                <!-- Maximum Number of Guests * -->
+                Maximum Number of Guests Per Member *
+              </div>
+              <div class="count_btn_row_right">
+                <div class="plus_minus_btn_block" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                  <button class="button_appearance_none count_btn" (click)="guestCountDecrement()" [ngClass]="{'disabled': eventForm.value.numberOfMaxGuests === 0 || eventForm.value.numberOfMaxGuests === '' || eventForm.value.numberOfMaxGuests === null}">-</button>
+                  <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberOfMaxGuests">
+                  <!-- <span class="count_num_show"> {{attandanceCount}} </span> -->
+                  <button class="button_appearance_none count_btn" (click)="guestCountIncrement()">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row  -- count num -- end  -->
+      <!-- onboard_form_row  -- Map Img - Block -- start -->
+      <!-- <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up ">
+        <div class="width_100 gpa_30 d_flex flex_row ">
+
+          <div class="announcement_box_block announcement_box_pink">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+               <img class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+              </div>
+              <div class=" up_img_delete_btn_block" >
+                <button class="button_appearance_none up_img_delete_btn" >
+                  <img src="assets/images/trash-delete.png">
+                </button>
+              </div>
+              <div class="announcement_top_des">
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file"  />
+                </div>
+                <h4>Choose Event Images </h4>
+                <p>(Image Size should be within 2-5MB)</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div> -->
+      <!-- onboard_form_row  -- Map Img - Block -- end -->
+
+      <!-- onboard_form_row -- Map Input -- start  -->
+      <!-- <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Choose Event Address in map</label>
+        </div>
+        <div class="textArea_block editWebPage_row">
+          <textarea class="input_appearance_none editWeb_textArea" formControlName="description" placeholder="Choose Event Address in map"></textarea>
+        </div>
+        <div class="form_input_row_error" >
+          <div class="form_field_error_msg">
+            Description is required.
+          </div>
+        </div>
+      </div> -->
+      <!-- onboard_form_row -- Map Input -- end   -->
+
+      <!-- onboard_form_row -- tag InPut section -- start  -->
+      <!-- <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Add Group / Individual Members for this event</label>
+        </div>
+        <div class="textArea_block editWebPage_row" style="color: #fff;">
+          Tag input section
+        </div>
+        <div class="form_input_row_error" >
+          <div class="form_field_error_msg">
+            TAG input Error
+          </div>
+        </div>
+      </div> -->
+      <!-- onboard_form_row  -- tag InPut section -- end   -->
+
+
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_10 onboard_form_row_checkbox" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+        <!-- <div class="onboard_form_box "> -->
+          <!-- <div class="onboard_form_input "> -->
+
+            <div class="checkbox_row" *ngIf="eventForm.value.invitationType === 'Public'">
+              <input class="checkbox_input" type="checkbox" id="checkbox_3" (change)="showWebVistor($event)" formControlName="webvistorRestriction">
+              <label class="onboard_form_checkbox_label" for="checkbox_3">
+                This Event will be allowed for <a href="javascript:void(0)" > web visitors</a>  & will be shown in the <a href="javascript:void(0)" >publicity website page.</a>
+              </label>
+            </div>
+
+          <!-- </div> -->
+        <!-- </div> -->
+      </div>
+      <div class="onboard_form_box width_50" *ngIf="isShowWebVisitor">
+        <div class="onboard_form_input ">
+          <div class="count_btn_row count_btn_row_yellow mb_10">
+            <div class="count_btn_row_left green_text">
+              Maximum Number of Web Visitors *
+            </div>
+            <div class="count_btn_row_right">
+              <div class="plus_minus_btn_block" [ngClass]="{'disabled': eventId && isRecurringEvent}">
+                <button class="button_appearance_none count_btn" (click)="visitorsCountDecrement()" [ngClass]="{'disabled': eventForm.value.webCount === 0 || eventForm.value.webCount === '' || eventForm.value.webCount === null}">-</button>
+                <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Enter number of web visitors" inputmode="numeric" formControlName="webCount">
+                <!-- <span class="count_num_show"> {{visitorsCount}} </span> -->
+                <button class="button_appearance_none count_btn" (click)="visitorsCountIncrement()">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+
+
+
+         <!-- ---- test date --- start -->
+
+         <!-- <input type="date" id="dateInput" class="custom_date_input">
+         <input type="text" id="dateInput" class="custom-date-input" readonly (click)="openCalendar()"> -->
+
+         <!-- ---- test date --- end -->
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()"  >Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()" [ngClass]="{'disabled': !eventForm.valid}">Submit</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    </div>
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+
+</form>
+
+

@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+@import url('./../../../../../assets/css/variables.css');
+
+body, html{
+    overflow-x: hidden;
+}
+
+.wrpperContainer {
+    width: 1224px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* logo area start */
+.logoArea {
+    padding: 45px 0;
+    text-align: center;
+}
+
+/* logo area end */
+
+/* thank you content area start */
+.thankyouBox {
+    background-color: var(--darkgrey);
+    border-radius: 18px;
+    padding: 80px 105px 75px 105px;
+    margin-top: 144px;
+    margin-bottom:125px;
+}
+
+.envelopIcon {
+    /* width: 25%; */
+    height: auto;
+    margin-top: -200px;
+}
+
+.envelopIconArea {
+    text-align: center;
+}
+
+.thankyoutext {
+    color: var(--lightBlue);
+    text-align: center;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 58px;
+    margin-top: 62px;
+    margin-bottom: 62px;
+}
+
+.acceptInvitationArea {
+    margin: 0;
+    padding: 0;
+}
+
+.acceptBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 62px;
+}
+
+.acceptText {
+    color: var(--lightBlue);
+    text-align: center;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 42px;
+}
+
+.messageArea {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: var(--white);
+    font-size: 29px;
+    line-height: 38px;
+    font-weight: 400;
+}
+
+.borderbottom {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px dashed #404040;
+}
+
+.allertmessage {
+    color: var(--pink);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    margin-top: 93px;
+}
+
+.appBtnarea {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.appBtnarea a {
+    margin: 0 10px;
+}
+
+.submitBtnarea {
+    margin-top: 52px;
+    margin-bottom: 52px;
+    text-align: center;
+}
+
+.submitBtn {
+    background-color: var(--lightBlue);
+    font-size: 29px;
+    line-height: 43px;
+    width: 470px;
+    height: 104px;
+    color: var(--white);
+    border-radius: 118px;
+    border: 3.64912px solid var(--white);
+}
+
+.submitBtn:hover {
+    background-color: var(--btnHoverColor);
+}
+.applink-instraction{
+    display:block;
+    text-align:center;
+    color:#E15C5D;
+    padding:0;
+    margin:0 auto;
+    font-size:20px;
+    line-height:28px;
+    font-weight:400;
+    font-style:normal;
+}
+.app-icon-wrapper{
+    display:block;
+    text-align:center;
+    margin:0 auto;
+    padding:65px 0 115px;
+}
+.app-icon-wrapper a{
+    display:inline-block;
+    margin:0 10px;
+    padding:0;
+    float:none;
+}
+.app-icon-wrapper a img{
+    display:block;
+    margin:0;
+    padding:0;
+    max-width:100%;
+}
+/* thank you content area end */
+
+@media (max-width:767px) {
+
+    .wrpperContainer {
+        padding: 0 30px;
+        width: 100%;
+    }
+
+    .thankyouBox {
+        margin-top: 100px;
+        padding: 80px 40px 40px 40px;
+        margin-bottom: 30px;
+    }
+
+    .envelopIcon {
+        width: 112px;
+        height: 112px;
+
+    }
+
+    .thankyoutext {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    .acceptText {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .acceptBlock img {
+        width: 18px;
+        height: 13px;
+    }
+
+    .acceptBlock {
+        margin-bottom: 20px;
+    }
+
+    .messageArea {
+        font-size: 14px;
+        line-height: 21px;
+        margin-top: 35px;
+    }
+
+    .allertmessage {
+        font-size: 15px;
+        margin-top: 35px;
+    }
+
+    .borderbottom {
+        display: none;
+    }
+
+    .submitBtn{
+        width: 100%;
+        height:57px;
+        font-size: 16px;
+    }
+    .app-icon-wrapper a{
+        margin:0 5px;
+    }
+    .app-icon-wrapper a img{
+        max-width:140px;
+    }
+}
+@media screen and (min-width:768px) and (max-width:1400px){
+    .wrpperContainer{
+       width:100%;
+       max-width:100%;
+       padding-right:100px;
+       padding-left:100px;
+    }
+    .modal-dialog{
+       max-width:400px;
+    }
+  }

@@ -1,0 +1,121 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title filter-headingArea">
+      <h4>Checkin Payment List</h4>
+
+      <div class="filterArea">
+
+        <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="searchToggle()">
+          <img src="assets/images/filter-search-icon.png" />
+        </a>
+
+        <!-- <a href="javascript:void(0)" class="filter" >Filter</a>
+        <a class="pinkbtnsmall"  >Checkin</a> -->
+      </div>
+
+    </div>
+
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/check-in']">Back to checkin list</a>
+    </div>
+
+    <!-- page title -- section -- end  -->
+    <div class="filter_search_sec" *ngIf="seachFilter">
+      <div class="filter_sec_block_seach">
+        <div class="form_row">
+          <form [formGroup]="searchForm">
+            <div class="input_block_box filter_search_text">
+              <div class="filter_input_block">
+                <div class="filter_input_box">
+                  <input class="input_appearance_none filter_input" type="text" placeholder="Search by user name" formControlName="search" (keyup)="getList(current)">
+                </div>
+                <div class="filter_input_box_btn">
+                  <button class="button_appearance_none filter_btn_search" type="button" (click)="getList(current)">Search</button>
+                  <button class="button_appearance_none filter_btn_clear" type="button"  (click)="clear()">Clear</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- ===  new filter search end === -->
+
+      <!-- table area start -->
+      <div class="tableBox">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>User Name</th>
+                    <th>No. Of Attendees</th>
+                    <!-- <th>RSVP Status</th> -->
+                    <th>Payment Status</th>
+                    <th *ngIf="getCheckinDetail?.canCheck">Checked In</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let item of getCheckInPaymentList; let i = index">
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                      {{'CP100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                      {{'CP10'+(current*10-(9-i))}}
+                    </td>
+                    <td>
+                        <span *ngIf="item.userName">{{item?.userName | titlecase}}</span>
+                        <span *ngIf="item.name">{{item?.name | titlecase}}</span>
+                     <!-- {{item.userName ? item.userName | firstName : item.name | firstName}} -->
+                    </td>
+                    <td>
+                        {{item.noOfAttendees ? item.noOfAttendees : 'N/A'}}
+                    </td>
+                    <td style="text-align: left;">
+                      {{item.rsvpStatus ? item.rsvpStatus : 'N/A'}}
+                    </td>
+                    <!-- <td *ngIf="item.rsvpStatus === 'tentatively_paid' || item.rsvpStatus === 'paid'"> -->
+                      <td>
+                        <div  *ngIf="item.rsvpStatus === 'paid'" class="td_toggle " [ngClass]="{'disabled': item.checkIn}">
+                            <div class="toggle_btn flex_center">
+                                <label class="switch" for="paycheckbox-{{i+1}}">
+                                <input type="checkbox" id="paycheckbox-{{i+1}}" [checked]="item.checkIn" (change)="togglePermanentStatus($event,i,item.id)"/>
+                                <div class="slider round"></div>
+                            </label>
+                            </div>
+                        </div>
+                      </td>
+                      <td *ngIf="item.rsvpStatus === 'tentatively_paid'">
+                        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button" (click)="payLink(item.id)" *ngIf="getCheckinDetail?.canCheck">
+                          Pay Now
+                        </button>
+                      </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!getCheckInPaymentList?.length">
+                    <td colspan="10">No data found!</td>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+        <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > limit"><app-pagination
+              [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template>
+        <!-- ---  table bottom Pagination section -- end --  -->
+    </div>
+    <!-- table area end -->
+
+
+  </div>

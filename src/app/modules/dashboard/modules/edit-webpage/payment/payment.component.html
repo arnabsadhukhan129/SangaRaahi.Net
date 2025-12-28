@@ -1,0 +1,650 @@
+
+  <!-- ===  Edit Web-Page /  -- start === -->
+    <form [formGroup]="paymentForm">
+      <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+      <div class="edit_webPage_tab_body_bg">
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title block_sec_title_tooltip green_text">Create Donation page
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText">
+                We are not processing the payments; we are just providing payment information to visitors.
+              </div>
+            </div>
+          </h4>
+          <div class="filterArea">
+            <a href="javascript:void(0)" class="pink_link_text" (click)="undoSetting()">Undo Previous Settings</a>
+          </div>
+        </div>
+        <div class="edit_webPage_tab_leftRight_btn">
+          <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" (click)="save('previous')" ><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+          <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="showTerms()" ><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+<!--
+        <div class="filterArea">
+          <a href="javascript:void(0)" class="pink_link_text" (click)="undoSetting()">Undo Previous Settings</a>
+        </div>
+        <div class="onboard_form_row describe_textarea editWeb_subSection">
+          <div class="block_sec_title_row">
+            <h4 class="block_sec_title block_sec_title_tooltip green_text">Create Donation page
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false">
+                </button>
+                <div class="tooltip_hover_text" *ngIf="changeText">
+                  We are not processing the payments; we are just providing payment information to visitors.
+                </div>
+              </div>
+            </h4>
+          </div>
+
+        </div>
+        <div class="edit_webPage_tab_leftRight_btn">
+          <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" (click)="save('previous')" ><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+          <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="showTerms()" ><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+        </div>
+-->
+
+        <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up">
+
+          <div class="announcement_box_block announcement_box_pink" *ngIf="QRImage">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <img class="announcement_left_default_img" style="display: none;"  src="assets/images/event-activity-01.jpg"  >
+                <img class="announcement_left_upload_img" src="{{QRImage ? QRImage : 'assets/images/img-up-qr.png'}}" >
+              </div>
+              <div class=" up_img_delete_btn_block">
+                <button class="button_appearance_none up_img_delete_btn" (click)="deleteQRImage()">
+                  <img class="" src="assets/images/trash-delete.png">
+                </button>
+              </div>
+              <div class="announcement_top_des">
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file"  accept="image/*" (change)="previewImage($event,'qrcodeImage')"/>
+                </div>
+                <!-- img / upload img -- end -->
+
+                <h4>Upload your QR code for donation purposes</h4>
+                <!-- <p>(Maximum Size will be from 2-5MB )</p> -->
+                <button class="button_appearance_none announcement_show_download_btn" (click)="showQRCode()">
+                  <img class="" src="assets/images/icon-eye-black.png">
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="announcement_box_block announcement_box_pink" *ngIf="!QRImage">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <img class="announcement_left_default_img" style="display: none;" src="{{QRImage ? QRImage : 'assets/images/img-up-qr.png'}}" >
+                <img class="announcement_left_upload_img"   src="{{QRImage ? QRImage : 'assets/images/img-up-qr.png'}}" >
+              </div>
+              <!-- <div class=" up_img_delete_btn_block">
+                <button class="button_appearance_none up_img_delete_btn" (click)="deleteQRImage()">
+                  <img src="assets/images/trash-delete.png">
+                </button>
+              </div> -->
+              <div class="announcement_top_des">
+
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file"  accept="image/*" (change)="previewImage($event,'qrcodeImage')"/>
+                </div>
+                <!-- img / upload img -- end -->
+
+                <h4>Upload your QR code for donation purposes</h4>
+                <!-- <p>(Maximum Size will be from 2-5MB )</p> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="announcement_box_block announcement_box_darkyellow" *ngIf="bankcheckImage">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <!-- <img class="announcement_left_default_img" src="{{bankcheckImage ? bankcheckImage : 'assets/images/bank-doc-img.png'}}"> -->
+                <img class="announcement_left_default_img" src="assets/images/doc_up_icon-gray.png">
+                <img class="announcement_left_upload_img" style="display: none;" src="assets/images/doc_up_icon.png">
+              </div>
+              <div class=" up_img_delete_btn_block">
+                <button class="button_appearance_none up_img_delete_btn" (click)="deleteBankCheckImage()">
+                  <img src="assets/images/trash-delete.png">
+                </button>
+              </div>
+              <div class="announcement_top_des">
+
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .txt, .pdf, .jpg, .png, .jpeg" (change)="previewImage($event,'bankcheckImage')"/>
+                </div>
+                <!-- img / upload img -- end -->
+
+                <h4>Upload your bank related payment information for Approval from App Admin</h4>
+                <p class="upload_file_name">{{getFileName ? getFileName : bankImageName}}</p>
+                <button class="button_appearance_none announcement_show_download_btn" (click)="downloadFile()">
+                  <img class="" src="assets/images/icon-download-black.png">
+                </button>
+                <!-- <p>(Maximum Size will be from 2-5MB )</p> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="announcement_box_block announcement_box_darkyellow" *ngIf="!bankcheckImage">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <!-- <img class="announcement_left_default_img" src="{{bankcheckImage ? bankcheckImage : 'assets/images/bank-doc-img.png'}}"> -->
+                <img class="announcement_left_default_img" src="assets/images/bank-doc-img.png">
+                <img class="announcement_left_upload_img" style="display: none;" src="assets/images/event-activity-01.jpg">
+              </div>
+              <!-- <div class=" up_img_delete_btn_block">
+                <button class="button_appearance_none up_img_delete_btn" (click)="deleteBankCheckImage()">
+                  <img src="assets/images/trash-delete.png">
+                </button>
+              </div> -->
+              <div class="announcement_top_des">
+
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <input class="input_appearance_none input_upload_btn" type="file" accept=".xlsx,.xls.,doc, .docx,.ppt, .pptx,.txt,.pdf" (change)="previewImage($event,'bankcheckImage')"/>
+                </div>
+                <!-- img / upload img -- end -->
+
+                <h4>Upload your bank related payment information for Approval from App Admin</h4>
+                <p>{{getFileName ? getFileName : bankImageName}}</p>
+                <!-- <p>(Maximum Size will be from 2-5MB )</p> -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="onboard_form_row describe_textarea editWeb_subSection">
+          <div class="block_sec_title_row">
+            <h4 class="block_sec_title green_text">Describe your payment process in brief</h4>
+          </div>
+          <div class="textArea_block editWebPage_row">
+            <textarea class="input_appearance_none editWeb_textArea" formControlName="paymentDescription"></textarea>
+            <!-- <div class="text_count_block">
+              123/500
+            </div> -->
+          </div>
+        </div>
+
+        <div class="onboard_form_row editWeb_subSection">
+          <div class="onboard_form_input ">
+            <div class="onboard_input_border">
+              <input class="input_appearance_none" type="text" placeholder="Please Make Check payable to" formControlName="authorityName">
+            </div>
+            <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                <!-- Phone number is required. -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row editWeb_subSection editWeb_subSection_4">
+          <div class="editWeb_sub_block editWeb_sub_block_big">
+            <div class="onboard_form_input ">
+              <div class="onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Other Payment platform name" formControlName="otherpaymentLink">
+              </div>
+              <div class="form_input_row_error" >
+                <div class="form_field_error_msg">
+                  <!-- Phone number is required. -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="editWeb_sub_block editWeb_sub_block_small">
+            <div class="link_icon">
+              <img class="link_icon_img" src="assets/images/link-icon.png">
+            </div>
+          </div>
+          <div class="editWeb_sub_block editWeb_sub_block_big">
+            <div class="onboard_form_input ">
+              <div class="onboard_input_border">
+                <!-- <input class="input_appearance_none" type="text" placeholder="Payment platform address/phone" formControlName="link"> -->
+                <input class="input_appearance_none" type="text" placeholder="Payment Link" formControlName="link">
+              </div>
+              <!-- <div class="form_input_row_error" >
+                <div class="form_input_row_error" *ngIf="(paymentForm.get('hasURL')?.errors?.['invalidEmail'] && (paymentForm.get('hasURL')?.dirty || paymentForm.get('hasURL')?.touched))">
+                  <div class="form_field_error_msg">
+                    Invalid payment link
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <!-- <div class="editWeb_sub_block editWeb_sub_block_small editWeb_sub_block_small_paste_btn">
+            <button class="button_appearance_none paste_btn" (click)="pasteData">
+              <img class="" src="assets/images/paste-icon.png">
+              Paste
+            </button>
+          </div> -->
+        </div>
+
+        <!-- <div class="onboard_form_row editWeb_subSection">
+          <div class="onboard_form_input form_checkbox textCenter">
+            <div class="form-group">
+              <input type="checkbox" id="checkbox_3" formControlName="isCheck" [checked]="confirmCheck()">
+              <label class="onboard_form_checkbox_label" for="checkbox_3">
+                I accept SangaRaahi Platform's <a href="javascript:void(0)" (click)="showTerms()">Terms of Use</a> & <a href="javascript:void(0)" (click)="showPrivacy()">privacy policy</a>
+              </label>
+            </div>
+            <div class="form_input_row_error " *ngIf="(paymentForm.get('isCheck')?.errors?.['InvalidValue'] && (paymentForm.get('isCheck')?.dirty || paymentForm.get('isCheck')?.touched))">
+              <div class="form_field_error_msg">
+                 Please read the Terms Of Use & Privacy Policy and tick on the checkbox.
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+    </form>
+     <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+     <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+      <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_gray" type="submit" (click)="save('previous')"  *ngIf="!confirmCheck()">Save Settings & Previous</button> -->
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_gray" type="submit" (click)="save('previous')">Save Settings & Previous</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button"  (click)="save('')">Save Settings</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+      <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="save('next')"   *ngIf="!confirmCheck()">Save Settings & Next</button> -->
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit"  (click)="showTerms()" >Save Settings & Next</button>
+    </div>
+    <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    <!--Open QRCode Modal-->
+    <div class="modal fade custom_modal" id="QRDetails">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">QR Code</h5>
+          </div>
+          <div class="modal-body">
+            <div class="modal_qr_block">
+              <img src="{{QRImage ? QRImage : ''}}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Close QRCode Modal-->
+
+    <!------OpenModal For Terms & Condition------>
+    <div class="modal fade custom_modal" id="termsModal">
+      <div class="modal-dialog">
+        <div class="modal-content modal_cont_height">
+          <div class="modal-header">
+            <h5 class="modal-title">TERMS OF SERVICE AGREEMENT</h5>
+          </div>
+          <div class="modal-body modal_body_scroll">
+            <div class="modal_cont_scroll modal_cont_scroll_plus">
+
+
+              <p><b>P</b>lease read the following terms of service agreement carefully. By accessing or using our app, sites and our services, you hereby agree to be bound by the terms
+                and all terms incorporated herein by reference. It is the responsibility of you, the user, or prospective user to read the terms and conditions before proceeding
+                to use this site. If you do not expressly agree to all of the terms and conditions, then please do not install our app, or access or use our sites or our services.
+                This Terms of Service Agreement is effective as of <b>December 2022.</b></p>
+                <p><b>ACCEPTANCE OF TERMS</b></p>
+                <p>
+                  <b>T</b>he following Terms of Service Agreement (the "TOS") is a legally binding agreement that shall govern the relationship with our users and others which may
+                  interact or interface with SangaRaahi also known as SangaRaahi LLC located at Chapel Hill, NC, USA, and our subsidiaries and affiliates, in association with
+                  the use of the SangaRaahi app and website (the “App”, the "Site", or “SangaRaahi”), and its Services, which shall be defined below.
+                </p>
+                <p><b>DESCRIPTION OF WEBSITE AND APP SERVICES OFFERED</b></p>
+                <p><b>T</b>he App and Site is named SangaRaahi. Any and all users of the App, and visitors to our Site shall be deemed as "Users" of the herein contained Services provided for the purpose of this TOS.
+
+                  The user acknowledges and agrees that the Services provided and made available through our website and applications, which may include some mobile applications and that those applications may be made
+                  available on various social media networking sites and numerous other platforms and downloadable programs, are the sole property of SangaRaahi. At its discretion, SangaRaahi may offer additional website Services
+                  and/or products, or update, modify or revise any current content and Services, and this Agreement shall apply to any and all additional Services and/or products and any and all updated, modified or revised Services
+                  unless otherwise stipulated. SangaRaahi does hereby reserve the right to cancel and cease offering any of the aforementioned Services and/or products. You, as the end user acknowledge, accept and agree that SangaRaahi
+                  shall not be held liable for any such updates, modifications, revisions, suspensions or discontinuance of any of our Services and/or products. Your continued use of the Services provided, after such posting of any updates, changes,
+                  and/or modifications shall constitute your acceptance of such updates, changes and/or modifications, and as such, frequent review of this Agreement and any and all applicable terms and policies should be made by you to
+                  ensure you are aware of all terms and policies currently in effect. Should you not agree to the updated, revised or modified terms, you must stop using the provided Services forthwith.
+
+                  Furthermore, the user understands, acknowledges and agrees that the Services offered shall be provided "AS IS" and as such SangaRaahi shall not assume any responsibility or obligation for the timeliness, missed delivery, deletion and/or
+                  any failure to store user content, communication or personalization settings.
+                  </p>
+                  <p><b>CAUTIONS FOR GLOBAL USE AND EXPORT AND IMPORT COMPLIANCE</b></p>
+                  <p><b>D</b>ue to the global nature of the internet, through the use of our network you hereby agree to comply with all local rules relating to online conduct and that which is
+                    considered acceptable Content. Uploading, posting and/or transferring of software, technology and other technical data may be subject to the export and import laws of
+                    the United States and possibly other countries. Through the use of our network, you thus agree to comply with all applicable export and import laws, statutes and regulations, including, but not limited to, the Export Administration Regulations
+                    (http://www.access.gpo.gov/bis/ear/ear_data.html), as well as the sanctions control program of the United States (http://www.treasury.gov/resource-center/sanctions/Programs/Pages/Programs.aspx). Furthermore, you state and pledge that you:
+                  </p>
+                  <ul class="default_ul">
+                    <li>are not on the list of prohibited individuals which may be identified on any government export exclusion report (http://www.bis.doc.gov/complianceandenforcement/liststocheck.htm) nor a member of any other government which may be part of an export-prohibited
+                      country identified in applicable export and import laws and regulations;</li>
+                    <li>agree not to transfer any software, technology or any other technical data through the use of our network Services to any export-prohibited country; </li>
+                    <li>agree not to use our website network Services for any military, nuclear, missile, chemical or biological weaponry end uses that would be a violation of the U.S. export laws; and</li>
+                    <li>agree not to post, transfer nor upload any software, technology or any other technical data which would be in violation of the U.S. or other applicable export and/or import laws.</li>
+                  </ul>
+                  <p>CONTENT PLACED OR MADE AVAILABLE FOR COMPANY SERVICES </p>
+                  <p><b>S</b>angaRaahi shall not lay claim to ownership of any content submitted by any visitor or user, nor make such content available for inclusion on our website Services. Therefore, you hereby grant and allow for SangaRaahi the below listed worldwide,
+                    royalty-free and non-exclusive licenses, as applicable:</p>
+                  <ul class="default_ul">
+                    <li>The content submitted or made available for inclusion on the publicly accessible areas of SangaRaahi's sites, the license provided to permit to use, distribute, reproduce, modify, adapt, publicly perform and/or publicly display said Content on our network Services
+                      is for the sole purpose of providing and promoting the specific area to which this content was placed and/or made available for viewing.
+                      This license shall be available so long as you are a member of SangaRaahi's sites, and shall terminate at such time when you elect to discontinue your membership.</li>
+                    <li>Photos, audio, video and/or graphics submitted or made available for inclusion on the publicly accessible areas of SangaRaahi's sites, the license provided to permit
+                      to use, distribute, reproduce, modify, adapt, publicly perform and/or publicly display said Content on our network Services are for the sole purpose of providing and
+                       promoting the specific area in which this content was placed and/or made available for viewing. This license shall be available so long as you are a member of SangaRaahi's sites
+                       and shall terminate at such time when you elect to discontinue your membership.</li>
+                    <li>For any other content submitted or made available for inclusion on the publicly accessible areas of SangaRaahi's sites, the continuous, binding and completely sub-licensable license which is
+                       meant to permit to use, distribute, reproduce, modify, adapt, publish, translate, publicly perform and/or publicly display said content, whether in whole or in part, and the incorporation of
+                       any such Content into other works in any arrangement or medium current used or later developed.</li>
+                  </ul>
+                  <p>Those areas which may be deemed "publicly accessible" areas of SangaRaahi’s sites are those such areas of our network properties which are meant to be available to the general public, and which would
+                    include message boards and groups that are openly available to users.</p>
+                  <p><b>CONTRIBUTIONS TO COMPANY WEBSITE</b></p>
+                  <p><b>S</b>angaRaahi provides an area for our users to contribute feedback to our website. When you submit ideas, documents, suggestions and/or proposals
+                    ("Contributions") to our site, you acknowledge and agree that: </p>
+
+                  <ul class="default_ul">
+                    <li>your contributions do not contain any type of confidential or proprietary information;</li>
+                    <li>SangaRaahi shall not be liable or under any obligation to ensure or maintain confidentiality, expressed or implied, related to any Contributions; </li>
+                    <li>SangaRaahi shall be entitled to make use of and/or disclose any such Contributions in any such manner as they may see fit; </li>
+                    <li>The User’s Contributions shall remain the property of User, with a non-exclusive license granted to SangaRaahi to use these Contributions on the App and Site.</li>
+                    <li>SangaRaahi is under no obligation to either compensate or provide any form of reimbursement in any manner or nature.</li>
+                  </ul>
+
+                  <p><b>INDEMNITY </b></p>
+                  <p><b>A</b>ll users herein agree to insure and hold SangaRaahi, our subsidiaries, affiliates, agents, employees, officers, partners and/or licensors blameless or not liable for any claim or demand, which may include, but is not limited to,
+                     reasonable attorney fees made by any third party which may arise from any content a user of our site may submit, post, modify, transmit or otherwise
+                     make available through our Services, the use of  SangaRaahi Services or your connection with these Services, your violations of the Terms of Service and/or your violation of any such rights of another person. </p>
+
+                  <p><b>COMMERCIAL REUSE OF SERVICES </b></p>
+                  <p>The user herein agrees not to replicate, duplicate, copy, trade, sell, resell nor exploit for any commercial reason any part, use of,
+                    or access to SangaRaahi's app and sites.</p>
+
+                  <p><b>MODIFICATIONS </b></p>
+                  <p><b>S</b>angaRaahi shall reserve the right at any time it may deem fit, to modify, alter and or discontinue, whether temporarily or permanently, our service, or any part thereof, with or without prior notice. In addition, we shall
+                    not be held liable to you or to any third party for any such alteration, modification, suspension and/or discontinuance of our Services, or any part thereof.</p>
+
+                  <p><b>ADVERTISERS</b></p>
+                  <p><b>A</b>ny correspondence or business dealings with, or the participation in any promotions of, advertisers located on or through our
+                    Services, which may include the payment and/or delivery of such related goods and/or Services, and any such other term, condition,
+                    warranty and/or representation associated with such dealings, are and shall be solely between you and any such advertiser. Moreover,
+                     you herein agree that SangaRaahi shall not be held responsible or liable for any loss or damage of any nature or manner incurred as a direct result of any such dealings or as a result of the presence of such advertisers on our website.</p>
+
+                  <p><b>LINKS </b></p>
+                  <p><b>E</b>ither SangaRaahi or any third parties may provide links to other websites and/or resources. Thus, you acknowledge and agree that we are not responsible for the availability of any such external sites or resources, and as such, we do not endorse nor are we responsible or liable for any content, products, advertising or any other materials, on or available from such third-party sites or resources. Furthermore, you acknowledge and agree that SangaRaahi shall not be responsible or liable, directly or indirectly, for any such damage or loss which may be a result of, caused or allegedly to be caused by or in connection with the use of or the reliance on any such content, goods or Services made available on or through any such site or resource.</p>
+
+                  <p><b>PROPRIETARY RIGHTS </b></p>
+                  <p><b>Y</b>ou do hereby acknowledge and agree that SangaRaahi's Services and any essential software that may be used in connection with our Services ("Software") shall contain proprietary and confidential material that is protected by applicable intellectual property rights and other laws. Furthermore, you herein acknowledge and agree that any Content which may be contained in any advertisements or information presented by and through our Services or by advertisers is protected by copyrights, trademarks, patents or other proprietary rights and laws. Therefore, except for that which is expressly permitted by applicable law or as authorized by SangaRaahi or such applicable licensor, you agree not to alter, modify, lease, rent, loan, sell, distribute, transmit, broadcast, publicly perform and/or created any plagiaristic works which are based on SangaRaahi Services (e.g., Content or Software), in whole or part.</p>
+                  <p>SangaRaahi herein has granted you personal, non-transferable and non-exclusive rights and/or license to make use of the object code or our Software on a single computer, phone or device, as long as you do not, and shall not, allow any third party to duplicate, alter, modify, create or plagiarize work from, reverse engineer, reverse assemble or otherwise make an attempt to locate or discern any source code, sell, assign, sublicense, grant a security interest in and/or otherwise transfer any such right in the Software. Furthermore, you do herein agree not to alter or change the Software in any manner, nature or form, and as such, not to use any modified versions of the Software, including and without limitation, for the purpose of obtaining unauthorized access to our Services. Lastly, you also agree not to access or attempt to access our Services through any means other than through the interface which is provided by SangaRaahi for use in accessing our Services.</p>
+
+                  <p><b>WARRANTY DISCLAIMERS </b></p>
+                  <p><b>Y</b>ou herein expressly acknowledge and agree that:</p>
+                  <ul class="default_ul">
+                    <li>The use of SangaRaahi services and software are at the sole risk by you. Our services and software shall be provided on an "as is" and/or "as available" basis. SangaRaahi and our subsidiaries, affiliates, officers, employees, agents, partners and licensors expressly disclaim any and all warranties of any kind whether expressed or implied, including, but not limited to any implied warranties of title, merchantability, fitness for a particular purpose and non-infringement.</li>
+                    <li>SangaRaahi and our subsidiaries, officers, employees, agents, partners and licensors make no such warranties that (i) SangaRaahi services or software will meet your requirements; (ii) SangaRaahi services or software shall be uninterrupted, timely, secure  or error-free; (iii) that such results which may be obtained from the use of the SangaRaahi services or software will be accurate or reliable; (iv) quality of any products, services, any information or other material which may be purchased or obtained by you through our services or software will meet your expectations; and (v) that any such errors contained in the software shall be corrected.</li>
+                    <li>Any information or material downloaded or otherwise obtained by way of SangaRaahi services or software shall be accessed by your sole discretion and sole risk, and as such you shall be solely responsible for and hereby waive any and all claims and causes of action with respect to any damage to your computer and/or internet access, downloading and/or displaying, or for any loss of data that could result from the download of any such information or material.</li>
+                    <li>No advice and/or information, despite whether written or oral, that may be obtained by you from SangaRaahi or by way of or from our services or software shall create any warranty not expressly stated in the TOS.</li>
+                    <li>A small percentage of some users may experience some degree of epileptic seizure when exposed to certain light patterns or backgrounds that may be contained on a computer screen or while using our services. Certain conditions may induce a previously unknown condition or undetected epileptic symptom in users who have shown no history of any prior seizure or epilepsy. Should you, anyone you know or anyone in your family have an epileptic condition, please consult a physician if you experience any of the following symptoms while using our services: dizziness, altered vision, eye or muscle twitches, loss of awareness, disorientation, any involuntary movement, or convulsions.</li>
+                  </ul>
+
+                  <p><b>LIMITATION OF LIABILITY </b></p>
+                  <p><b>Y</b>ou explicitly acknowledge, understand and agree that SangaRaahi and our subsidiaries, affiliates, officers, employees, agents, partners and licensors shall not be liable to you for any punitive, indirect, incidental, special, consequential or exemplary damages, including, but not limited to, damages which may be related to the loss of any profits, goodwill, use, data and/or other intangible losses, even though we may have been advised of such possibility that said damages may occur, and result from:</p>
+                  <ul class="default_ul">
+                    <li>The use or inability to use our service; </li>
+                    <li>The cost of procuring substitute goods and services;</li>
+                    <li>Unauthorized access to or the alteration of your transmissions and/or data; </li>
+                    <li>Statements or conduct of any such third party on our service; </li>
+                    <li>And any other matter which may be related to our service.</li>
+                  </ul>
+
+                  <p><b>RELEASE </b></p>
+                  <p><b>I</b>n the event you have a dispute, you agree to release SangaRaahi (and its officers, directors, employees, agents, parent subsidiaries, affiliates, co-branders, partners and any other third parties) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected or unsuspected, disclosed and undisclosed, arising out of or in any way connected to such dispute.</p>
+
+                  <p><b>SPECIAL ADMONITION RELATED TO FINANCIAL MATTERS </b></p>
+                  <p><b>S</b>hould you intend to create or to join any service, receive or request any such news, messages, alerts or other information from our Services concerning companies, stock quotes, investments or securities, please review the above Sections Warranty Disclaimers and Limitations of Liability again. In addition, for this particular type of information, the phrase "Let the investor beware" is appropriate. SangaRaahi's content is provided primarily for informational purposes, and no content that shall be provided or included in our Services is intended for trading or investing purposes. SangaRaahi and our licensors shall not be responsible or liable for the accuracy, usefulness or availability of any information transmitted and/or made available by way of our Services, and shall not be responsible or liable for any trading and/or investment decisions based on any such information.</p>
+
+                  <p><b>EXCLUSION AND LIMITATIONS </b></p>
+                  <p><b>T</b>here are some jurisdictions which do not allow the exclusion of certain warranties or the limitation of exclusion of liability for incidental or consequential damages. Therefore, some of the above limitations of sections warranty disclaimers and limitation of liability may not apply to you.</p>
+
+                  <p><b>THIRD PARTY BENEFICIARIES </b></p>
+                  <p><b>Y</b>ou herein acknowledge, understand and agree, unless otherwise expressly provided in this TOS, that there shall be no third-party beneficiaries to this agreement.</p>
+
+                  <p><b>NOTICE </b></p>
+                  <p><b>S</b>angaRaahi may furnish you with notices, including those with regards to any changes to the TOS, including but not limited to email, regular mail, MMS or SMS, text messaging, postings on our website Services, or other reasonable means currently known or any which may be herein after developed. Any such notices may not be received if you violate any aspects of the TOS by accessing our Services in an unauthorized manner. Your acceptance of this TOS constitutes your agreement that you are deemed to have received any and all notices that would have been delivered had you accessed our Services in an authorized manner. </p>
+
+                  <p><b>TRADEMARK INFORMATION </b></p>
+                  <p><b>Y</b>ou herein acknowledge, understand and agree that all of the SangaRaahi trademarks, copyright, trade name, service marks, and other SangaRaahi logos and any brand features, and/or product and service names are trademarks and as such, are and shall remain the property of SangaRaahi. You herein agree not to display and/or use in any manner the SangaRaahi logo or marks without obtaining SangaRaahi's prior written consent.</p>
+
+                  <p><b>COPYRIGHT OR INTELLECTUAL PROPERTY INFRINGEMENT CLAIMS NOTICE & PROCEDURES </b></p>
+                  <p><b>S</b>angaRaahi will always respect the intellectual property of others, and we ask that all of our users do the same. With regards to appropriate circumstances and at its sole discretion, SangaRaahi may disable and/or terminate the accounts of any user who violates our TOS and/or infringes the rights of others. If you feel that your work has been duplicated in such a way that would constitute copyright infringement, or if you believe your intellectual property rights have been otherwise violated, you should provide to us the following information:</p>
+                  <ul class="default_ul">
+                    <li>The electronic or the physical signature of the individual that is authorized on behalf of the owner of the copyright or other intellectual property interest;</li>
+                    <li>A description of the copyrighted work or other intellectual property that you believe has been infringed upon;</li>
+                    <li>A description of the location of the site which you allege has been infringing upon your work;</li>
+                    <li>Your physical address, telephone number, and email address;</li>
+                    <li>A statement, in which you state that the alleged and disputed use of your work is not authorized by the copyright owner, its agents or the law;</li>
+                    <li>And finally, a statement, made under penalty of perjury, that the aforementioned information in your notice is truthful and accurate, and that you are the copyright or intellectual property owner, representative or agent authorized to act on the copyright or intellectual property owner's behalf.</li>
+
+                  </ul>
+
+
+                  <p>The SangaRaahi Agent for notice of claims of copyright or other intellectual property infringement can be contacted as follows:</p>
+                  <p>
+
+                      <b>Mailing Address:</b><br>
+                      SangaRaahi LLC <br>
+                      Attn: Copyright Agent <br>
+                      216 Chesley Lane <br>
+                      Chapel Hill, NC 27514 <br>
+
+                      Telephone: <a href="tel:+1984291-922"> +1(984) 291-9229</a> <br>
+                      Email:	<a href="mailto:commnetapp@gmail.com"> commnetapp@gmail.com</a>
+
+                  </p>
+
+
+
+            </div>
+
+
+
+            <div class="checkbox_row modal_checkbox">
+              <input class="checkbox_input" type="checkbox" id="checkbox_3" (change)="isCheck($event)">
+              <label class="onboard_form_checkbox_label" for="checkbox_3">
+                I accept SangaRaahi Platform's <a href="javascript:void(0)" class="disabled">Terms of Use</a> & <a href="javascript:void(0)" (click)="showPrivacy()">privacy policy</a>
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeTermsModal()">Close</button>
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button" (click)="save('next')" [ngClass]="{'disabled': !disable}">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----EndModal For Terms & Condition------>
+    <!------OpenModal For Privacy Policy------>
+    <div class="modal fade custom_modal" id="privacyModal">
+      <div class="modal-dialog">
+        <div class="modal-content modal_cont_height">
+          <div class="modal-header">
+            <h5 class="modal-title"><b>SANGARAAHI MOBILE APP AND WEBSITE PRIVACY POLICY</b></h5>
+          </div>
+          <div class="modal-body modal_body_scroll">
+            <div class="modal_cont_scroll">
+              <p>
+                <b>S</b>angaRaahi LLC, a community organization administration app based out of Chapel Hill, North Carolina (“SangaRaahi”, “us”, “we” or “our”) respects your privacy and is committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect or that you may provide when you download, install, register with, access, or use our cloud hosted SangaRaahi app and website (“App” or “Application”) and our practices for collecting, using, maintaining, protecting and disclosing that information.
+              </p>
+              <p>
+                This policy applies only to information we collect in this App and in email, text, and other electronic communications sent through or in connection with this App. This policy does not apply to information that: (i) we collect offline or through any other means, including any other apps or websites, including websites you may access through this App; or (ii) you provide to or is collected by any third party (see “Third-Party Information Collection”). These third parties may have their own privacy policies, which you should read before providing information on or through them.
+              </p>
+              <p><b>CONSENT</b></p>
+              <p>
+                <b>P</b>lease read this policy carefully to understand our policies and practices regarding your information and how we will treat it. If you do not agree with our policies and practices, do not download, register with, or use this app. By downloading, registering with, or using this app, you agree to this privacy policy and SangaRaahi’s collection and sharing of your information according to the terms of this privacy policy. This policy may change from time to time (see “Changes to This Privacy Policy”). Your continued use of this app after we make changes is deemed to be acceptance of those changes, so please check the policy periodically for updates.
+              </p>
+              <p><b>CHANGES TO THIS PRIVACY POLICY</b></p>
+              <p>
+                <b>S</b>angaRaahi reserves the right, in its sole discretion, to update, change, modify, add or remove portions of this privacy policy from time to time. If we make material changes to how we treat our users’ personal information, we will post the new privacy policy on this page with a notice that the privacy policy has been updated. Any changes to this privacy policy will be in effect as of the “Last Modified” or “Version” date referenced in this privacy policy. You are expected to, and you acknowledge and agree that it is your responsibility to, carefully review this privacy policy prior to using this App and from time to time so you are aware of any changes.
+              </p>
+              <p><b>CHILDREN UNDER THE AGE OF 13</b></p>
+              <p>
+                <b>T</b>he App is not intended for children under 13 years of age, and we do not knowingly collect personal information from children under 13. If you are under 13, do not use or provide any information on this App or provide any information about yourself to us, including your name, telephone number, email address or any screen name or user name you may use. If we learn we have collected or received personal information from a child under 13 without verification of parental consent, we will delete that information. If you believe we might have any information from or about a child under 13, please contact us at commnetapp@gmail.com.
+                Parents may, at their discretion, enter details of their own families, including children. If you are such a parent, you are responsible for the information which you provide to the App. Such information will be visible to many other users of the App.
+              </p>
+              <p><b>COLLECTION OF YOUR INFORMATION</b></p>
+              <p>
+                <b>W</b>e may collect information about you in a variety of ways. The information we may collect via the Application depends on the content and materials you use, and includes:
+              </p>
+              <p><b>Personal Data</b></p>
+              <p>
+                <b>D</b>emographic and other personally identifiable information (such as your name, phone number and email address) that you voluntarily give to us when choosing to participate in various activities related to the Application, including but not limited to membership in community organizations, creating and participating in events chat, posting messages in comment sections or in our forums, liking posts, sending feedback, and responding to surveys. If you choose to share data about yourself via your profile, online chat, or other interactive areas of the Application, please be advised that all data you disclose in these areas is effectively public and your data may be accessible to anyone who accesses the Application. Specifically, it will be accessible by all other members of the community organizations you choose to join.
+              </p>
+              <p><b>Derivative Data</b></p>
+              <p>
+                <b>I</b>nformation our servers automatically collect when you access the Application, such as your native actions that are integral to the Application, including liking, re-blogging, or replying to a post, as well as other interactions with the Application and other users via server log files.
+              </p>
+              <p><b>Financial Data</b></p>
+              <p>
+                <b>O</b>rdinary users do not have to pay to use this App. If you create an organization and have to pay for your members to use this App, then your payment records may be stored on this App. Financial information, such as data related to your payment method is not stored for this App.
+                If you are a member of an organization which collects payments for events and other purposes, that organization may choose to enter these records on the App for transparency to its members. Such organization accounting information will be visible to other users. If you do not wish that organization to share such information, please contact the relevant organization.
+              </p>
+              <p><b>Data from Social Networks</b></p>
+              <p>
+                <b>W</b>e do not automatically link your data to other social networks or store such information unless you choose to share it in your profile for other users to see. User information from social networking sites, such as [Apple’s Game Center, Facebook, Instagram, Pinterest, Twitter and other similar sites/apps], including your name, your social network username, location, gender, birth date, email address, profile picture, and public data for contacts, if you connect your account to such social networks. This information may also include the contact information of anyone you invite to use and/or join the Application.
+              </p>
+              <p><b>Geo-Location Information</b></p>
+              <p>
+                <b>W</b>e may request access or permission to and track location-based information from your mobile device, either continuously or while you are using the Application, to provide location-based services. If you wish to change our access or permissions, you may do so in your device’s settings.
+              </p>
+              <p><b>Mobile Device Access</b></p>
+              <p>
+                <b>W</b>e may request access or permission to certain features from your mobile device, including your mobile device’s storage. If you wish to change our access or permissions, you may do so in your device’s settings.
+              </p>
+              <p><b>Mobile Device Data</b></p>
+              <p>
+                <b>W</b>e may request device information such as your mobile device ID number, model, and manufacturer, version of your operating system, phone number, country, location, and any other data you choose to provide.
+              </p>
+              <p><b>Push Notifications</b></p>
+              <p>
+                <b>W</b>e may request to send you push notifications regarding your account or the Application. If you wish to opt-out from receiving these types of communications, you may turn them off in your device’s settings.
+              </p>
+              <p><b>Third-Party Data</b></p>
+              <p>
+                <b>W</b>e do not currently connect with any third parties to which you can grant access to your account. However, we use commercial cloud services to host the App’s data and services.
+              </p>
+              <p><b>Data from Surveys</b></p>
+              <p>
+                <b>Y</b>our responses to surveys created by organizations and groups to which you belong, as well as the App will be retained. The visibility of your individual responses (to other users of the App) is determined by the authorized organization members who create the survey, and will be mentioned before you respond to the survey. Your App survey responses will not be visible to other users.
+              </p>
+              <p><b>INFORMATION WE COLLECT AND HOW WE COLLECT IT</b></p>
+              <p>
+                <b>W</b>e collect information from and about users of our App directly from you when you provide it to us and automatically when you use the App.
+              </p>
+              <p><b>Information You Provide to Us</b></p>
+              <p>
+                <b>W</b>hen you download, register with, or use this App, we may ask you to provide information by which you may be personally identified, such as name, postal address, email address, telephone number, or any other identifier by which you may be contacted online or offline (“personal information”). We may also collect information that is about you but individually does not identify you, including, but not limited to:
+              </p>
+              <ul class="default_ul">
+                <li>Information that you provide by using the App. This includes information provided at the time of registering to use the App, subscribing to our service, and requesting further services. We may also ask you for information when you report a problem with the App.</li>
+                <li>Records and copies of your correspondence (including email addresses and phone numbers) if you contact us.</li>
+                <li>Your responses to surveys that we might ask you to complete for research purposes.</li>
+                <li>Details of transactions you carry out through the App and of the fulfillment of your requests.</li>
+                <li>You may be required to provide financial information before placing a request through the App.</li>
+                <li>Your search queries on the App.</li>
+              </ul>
+              <p>You may provide information to be published or displayed (“Posted”) on public areas of websites you access through the App (collectively, “User Contributions”). Your User Contributions are Posted and transmitted to others at your own risk. Although we limit access to certain parts of the App, please be aware that no security measures are perfect or impenetrable. Additionally, we cannot control the actions of third parties with whom you may choose to share your User Contributions. Therefore, we cannot and do not guarantee that your User Contributions will not be viewed by unauthorized persons.</p>
+              <p><b>AUTOMATIC INFORMATION COLLECTION AND TRACKING</b></p>
+              <p>
+                <b>W</b>hen you download, access, and use the App, it may use technology to automatically collect:
+              </p>
+              <ul class="default_ul">
+                <li>Usage Details. When you access and use the App, we may automatically collect certain details of your access to and use of the App, including traffic data, location data, logs, and other communication data and the resources that you access and use on or through the App.</li>
+                <li>Device Information. We may collect information about your mobile device and internet connection, including the device’s unique device identifier, IP address, operating system, browser type, mobile network information, and the device’s telephone number.</li>
+                <li>Stored Information and Files. The App also may access metadata and other information associated with other files stored on your device. This may include, for example, photographs, audio and video clips, personal contacts, and address book information.</li>
+              </ul>
+              <p>If you do not want us to collect this information do not download the App, or delete it from your device. For more information, see “Your Choices About Our Collection, Use, and Disclosure of Your Information.” The information we collect automatically is statistical data and does not include personal information, and we do not maintain it or associate it with personal information we collect in other ways or receive from third parties.</p>
+              <p><b>THIRD-PARTY INFORMATION COLLECTION</b></p>
+              <p><b>W</b>hen you use the App or its content, certain third parties may use automatic information collection technologies to collect information about you or your device. These third parties may include:</p>
+              <ul class="default_ul">
+                <li>Advertisers, ad networks, and ad servers.</li>
+                <li>Analytics companies.</li>
+                <li>Your mobile device manufacturer.</li>
+                <li>Your mobile service provider.</li>
+              </ul>
+              <p>These third parties may use tracking technologies to collect information about you when you use this app. The information they collect may be associated with your personal information or they may collect information, including personal information, about your online activities over time and across different websites, apps, and other online services websites. They may use this information to provide you with interest-based (behavioral) advertising or other targeted content.</p>
+              <p>We do not control these third parties’ tracking technologies or how they may be used. If you have any questions about an advertisement or other targeted content, you should contact the responsible provider directly. For information about how you can opt out of receiving targeted advertising from many providers, see “Your Choices About Our Collection, Use, and Disclosure of Your Information” in this privacy policy.</p>
+              <p><b>HOW WE USE YOUR INFORMATION</b></p>
+              <p><b>W</b>e use information that we collect about you or that you provide to us, including any personal information, to:</p>
+              <ul>
+                <li>Provide you with the App and its contents, and any other information, products or services that you request from us.
+                  Fulfill any other purpose for which you provide it.</li>
+                <li>Give organization owners notices about your account, including expiration and renewal notices.</li>
+                <li>Carry out our obligations and enforce our rights arising from any contracts entered into between organization owners and us, including for billing and collection.</li>
+                <li>Notify you when App updates are available, and of changes to any products or services we offer or provide though it.</li>
+              </ul>
+              <p>The usage information we collect helps us to improve our App and to deliver a better and more personalized experience by enabling us to:</p>
+              <ul>
+                <li>Estimate our audience size and usage patterns.</li>
+                <li> Store information about your preferences, allowing us to customize our App according to your individual interests.</li>
+                <li>Speed up your searches.</li>
+                <li>Recognize you when you use the App.</li>
+              </ul>
+              <p><b>DISCLOSURE OF YOUR INFORMATION</b></p>
+              <p><b>W</b>e may disclose aggregated information about our users, and information that does not identify any individual or device, without restriction. In addition, we may disclose personal information that we collect or you provide:</p>
+                <ul class="default_ul">
+                  <li>To our subsidiaries and affiliates.</li>
+                  <li>To contractors, service providers, and other third parties we use to support our business and who are bound by contractual obligations to keep personal information confidential and use it only for the purposes for which we disclose it to them.</li>
+                  <li>To a buyer or other successor in the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of SangaRaahi’s assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which personal information held by SangaRaahi about our App users is among the assets transferred.</li>
+                  <li>To fulfill the purpose for which you provide it.</li>
+                  <li>For any other purpose disclosed by us when you provide the information.</li>
+                  <li>With your consent.</li>
+                  <li>To comply with any court order, law, or legal process, including to respond to any government or regulatory request.</li>
+                  <li>To enforce our rights arising from any contracts entered into between you and us, including the App EULA, and for billing and collection.</li>
+                  <li>If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of SangaRaahi, our customers or others. This includes exchanging information with other companies and organizations for the purposes of fraud protection and credit risk reduction.</li>
+                </ul>
+              <p><b>YOUR CHOICES ABOUT OUR COLLECTION, USE, AND DISCLOSURE OF YOUR INFORMATION</b></p>
+              <p><b>W</b>e strive to provide you with choices regarding the personal information you provide to us. This section describes mechanisms we provide for you to control certain uses and disclosures of your information.</p>
+                <ul>
+                  <li>Disclosure of Your Information for Third-Party Advertising and Marketing. SangaRaahi does not share your personal information with any third parties for promotional purposes.</li>
+                  <li>Cloud Analytics. SangaRaahi does use Cloud service provider analytics tools to track App usage and for crash reporting.</li>
+                </ul>
+              <p>While we do not share your personal information with any third parties for promotional purposes, your device may have other setting which allow them to track your usage on the App. We do not control third parties’ collection or use of your information to serve interest-based advertising. However, these third parties may provide you with ways to choose not to have your information collected or used in this way. You can opt out of receiving targeted ads from members of the Network Advertising Initiative (“NAI”) on the NAI’s website.</p>
+              <p><b>DATA SECURITY</b></p>
+              <p><b>W</b>e have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. All information you provide to us is stored on our secure servers behind firewalls. Any payment transactions and other information will be encrypted using commercial technology. Your personal information is password protected and restricted within our organization to employees and trusted partners that need access to your personal information in order to correspond with you and provide the products and/or services that you requested from us. The safety and security of your information also depends on you. Where we have given you (or where you have chosen) a password for access to certain parts of our App, you are responsible for keeping this password confidential. Do not share your password with anyone. Unfortunately, the transmission of information via the internet and mobile platforms is not completely secure. Although we do our best to protect your personal information, we cannot guarantee the security of your personal information transmitted through our App. Any transmission of personal information is at your own risk. We are not responsible for circumvention of any privacy settings or security measures we provide.</p>
+              <p><b>LINKED APPS AND WEBSITES</b></p>
+              <p><b>T</b>his privacy policy is applicable only to the App and does not apply to any third-party apps or websites. The App may contain links to, and media and other content from, other apps and websites. In addition, such third-party media and content may also contain external links. Because of the dynamic media capabilities of the App, it may not be clear to you which links are embedded in the App and which are embedded in third-party media and/or content. SangaRaahi cannot and does not guarantee the privacy policies and practices of any third party. SangaRaahi does not control, operate, or endorse any information, products, or services of any third-party apps or websites that may be reached through links from the App. SangaRaahi is providing these links only as a convenience to you. The use of any personal information provided by you to, or automatically collected from, a third party will be governed by that party's privacy policies. If you are unsure whether an app or website is controlled, affiliated, or managed by SangaRaahi, you should review the privacy policies at each linked app or website to determine how that site treats your personal information.</p>
+              <p><b>ACCESSING AND CORRECTING YOUR PERSONAL INFORMATION</b></p>
+              <p><b>Y</b>ou can review and change your personal information by logging into the App and visiting your account profile page. If you have any questions about personal information that may be retained by SangaRaahi, you may also contact us at commnetapp@gmail.com. Upon your request, SangaRaahi will provide to you the personal information under its control, if any, as well as information about the ways in which that information is being used and disclosed. SangaRaahi will use commercially reasonable efforts to ensure that personal information we may be using or disclosing is accurate and complete. If you demonstrate that your information is inaccurate or incomplete, the information will be amended as appropriate. We will use commercially reasonable efforts to respond to any request and update your personal information, if necessary. We cannot delete your personal information except by also deleting your user account. We may not accommodate a request to change information if we believe the change would violate any law or legal requirement or cause the information to be incorrect.</p>
+              <p><b>YOUR CALIFORNIA PRIVACY RAGHTS</b></p>
+              <p><b>C</b>alifornia Civil Code Section 1798.83 permits users of our App that are California residents to request certain information regarding our disclosure of personal information to third parties for their direct marketing purposes. To make such a request, please contact us at commnetapp@gmail.com. Please note, however, that SangaRaahi does not disclose personal information to third parties for their direct marketing purposes.</p>
+              <p><b>GOVERNING LAW</b></p>
+              <p><b>T</b>his privacy policy and any disputes related thereto shall be governed by and construed in accordance with the laws of the State of North Carolina, exclusive of its choice of law rules.</p>
+              <p><b>CONTACT INFORMATION</b></p>
+              <p><b>T</b>o ask questions or comment about this privacy policy and SangaRaahi’s privacy practices, contact us at commnetapp@gmail.com.</p>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closePrivacyModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!----EndModal For Privacy Policy------>
+  <!-- ===  Edit Web-Page /  -- end === -->

@@ -1,0 +1,342 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Events List - {{getCommunityName}}</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()" >
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <a href="javascript:void(0)" class="pinkbtnsmall" [routerLink]="['/events/add']" *ngIf="getEventDetails.canCreate">Create Event</a>
+      <a href="javascript:void(0)" class="pinkbtnsmall" (click)="events()">Export</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()" >Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec"  *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <!-- <input class="input_appearance_none filter_input" type="text" placeholder="Search by Event Name" formControlName="search" (keyup)="getEventList(communityId, current)" (keypress)="restrictSpecialCharacter($event)" > -->
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Event Name" formControlName="search" (keyup)="getEventList(communityId, current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getEventList(communityId, current)" >Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()" >Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getEventList(communityId, current)" >
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="past">Past</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            <!-- </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" (change)="sortData($event)">
+                      <option value="" disabled selected hidden>Sort</option>
+                      <option value="date" >Sort by date</option>
+                      <option value="name">Sort by event name</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            <!-- </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select" *ngIf="sortDate">
+                    <select class="input_appearance_none filter_input" formControlName="sortByDate" (change)="getEventList(communityId, current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascDate" >Ascending order</option>
+                      <option value="descDate">Descending order</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select" *ngIf="sortName">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getEventList(communityId, current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+
+    <!-- list page -- counter block section -- start  -->
+    <div class="listPage_countBlock_sec">
+      <div class="listPage_countBlock_bg">
+        <div class="countblock">
+          <h4><span>{{getCurrency}} {{getCountData.totalPayment}}</span></h4>
+          <p>Total Payment</p>
+       </div>
+        <!-- <div class="countblock">
+          <h4><span>0</span></h4>
+          <p>Amount Refunded</p>
+        </div> -->
+        <div class="countblock">
+          <h4><span>{{getCountData.paidEvents}}</span></h4>
+          <p>Paid Events</p>
+        </div>
+        <div class="countblock">
+          <h4><span>{{getCountData.freeEvents}}</span></h4>
+          <p>Free Events</p>
+        </div>
+      </div>
+    </div>
+    <!-- list page -- counter block section -- end  -->
+
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Event Name</th>
+                  <th>Event Image</th>
+                  <th>Invitation Type</th>
+                  <th>Created By</th>
+                  <th>Event Creation Date</th>
+                  <th>Event Type</th>
+                  <th>Event Status</th>
+                  <th>Payment Status</th>
+                  <th>Reminder Settings</th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of evetList, let i = index" [ngClass]="{'disabled': item.isCancelled === true}">
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                      {{'EV100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                      {{'EV10'+(current*10-(9-i))}}
+                    </td>
+
+                    <!-- <td>{{(current*limit)-((limit-1)-i)}}</td> -->
+                    <td class="td_readMore_bg">
+                      <p>
+                        {{item.title | truncate: 20}}
+                      </p>
+                      <div class="td_readMore_block textRight" *ngIf="item.title && item.title.length > 20">
+                        <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="td_img_squre_block">
+                        <img [src]="item.image ? item.image : 'assets/images/no-image-found-3.png' " />
+                      </div>
+                    </td>
+                    <td>
+                      {{item.invitationType}}
+                    </td>
+                    <td>
+                      {{item.hostId}}
+                    </td>
+                    <td>
+                      {{item.createdAt | date:'dd/MM/YYYY'}}
+                    </td>
+                    <td>
+                      <button class="button_appearance_none td_status_btn pointer_event_none td_active_btn" title="Recurring Event" *ngIf="item.recurringEvent">Recurring Event</button>
+                      <button class="button_appearance_none td_status_btn pointer_event_none td_inactive_btn" title="No Recurring Event" *ngIf="!item.recurringEvent">No Recurring Event</button>
+                    </td>
+                    <td>
+                      <!-- <button class="button_appearance_none td_status_btn " [ngClass]="item.isActive ? 'td_active_btn': 'td_inactive_btn'"  (click)="changeStatus(item.id,i)" >{{item.isActive ? 'Active' : 'Inactive'}}</button> -->
+                      <button class="button_appearance_none td_status_btn td_active_btn" title="Active" (click)="changeStatus(item.id,i)" *ngIf="item.isActive === 'active' && item.isCancelled === false ">Active</button>
+                      <button class="button_appearance_none td_status_btn td_inactive_btn" title="Inactive" (click)="changeStatus(item.id,i)" *ngIf="item.isActive === 'inactive' && item.isCancelled === false">Inactive</button>
+                      <button class="button_appearance_none td_status_btn td_inactive_btn" title="Cancelled"  *ngIf="item.isCancelled === true">Cancelled</button>
+                      <button class="button_appearance_none td_status_btn td_new_btn" title="Past" *ngIf="item.isActive === 'past'" [ngClass]="{'disabled': item.isActive === 'past'}">Past</button>
+                    </td>
+                    <td>
+                      <!-- <button class="button_appearance_none td_status_btn td_new_btn" [routerLink]="['payment-history-list/'+item.id]">Check Payment History</button> -->
+                      <button class="button_appearance_none td_status_btn td_new_btn" title="Check Payment History" (click)="paymentWiseEvent(item.id)" [ngClass]="{'disabled': item.recurringEvent === true}">Check Payment History</button>
+                    </td>
+                    <td class="">
+                      <!-- <div class="d_flex flex_center">
+                        <button class="button_appearance_none active_item_td_btn td_btn_orange" title="Settings" [ngClass]="{'disabled': item.isActive === 'past'}" (click)="frequencySettings(item.id)" *ngIf="getEventDetails.canFrequency">
+                          <i class="fa fa-wrench" aria-hidden="true"></i>
+                        </button>
+                      </div> -->
+                      <div class="d_flex flex_center">
+                        <button class="button_appearance_none active_item_td_btn td_btn_orange" title="Settings" [ngClass]="{'disabled': item.isActive === 'past'}" (click)="showFrequencyModal(item.id)" *ngIf="getEventDetails.canFrequency">
+                          <i class="fa fa-wrench" aria-hidden="true"></i>
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="Event Reminder Logs" [routerLink]="['cron-list/'+item.id]">
+                          <!-- <img src="assets/images/active_item_btn_02.png" /> -->
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="active_item_td">
+                        <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editEvent(item.id, item.isActive)" [ngClass]="{'disabled': item.isActive === 'past'}" *ngIf="getEventDetails.canEdit">
+                          <!-- <img src="assets/images/active_item_btn_01.png" [routerLink]="['edit/'+item.id]" /> -->
+                          <img src="assets/images/active_item_btn_01.png" />
+                        </button>
+
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="View"  (click)="displayEventDetail(item.id)" *ngIf="getEventDetails.canView">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+
+                        <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteEvent(item.id,i)" [ngClass]="{'disabled': item.isCancelled === true || item.isActive === 'past' || item.recurringEvent === true}" *ngIf="getEventDetails.canDelete">
+                          <img src="assets/images/active_item_btn_04.png">
+                        </button>
+                      </div>
+                    </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr *ngIf="!evetList.length">
+                  <td colspan="11">No Data Found</td>
+                </tr>
+              </tfoot>
+          </table>
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <!-- <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+            <div class="pagination">
+              <a href="#">&laquo;</a>
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">&raquo;</a>
+            </div>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing 1 - 25</p>
+        </div>
+      </div> -->
+
+      <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit"><app-pagination
+            [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+
+
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+</div>
+
+
+<div class="modal fade custom_modal" id="displayEvent">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <app-view [eventId]="eventId" ></app-view>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="eventNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+              {{getEventName ? getEventName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal taskId_modal" id="frquencyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reminder Settings</h5>
+      </div>
+      <div class="modal-body border_b_w">
+        <div class="modal_body_block">
+          <h6 class=" textCenter">Set Reminder Settings:</h6>
+        </div>
+        <div class="modal_footer_btn modal_footer_btn_multiple">
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_small onboard_form_btn_green" (click)="frequencySettings(getEventId,'yes')">Yes</button>
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_small onboard_form_btn_pink" (click)="frequencySettings(getEventId,'tentative')">Tentative</button>
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_small onboard_form_btn_whitegray" (click)="frequencySettings(getEventId,'not-attending')">No</button>
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_small onboard_form_btn_lightskyblue" (click)="frequencySettings(getEventId,'no')">No Reply</button>
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_small onboard_form_btn_black" (click)="frequencySettings(getEventId,'all')">All</button>
+        </div>
+
+      </div>
+      <div class="modal_footer_btn" >
+        <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_orange" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

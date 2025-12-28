@@ -1,0 +1,72 @@
+
+
+
+      <div class="modal-header">
+        <h5 class="modal-title">Event Details</h5>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal_body_blockBg">
+          <div class="modalBody_row">
+            <p class="textJustify">
+              <strong>Event Name : &nbsp; </strong> {{eventData?.title}}
+            </p>
+          </div>
+          <div class="modalBody_row">
+            <p>
+              <strong>Event Type : &nbsp; </strong> {{eventData?.type}}
+            </p>
+          </div>
+          <div class="modalBody_row">
+            <p class="textJustify" >
+              <strong>Event Description : &nbsp; </strong>   <span [innerHTML]="eventData?.description | safeHtml"></span>
+            </p>
+          </div>
+          <div class="modalBody_row">
+            <p>
+              <strong>Event Creator : &nbsp; </strong> {{eventData?.hostId}}
+            </p>
+          </div>
+          <div class="modalBody_row">
+            <p>
+              <strong>Event Start Date : &nbsp; </strong> {{eventData?.date.from | date:'MM/dd/YYYY'}}
+            </p>
+            <p>
+              <strong>Event Start Time : &nbsp; </strong> {{eventData?.time.from| date: 'hh:mm a'}}{{eventData?.time?.timezone ? '('+eventData?.time?.timezone+')' : ''}}
+            </p>
+            <p>
+              <strong>Event End Date : &nbsp; </strong> {{eventData?.date.to | date:'MM/dd/YYYY'}}
+            </p>
+            <p>
+              <strong>Event End Time : &nbsp; </strong> {{eventData?.time.to | date: 'hh:mm a'}}{{eventData?.time?.timezone ? '('+eventData?.time?.timezone+')' : ''}}
+            </p>
+          </div>
+          <div class="modalBody_row">
+            <p>
+              <strong>Payment Category : &nbsp; </strong> {{paymentCategory}}
+            </p>
+          </div>
+          <div class="modalBody_row" *ngIf="paymentCategory === 'Per Head'">
+            <p>
+              <strong>Package Rate : &nbsp; </strong> {{packageRate}} {{currency}}
+            </p>
+          </div>
+          <div class="modalBody_row" *ngIf="paymentCategory === 'Package Wise'">
+            <h5>Package Details</h5>
+
+            <p *ngFor="let item of eventData?.paymentPackages, let i = index">
+              <strong>{{i+1}}.</strong> &nbsp;
+              <strong>Package Name : &nbsp; </strong> {{item?.packageName}} <br/>
+              <strong style="padding-left: 21px;">Package Rate : &nbsp; </strong> {{item.packageRate  ? item.packageRate : 0}} {{currency}}
+            </p>
+          </div>
+
+          <!-- <div class="modalBody_row">
+            <p>
+              <strong>Comunity Description : &nbsp; </strong> {{groupData?.myCommunity?.communityDescription}}
+            </p>
+          </div> -->
+        </div>
+      </div>
+
+

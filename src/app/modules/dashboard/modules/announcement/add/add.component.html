@@ -1,0 +1,119 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+  <h4 *ngIf="!announcementId">Create Announcement</h4>
+  <h4 *ngIf="announcementId">Edit Announcement</h4>
+  <div class="filterArea">
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a [routerLink]="['/announcements']" >Back to list</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+</div>
+<!-- page title -- section -- end  -->
+<form [formGroup]="announcementForm">
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+
+
+    <div class="onboard_form onboard_form_big edit_webPage" >
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Title *</label>
+                <input class="input_appearance_none" type="text" placeholder="Title *" formControlName="title">
+            </div>
+            <div class="form_input_row_error" *ngIf="(announcementForm.get('title')?.errors?.['required'] && (announcementForm.get('title')?.dirty || announcementForm.get('title')?.touched))">
+              <div class="form_field_error_msg">
+                Title is required.
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(announcementForm.get('title')?.errors?.['longName'] && (announcementForm.get('title')?.dirty || announcementForm.get('title')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum of 10 words.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Type *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="type">
+                <option value="" disabled selected hidden>Select Type *</option>
+                <option value="Public">Public</option>
+                <option value="Member">Member</option>
+                <!-- <option value="Private" [disabled]="announcementId ? true : false " >Private</option> -->
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(announcementForm.get('type')?.errors?.['required'] && (announcementForm.get('type')?.dirty || announcementForm.get('type')?.touched))">
+              <div class="form_field_error_msg">
+                Type is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Description *</label>
+        </div>
+        <div class="textArea_block editWebPage_row">
+          <textarea class="input_appearance_none editWeb_textArea" formControlName="description"></textarea>
+        </div>
+        <div class="form_input_row_error" *ngIf="(announcementForm.get('description')?.errors?.['required'] && (announcementForm.get('description')?.dirty || announcementForm.get('description')?.touched))">
+          <div class="form_field_error_msg">
+            Description is required.
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >        
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Enter End Date *</label>
+              <input class="input_appearance_none" type="date" [min]="todayDate | date:'yyyy-MM-dd'" placeholder="Enter End Time" formControlName="endDate" >
+            </div>
+            <div class="form_input_row_error" *ngIf="(announcementForm.get('endDate')?.errors?.['required'] && (announcementForm.get('endDate')?.dirty || announcementForm.get('endDate')?.touched))"  >
+              <div class="form_field_error_msg">
+                End Date is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+
+      <!-- onboard_form_row  -->
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()" [ngClass]="{'disabled': !announcementForm.valid}" >Submit</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()"  >Cancel</button>
+
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    </div>
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+</form>
+
+
+

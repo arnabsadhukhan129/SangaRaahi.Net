@@ -1,0 +1,288 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Log Details for APP</h4>
+
+    <div class="filterArea">
+
+      <!-- <a href="javascript:void(0)" class="_filterSearch_iconBtn"  >
+        <img src="assets/images/filter-search-icon.png" />
+      </a> -->
+
+      <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()" >Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+<div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <!-- <div class="filter_input_box filter_search_date">
+                    <input class="input_appearance_none" type="text" placeholder="Input Placeholder Text">
+                  </div> -->
+                  <div class="filter_input_box filter_search_select">
+                     <select
+                      class="input_appearance_none filter_input"
+                      formControlName="action"
+                      (change)="getActivityLogs(current)"
+                    >
+                      <option value="" disabled selected hidden>Action</option>
+                      <option *ngFor="let option of actionOptions" [value]="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+                <!-- </div>
+                <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="sort" (change)="getActivityLogs(current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="asc" >Ascending order</option>
+                      <option value="desc">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+                <!-- </div>
+                <div class="form_row"> -->
+
+            </div>
+            <div class="form_row">
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select
+                      class="input_appearance_none filter_input"
+                      formControlName="memberRole"
+                      (change)="getActivityLogs(current)"
+                    >
+                      <option value="" disabled selected hidden>Role</option>
+                      <option *ngFor="let option of roleOptions" [value]="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select
+                      class="input_appearance_none filter_input"
+                      formControlName="module"
+                      (change)="getActivityLogs(current)"
+                    >
+                      <option value="" disabled selected hidden>Module</option>
+                      <option *ngFor="let option of moduleOptions" [value]="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <!-- <th>Platform</th> -->
+                  <th>Actor</th>
+                  <th>Role</th>
+                  <th>Module</th>
+                  <!-- <th>Community</th> -->
+                  <th>Date & Time</th>
+                  <th class="textCenter">Modified Data</th>
+                  <!-- <th class="textCenter">New Data</th> -->
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let log of activityLogs; let i = index">
+                  <!-- <td>{{i + 1}}</td> -->
+                  <td>{{(current*10-(9-i))}}</td>
+                  <!-- <td>{{log.platForm ? log.platForm : 'N/A'}}</td> -->
+                  <td>{{log.userName ? log.userName : 'N/A'}}</td>
+                  <td>
+                    {{
+                    log.memberRole && log.memberRole.length > 0 && log.memberRole[0]
+                    ? (log.memberRole[0] | removeUnderscore)
+                    : 'N/A'
+                    }}
+                  </td>
+                  <td>{{log.module ? (log.module | removeUnderscore): 'N/A'}}</td>
+                  <!-- <td>{{log.communityName ? log.communityName : 'N/A'}}</td> -->
+                  <td>{{log.createdAt |  date: 'dd MMMM y'}} {{log.createdAt |  date: 'hh:mm a':'UTC'}}</td>
+                  <td class="td_readMore_bg textCenter">
+                  <button class="button_appearance_none td_active_btn minWidth144"
+                    [ngClass]="{'disabled': !log.oldData && !log.newData}" (click)="openModal('Log details', log.oldData, log.newData)">
+                    View
+                  </button>
+                </td>
+                <td>
+                    <div class="active_item_td log_status_td">
+                      <span [style.color]="log.action | statusColor"><b>{{log.action | removeUnderscore}}</b></span>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!activityLogs?.length">
+                  <td colspan="9">No Data Found</td>
+                </tr>
+              </tbody>
+              <tfoot>
+ 
+                <!-- 
+                <tr>
+                  <td colspan="8">No Data Found</td>
+                </tr> 
+                -->
+
+              </tfoot>
+          </table>
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+      <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+          <span *ngIf="totalData > limit"><app-pagination
+          [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+          ></app-pagination></span>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+        </div>
+      </div>
+    </ng-template>
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+</div>
+
+
+<!-----Open previous data modal----->
+<!-- <div class="modal fade custom_modal " id="displayPreviousData">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Previous Data</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+              <b>What is Lorem Ipsum?</b><br/>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              when an unknown printer took a galley of type and scrambled it to make a type specimen 
+              book. It has survived not only five centuries, but also the leap into electronic 
+              typesetting, remaining essentially unchanged. It was popularised in the 1960s with the 
+              release of Letraset sheets containing Lorem Ipsum passages, and more recently with 
+              desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-----Open new data modal----->
+<!-- <div class="modal fade custom_modal " id="displayNewData">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Data</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+              <b>Where does it come from?</b><br/>
+              Contrary to popular belief, Lorem Ipsum is not simply random text. 
+              It has roots in a piece of classical Latin literature from 45 BC, 
+              making it over 2000 years old. Richard McClintock, a Latin professor at 
+              Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, 
+              consectetur, from a Lorem Ipsum passage, and going through the cites of the word in 
+              classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections
+              1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) 
+              by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, 
+              very popular during the Renaissance. The first line of Lorem Ipsum, 
+              "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- log modal -- start -->
+<div class="modal fade custom_modal" id="logModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalTitle || 'Log details' }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body modal_body_scroll">
+        <div class="modal_body_blockBg modal_cont_scroll">
+          <div class="log-columns">
+            <div class="log-column">
+              <h6 class="log-column-title">Old Data</h6>
+              <div *ngIf="modalOldData; else noOld" [innerHTML]="modalOldData | jsonToHtml"></div>
+              <ng-template #noOld><div class="empty-text">No old data</div></ng-template>
+            </div>
+
+            <div class="log-column">
+              <h6 class="log-column-title">New Data</h6>
+              <div *ngIf="modalNewData; else noNew" [innerHTML]="modalNewData | jsonToHtml"></div>
+              <ng-template #noNew><div class="empty-text">No new data</div></ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- log modal -- end -->
+
+

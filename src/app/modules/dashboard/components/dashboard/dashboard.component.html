@@ -1,0 +1,472 @@
+      <!-- page title -- section -- start  -->
+      <div class="page_top_title page_top_title filter-headingArea">
+        <h4>{{communityName}}</h4>
+        <div class="filterArea" *ngIf="getRole === 'Board Member' || getRole === 'Executive Member' || getRole === 'Member' || getRole === 'Fan'">
+          <button class="button_appearance_none topList_btn yellow_btn" (click)="openStripeModal()" *ngIf="!this.stripeDetails?.stripeAccountApproval">Register On Stripe</button>
+          <button class="button_appearance_none topList_btn yellow_btn" (click)="gotoDashboard()" *ngIf="this.stripeDetails?.stripeAccountApproval">Go To Stripe Dashboard</button>
+        </div>
+      </div>
+      <!-- page title -- section -- end  -->
+      <!-- -- Dashboard panel bg -- start --  -->
+      <div class="dashboard_panel_bg dashboard_page">
+
+        <div class="dash_left">
+
+          <div class="row_block row_block_commu_start">
+            <!-- Community Statistics -- block -- start  -->
+            <div class="dashboard_block commu_stat_block">
+              <div class="block_sec_title_row">
+
+                <h4 class="block_sec_title">Community Statistics</h4>
+              </div>
+              <div class="dashboard_block_box commu_stat">
+
+                <div class="commu_stat_box">
+                  <div class="commu_left">
+                    <img class="commu_stat_icon" src="assets/images/comm_stat_icon_01.png">
+                  </div>
+                  <div class="commu_right">
+                    <h5>People</h5>
+                    <h4>{{getCommunitiesCount?.peopleCount}}</h4>
+                  </div>
+                </div>
+
+                <div class="commu_stat_box">
+                  <div class="commu_left">
+                    <img class="commu_stat_icon" src="assets/images/comm_stat_icon_02.png">
+                  </div>
+                  <div class="commu_right">
+                    <h5>Announcements</h5>
+                    <h4>{{getCommunitiesCount?.announcementCount}}</h4>
+                  </div>
+                </div>
+
+                <div class="commu_stat_box">
+                  <div class="commu_left">
+                    <img class="commu_stat_icon" src="assets/images/comm_stat_icon_03.png">
+                  </div>
+                  <div class="commu_right">
+                    <h5>Group</h5>
+                    <h4>{{getCommunitiesCount?.groupCount}}</h4>
+                  </div>
+                </div>
+
+                <div class="commu_stat_box">
+                  <div class="commu_left">
+                    <img class="commu_stat_icon" src="assets/images/comm_stat_icon_04.png">
+                  </div>
+                  <div class="commu_right">
+                    <h5>Events</h5>
+                    <h4>{{getCommunitiesCount?.eventCount}}</h4>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- Community Statistics -- block -- end  -->
+            <!-- Credits Remaining -- block -- start  -->
+            <div class="dashboard_block credit_remaning_block">
+              <div class="block_sec_title_row">
+                <h4 class="block_sec_title">Credits Remaining</h4>
+              </div>
+              <div class="dashboard_block_box credit_remaning">
+
+                <ul>
+                  <li>
+                    <div class="credit_remaning_box">
+                      <div class="cred_rem_left">
+                        <span class="cred_rem_icon">
+                          <img src="assets/images/cred_rem_icon_01.png">
+                        </span>
+                        <span class="cred_rem_notification">
+                          No. of emails
+                        </span>
+                      </div>
+                      <div class="cred_rem_mid"></div>
+                      <div class="cred_rem_num">
+                        <!-- Coming Soon! -->
+                        {{emailCredit ? emailCredit : 0}}
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="credit_remaning_box">
+                      <div class="cred_rem_left">
+                        <span class="cred_rem_icon">
+                          <img src="assets/images/cred_rem_icon_02.png">
+                        </span>
+                        <span class="cred_rem_notification">
+                          No. of SMS
+                        </span>
+                      </div>
+                      <div class="cred_rem_mid"></div>
+                      <div class="cred_rem_num">
+                        <!-- Coming Soon! -->
+                        {{smsCredit ? smsCredit : 0}}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+            <!-- Credits Remaining -- block -- end  -->
+          </div>
+
+          <div class="row_block">
+            <!-- Last event activities -- block -- start  -->
+            <div class="dashboard_block event_activity_block">
+              <div class="block_sec_title_row">
+                <h4 class="block_sec_title">Latest event activities </h4>
+                <div class="block_title_btn_div" *ngIf="getRole === 'Board Member' || getRole === 'Executive Member' || getRole === 'Member' || getRole === 'Fan'">
+                  <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="getEvent?.length === 2" (click)="viewEvents()">View more</button>
+                </div>
+              </div>
+
+              <div class="dashboard_block_box event_activity_box_bg" *ngIf="getEvent?.length === 0">
+                <div class="event_box_bg">
+                  <div class="event_box_img_block_sec">
+                    <div class="left_img">
+                      <div class="left_round_img_border">
+                        <img class="event_left_round_img"  src="{{'assets/images/no-image-found-3.png'}}">
+                      </div>
+                    </div>
+                    <div class="event_main_img_block">
+                      <img class="event_main_img_noImg" src="{{'assets/images/no-image-found-3.png'}}">
+                    </div>
+                  </div>
+                  <div class="event_box_content_block_sec">
+                    <div class="event_desc_block">
+                      <div class="event_desc_block_left">
+                        <h3>No latest event found.</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dashboard_block_box event_activity_box_bg" *ngIf="getEvent?.length > 0">
+
+                <div class="event_box_bg" *ngIf="getEvent[0]">
+                  <div class="event_box_img_block_sec">
+                    <div class="left_img">
+                      <div class="left_round_img_border" *ngIf="getEvent && getEvent[0].logoImage">
+                        <!-- <img class="event_left_round_img" src="assets/images/event-activity-cast-01.jpg"> -->
+                        <img class="event_left_round_img" src="{{getEvent[0].logoImage}}">
+                      </div>
+                      <div class="left_round_img_border" *ngIf="getEvent && (!getEvent[0].logoImage || getEvent[0].logoImage === '')">
+                        <!-- <img class="event_left_round_img" style="height: 100px;" src="{{'assets/images/header-user.png'}}"> -->
+                        <img class="event_left_round_img"  src="{{'assets/images/no-image-found-3.png'}}">
+                      </div>
+
+                    </div>
+                    <div class="event_main_img_block">
+                      <!-- <img class="event_main_img" src="assets/images/event-activity-01.jpg"> -->
+                      <img class="event_main_img" *ngIf="getEvent && getEvent[0].image" src="{{getEvent[0].image}}" (click)="showEvent(getEvent[0])" style="cursor: pointer;">
+                      <img class="event_main_img_noImg" *ngIf="getEvent && (!getEvent[0].image || getEvent[0].image === '')" src="{{'assets/images/no-image-found-3.png'}}" (click)="showEvent(getEvent[0])" style="cursor: pointer;">
+
+
+                      <div class="event_date_img_block" *ngIf="getEvent && getEvent[0].date">
+                        <!-- 31st <br>
+                        March <br>
+                        2023 -->
+                        <!-- <h5  *ngIf="getEvent && getEvent[0].date"> -->
+                          {{ getDay (getEvent[0].date.to | date:'dd')}} <br/>
+                          {{getEvent[0].date.to | date:'MMMM'}} <br/>
+                          {{getEvent[0].date.to | date:'yyyy'}}
+                        <!-- </h5> -->
+                        <!-- <h5 class="pink_text" *ngIf="getEvent && !getEvent[0].date">{{'N/A'}}</h5> -->
+                      </div>
+                      <div class="event_date_img_block" *ngIf="getEvent && !getEvent[0].date">
+                        {{'N/A'}}
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="event_box_content_block_sec">
+                    <h3 *ngIf="getEvent && getEvent[0].title">{{getEvent[0].title | truncate:25}}</h3>
+                    <h3 *ngIf="getEvent && !getEvent[0].title">{{'N/A'}}</h3>
+
+                    <div class="event_desc_block">
+                      <div class="event_desc_block_left">
+                        <h4 class="green_text" *ngIf="getEvent && getEvent[0].hostId">{{getEvent[0].hostId}}</h4>
+                        <h4 class="green_text" *ngIf="getEvent && !getEvent[0].hostId">{{'N/A'}}</h4>
+
+                        <p class="green_text" *ngIf="getEvent && getEvent[0].type">{{getEvent[0].type}}</p>
+                        <p class="green_text" *ngIf="getEvent && !getEvent[0].type">{{'N/A'}}</p>
+                        <p class="pink_text" *ngIf="getEvent && getEvent[0].invitationType">{{getEvent[0].invitationType}}</p>
+                        <p class="pink_text" *ngIf="getEvent && !getEvent[0].invitationType">{{'N/A'}}</p>
+                      </div>
+                      <div class="event_desc_block_right">
+                        <h5 class="pink_text" *ngIf="getEvent && getEvent[0].date">{{getEvent[0].date.from | date:'dd/MM/yyyy'}}</h5>
+                        <h5 class="pink_text" *ngIf="getEvent && !getEvent[0].date">{{'N/A'}}</h5>
+
+                        <h5 class="pink_text" *ngIf="getEvent && getEvent[0].time">{{getEvent[0].time.from | date:'shortTime':'UTC'}}{{getEvent[0].time.timezone ? '('+getEvent[0].time.timezone+')' : ''}}</h5>
+                        <h5 class="pink_text" *ngIf="getEvent && !getEvent[0].time">{{'N/A'}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="event_box_bg" *ngIf="getEvent[1]">
+                  <div class="event_box_img_block_sec">
+                    <div class="left_img">
+                      <!-- <div class="left_round_img_border">
+                        <img class="event_left_round_img" src="assets/images/event-activity-cast-02.jpg">
+                      </div> -->
+                      <div class="left_round_img_border" *ngIf="getEvent && getEvent[1]?.logoImage">
+                        <img class="event_left_round_img" src="{{getEvent[1]?.logoImage}}">
+                      </div>
+                      <div class="left_round_img_border" *ngIf="getEvent && !getEvent[1]?.logoImage">
+                        <img class="event_left_round_img"  src="{{'assets/images/no-image-found-3.png'}}">
+                      </div>
+
+                    </div>
+                    <div class="event_main_img_block">
+                      <img class="event_main_img" *ngIf="getEvent && getEvent[1]?.image" src="{{getEvent[1]?.image}}" (click)="showEvent(getEvent[1])" style="cursor: pointer;">
+                      <img class="event_main_img_noImg" *ngIf="getEvent && !getEvent[1]?.image" src="{{'assets/images/no-image-found-3.png'}}" (click)="showEvent(getEvent[1])" style="cursor: pointer;">
+                      <div class="event_date_img_block" *ngIf="getEvent && getEvent[1]?.date">
+                        <!-- 31st <br>
+                        March <br>
+                        2023 -->
+                        <!-- <h5  *ngIf="getEvent && getEvent[0].date"> -->
+                          <!-- {{getEvent[1].date.to | customDate}} -->
+                          {{ getDay (getEvent[1].date.to | date:'dd')}}<br/>
+                          {{getEvent[1].date.to | date:'MMMM'}} <br/>
+                          {{getEvent[1].date.to | date:'yyyy'}}
+                        <!-- </h5> -->
+                        <!-- <h5 class="pink_text" *ngIf="getEvent && !getEvent[0].date">{{'N/A'}}</h5> -->
+                      </div>
+                      <div class="event_date_img_block" *ngIf="getEvent && !getEvent[1]?.date">
+                        {{'N/A'}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event_box_content_block_sec">
+                    <h3 *ngIf="getEvent && getEvent[1]?.title">{{getEvent[1]?.title | truncate:25}}</h3>
+                    <h3 *ngIf="getEvent && !getEvent[1]?.title">{{'N/A'}}</h3>
+                    <div class="event_desc_block">
+                      <div class="event_desc_block_left">
+                        <h4 class="green_text" *ngIf="getEvent && getEvent[1]?.hostId">{{ getEvent[1]?.hostId}}</h4>
+                        <h4 class="green_text" *ngIf="getEvent && !getEvent[1]?.hostId">{{'N/A'}}</h4>
+                        <h4 class="green_text" *ngIf="!getEvent">{{'N/A'}}</h4>
+
+                        <p class="green_text" *ngIf="getEvent && getEvent[1]?.type">{{getEvent[1]?.type}}</p>
+                        <p class="green_text" *ngIf="getEvent && !getEvent[1]?.type">{{'N/A'}}</p>
+
+                        <p class="pink_text" *ngIf="getEvent && getEvent[1]?.invitationType">{{getEvent[1]?.invitationType}}</p>
+                        <p class="pink_text" *ngIf="getEvent && !getEvent[1]?.invitationType">{{'N/A'}}</p>
+                      </div>
+                      <div class="event_desc_block_right">
+                        <h5 class="pink_text" *ngIf="getEvent && getEvent[1]?.date">{{getEvent[1]?.date.from | date:'dd/MM/yyyy'}}</h5>
+                        <h5 class="pink_text" *ngIf="getEvent && !getEvent[1]?.date">{{'N/A'}}</h5>
+
+                        <h5 class="pink_text" *ngIf="getEvent && getEvent[1]?.time">{{getEvent[1]?.time.from | date:'shortTime':'UTC'}}{{getEvent[1].time.timezone ? '('+getEvent[1].time.timezone+')' : ''}}</h5>
+                        <h5 class="pink_text" *ngIf="getEvent && !getEvent[1]?.time">{{'N/A'}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Last event activities -- block -- end  -->
+          </div>
+
+        </div>
+        <div class="dash_right">
+          <!-- right - Latest announcement activity -- block -- start  -->
+          <div class="dashboard_block announcement_activity_block">
+            <div class="block_sec_title_row">
+              <h4 class="block_sec_title">Latest announcement activities </h4>
+              <div class="block_title_btn_div"  *ngIf="getRole === 'Board Member' || getRole === 'Executive Member' || getRole === 'Member' || getRole === 'Fan'">
+                <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="getAnnouncement?.length === 3" (click)="viewAnnouncements()">View more</button>
+              </div>
+            </div>
+
+            <div class="dashboard_block_box announcement_box_bg" *ngIf="getAnnouncement?.length === 0">
+              <div class="announcement_box_block announcement_box_pink">
+                <div class="announcement_box_block_top">
+                  <div class="announcement_left_round_img">
+                    <img src="assets/images/mike-img-02.png">
+                  </div>
+                  <div class="announcement_top_des">
+                    <p>No latest announcement found</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="dashboard_block_box announcement_box_bg" *ngIf="getAnnouncement?.length > 0">
+
+              <div class="announcement_box_block announcement_box_pink" *ngIf="getAnnouncement[0]">
+                <div class="announcement_box_block_top">
+                  <div class="announcement_left_round_img">
+                    <img src="assets/images/mike-img-02.png">
+                  </div>
+                  <div class="announcement_top_des">
+                    <h4 *ngIf="getAnnouncement && getAnnouncement[0].title">{{getAnnouncement[0].title | truncate:35}}</h4>
+                    <h4 *ngIf="getAnnouncement && !getAnnouncement[0].title">{{"N/A"}}</h4>
+                    <h5>{{getAnnouncement && getAnnouncement[0].toWhom}}</h5>
+                    <p *ngIf="getAnnouncement && getAnnouncement[0].description">{{getAnnouncement[0].description | truncate: 35}}</p>
+                    <p *ngIf="getAnnouncement && !getAnnouncement[0].description">{{"N/A"}}</p>
+                    <hr>
+                  </div>
+                </div>
+                <div class="announcement_box_block_bottom">
+                  <div class="announcement_box_bottom_left">
+                    <a href="javascript:void(0)" (click)="showDescription(getAnnouncement[0].title,getAnnouncement[0].description)">Read more</a>
+                  </div>
+                  <div class="announcement_box_bottom_right">
+                    <h5>{{getAnnouncement && getAnnouncement[0].endDate | date:'dd/MM/YYYY'}}</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="announcement_box_block announcement_box_lightBlue" *ngIf="getAnnouncement[1]">
+                <div class="announcement_box_block_top">
+                  <div class="announcement_left_round_img">
+                    <img src="assets/images/mike-img-02.png">
+                  </div>
+                  <div class="announcement_top_des">
+                    <h4 *ngIf="getAnnouncement && getAnnouncement[1].title">{{getAnnouncement[1].title | truncate:35}}</h4>
+                    <h4 *ngIf="getAnnouncement && !getAnnouncement[1].title">{{"N/A"}}</h4>
+                    <!-- <h5>All users</h5> -->
+                    <h5>{{getAnnouncement && getAnnouncement[1].toWhom}}</h5>
+                    <p *ngIf="getAnnouncement && getAnnouncement[1].description">{{getAnnouncement[1].description | truncate: 35}}</p>
+                    <p *ngIf="getAnnouncement && !getAnnouncement[1].description">{{"N/A"}}</p>
+                    <hr>
+                  </div>
+                </div>
+                <div class="announcement_box_block_bottom">
+                  <div class="announcement_box_bottom_left">
+                    <a href="javascript:void(0)" (click)="showDescription(getAnnouncement[1].title,getAnnouncement[1].description)">Read more</a>
+                  </div>
+                  <div class="announcement_box_bottom_right">
+                    <h5>{{getAnnouncement && getAnnouncement[1].endDate | date:'dd/MM/YYYY'}}</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="announcement_box_block announcement_box_darkyellow" *ngIf="getAnnouncement[2]">
+                <div class="announcement_box_block_top">
+                  <div class="announcement_left_round_img">
+                    <img src="assets/images/mike-img-02.png">
+                  </div>
+                  <div class="announcement_top_des">
+                    <h4 *ngIf="getAnnouncement && getAnnouncement[2].title">{{getAnnouncement[2].title | truncate:35}}</h4>
+                    <h4 *ngIf="getAnnouncement && !getAnnouncement[2].title">{{"N/A"}}</h4>
+                    <h5>{{getAnnouncement && getAnnouncement[2].toWhom}}</h5>
+                    <!-- <span class="chip_block">{{getAnnouncement && getAnnouncement[2].toWhom}}</span> -->
+                    <p *ngIf="getAnnouncement && getAnnouncement[2].description">{{getAnnouncement[2].description | truncate: 35}}</p>
+                    <p *ngIf="getAnnouncement && !getAnnouncement[2].description">{{"N/A"}}</p>
+                    <hr>
+                  </div>
+                </div>
+                <div class="announcement_box_block_bottom">
+                  <div class="announcement_box_bottom_left">
+                    <a href="javascript:void(0)" (click)="showDescription(getAnnouncement[2].title,getAnnouncement[2].description)">Read more</a>
+                  </div>
+                  <div class="announcement_box_bottom_right">
+                    <h5>{{getAnnouncement && getAnnouncement[2].endDate | date:'dd/MM/YYYY'}}</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- right - Latest announcement activity -- block -- end  -->
+        </div>
+      </div>
+      <!-- -- Dashboard panel bg -- end --  -->
+
+
+<!------Open Switch Community Modal------>
+<div class="modal fade custom_modal" id="chooseCommunitity" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Choose one communitity to continue</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let communitityList of communities; let i = index" (click)="closeModal(communitityList.id,communitityList.logoImage)" class="community_btn_block_modal" style="cursor: pointer;">
+          <span class="modal_switchCommunity_linkLogo">
+            <img class="switchCommunity_linkLogo_img" src="{{communitityList.logoImage || 'assets/images/event-activity-01.jpg'}}">
+            <!-- <img class="switchCommunity_linkLogo_img switchCommunity_linkLogo_img_default" src="{{communitityList.logoImage || 'assets/images/camera-img.png'}}" style="display: none;"> -->
+          </span>
+          {{communitityList.communityName}} ({{communitityList.role}})
+        </div>
+        <div *ngIf="!communities?.length"> No active organisation found.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!------End Switch Community Modal------>
+
+<!------OpenModal For Announcement------>
+<div class="modal fade custom_modal" id="announcementDescription">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Announcement Details</h5>
+      </div>
+      <div class="modal-body">
+        <p><span class="modal_level"> Announcement Title:</span>{{announcementTitle}}</p>
+        <p><span class="modal_level"> Announcement Description:</span>{{announcementDesc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Announcement------>
+
+<!------OpenModal For Events------>
+<div class="modal fade custom_modal" id="eventDetails">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Details</h5>
+      </div>
+      <div class="modal-body">
+           <p><span class="modal_level">Event Title:</span> {{eventTitle}}</p>
+           <p>
+            <span class="modal_level">Event Description:</span>
+            <span [innerHTML]="eventDescription"></span>
+           </p>
+           <p><span class="modal_level">Event Type:</span> {{eventType}}</p>
+           <p><span class="modal_level">Event Start Date:</span> {{eventCreateDate | date:'dd/MM/YYYY'}}</p>
+           <p><span class="modal_level">Event End Date:</span> {{eventEndDate | date:'dd/MM/YYYY'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Events------>
+
+
+<!------Open Modal For Send Email------>
+<div class="modal fade custom_modal" id="senEmailForOnboard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Stripe Onboarding</h5>
+      </div>
+      <form [formGroup]="stripeOnboardForm">
+      <div class="modal-body">
+        <div class="onboard_form_input modal_form_box">
+          <div class=" onboard_input_border mb_30">
+            <label class="form_label_green ">Email :</label>
+              <input class="input_appearance_none" type="text" placeholder="email" formControlName="email">
+          </div>
+        </div>
+        <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeStripeModal()">Close</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="sendEmailForOnboard()">Submit</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!----End Modal For Send Email------>

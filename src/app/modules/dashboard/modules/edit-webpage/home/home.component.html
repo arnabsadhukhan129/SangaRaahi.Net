@@ -1,0 +1,406 @@
+
+<form [formGroup]="homeSettingForm">
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg">
+
+    <!-- Announcements -- row -- start -->
+    <div class="onboard_form_row announcement_row editWeb_subSection">
+      <div class="block_sec_title_row">
+        <h4 class="block_sec_title green_text">Home page settings</h4>
+        <div class="filterArea">
+          <a href="javascript:void(0)" class="pink_link_text" (click)="undoSetting()">Undo Previous Settings</a>
+        </div>
+      </div>
+      <div class="edit_webPage_tab_leftRight_btn">
+        <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" [ngClass]="'disabled'" ><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+        <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="saveDetails('next')"  [ngClass]="{'disabled': !homeSettingForm.valid}"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+      </div>
+    </div>
+    <!-- Announcements -- row -- end -->
+
+<!--
+    <div class="filterArea">
+      <a href="javascript:void(0)" class="pink_link_text" (click)="undoSetting()">Undo Previous Settings</a>
+    </div>
+    <div class="edit_webPage_tab_leftRight_btn">
+      <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" [ngClass]="'disabled'"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+      <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="saveDetails('next')" [ngClass]="{'disabled': !homeSettingForm.valid}"><img class="edit_webPageTopTab_icon"  src="assets/images/carousel-arrow-right-btn.png"></a>
+    </div>
+  -->
+
+    <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+      <div class="announcement_box_block announcement_box_pink">
+        <div class="announcement_box_block_top">
+          <div class="announcement_left_round_img">
+            <img *ngIf="!logoImage"class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+            <img *ngIf="logoImage" class="announcement_left_upload_img"  src="{{logoImage}}">
+          </div>
+          <div class=" up_img_delete_btn_block">
+            <button class="button_appearance_none up_img_delete_btn" (click)="deleteLogoImage()">
+              <img src="assets/images/trash-delete.png">
+            </button>
+          </div>
+          <div class="announcement_top_des">
+
+            <!-- img / upload img -- start -->
+            <div class="profile_img_edit_btn_block">
+              <button class="button_appearance_none profile_edit_btn">
+                <img src="assets/images/profileimage-edit-btn.png">
+              </button>
+              <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event, 'logoImage')"/>
+            </div>
+            <!-- img / upload img -- end -->
+
+            <h4>Upload logo for your community </h4>
+            <p>(Maximum Size will be from 2-5MB )</p>
+          </div>
+
+          <!-----Image croped start----->
+          <div class="crop_window"  *ngIf="logoOpenCropImageModal">
+            <image-cropper
+            [imageChangedEvent]="logoImageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1 / 1"
+            (imageCropped)="cropImg($event,'logoImage')"
+            (imageLoaded)="imgLoad()"
+            (cropperReady)="initCropper()"
+            (loadImageFailed)="imgFailed()">
+            >
+            </image-cropper>
+            <div class="crop_btn_bottom">
+              <button class="button_appearance_none crop_btn crop_btn_close" (click)="closeImage('logoImage')">
+                <img src="assets/images/crosspink.png">
+              </button>
+              <button class="button_appearance_none crop_btn crop_btn_done" (click)="saveImage('logoImage')">
+                <img src="assets/images/tick.png">
+              </button>
+            </div>
+          </div>
+          <!-----Image croped end------->
+          <!-----Image croped start----->
+<!--
+          <image-cropper *ngIf="logoOpenCropImageModal"
+            [imageChangedEvent]="logoImageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="3 / 2"
+            (imageCropped)="cropImg($event,'logoImage')"
+            (imageLoaded)="imgLoad()"
+            (cropperReady)="initCropper()"
+            (loadImageFailed)="imgFailed()">
+          >
+          </image-cropper>
+          <button *ngIf="logoOpenCropImageModal" (click)="saveImage('logoImage')">Done</button>
+          <button *ngIf="logoOpenCropImageModal" (click)="closeImage('logoImage')">Close</button>
+           -->
+          <!-----Image croped end------->
+        </div>
+      </div>
+
+      <div class="announcement_box_block announcement_box_darkyellow">
+        <div class="announcement_box_block_top">
+          <div class="announcement_left_round_img">
+            <img *ngIf="!bannerImage" class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+            <img  *ngIf="bannerImage"class="announcement_left_upload_img" src="{{bannerImage}}">
+          </div>
+          <div class=" up_img_delete_btn_block">
+            <button class="button_appearance_none up_img_delete_btn" (click)="deleteBannerImage()">
+              <img src="assets/images/trash-delete.png">
+            </button>
+          </div>
+          <div class="announcement_top_des">
+
+            <!-- img / upload img -- start -->
+            <div class="profile_img_edit_btn_block">
+              <button class="button_appearance_none profile_edit_btn">
+                <img src="assets/images/profileimage-edit-btn.png">
+              </button>
+              <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event, 'bannerImage')"/>
+            </div>
+            <!-- img / upload img -- end -->
+
+            <h4>Upload banner image for your community</h4>
+            <p>(Maximum Size will be from 2-5MB )</p>
+          </div>
+
+          <!-----Image croped start----->
+          <div class="crop_window"  *ngIf="bannerOpenCropImageModal">
+            <image-cropper
+              [imageChangedEvent]="bannerImageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="3 / 2"
+              (imageCropped)="cropImg($event,'bannerImage')"
+              (imageLoaded)="imgLoad()"
+              (cropperReady)="initCropper()"
+              (loadImageFailed)="imgFailed()">
+            >
+            </image-cropper>
+            <div class="crop_btn_bottom">
+              <button class="button_appearance_none crop_btn crop_btn_close"   (click)="closeImage('bannerImage')">
+                <img src="assets/images/crosspink.png">
+              </button>
+              <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="bannerOpenCropImageModal" (click)="saveImage('bannerImage')">
+                <img src="assets/images/tick.png">
+              </button>
+            </div>
+          </div>
+          <!-----Image croped end------->
+      </div>
+    </div>
+
+    </div>
+
+    <div class="onboard_form_row describe_textarea editWeb_subSection">
+      <div class="block_sec_title_row">
+        <h4 class="block_sec_title green_text">Describe your community here in brief *</h4>
+      </div>
+      <div class="textArea_block editWebPage_row">
+        <!-- <textarea class="input_appearance_none editWeb_textArea" formControlName="communityDescription"></textarea> -->
+        <ckeditor class="input_appearance_none editWeb_textArea" formControlName="communityDescription" ></ckeditor>
+      </div>
+      <div class="form_input_row_error " *ngIf="(homeSettingForm.get('communityDescription')?.errors?.['InvalidValue'] && (homeSettingForm.get('communityDescription')?.dirty || homeSettingForm.get('communityDescription')?.touched))">
+        <div class="form_field_error_msg">
+          Community description is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- carousal section bg -- start --  -->
+    <div class=" editWeb_carousel_sec editWeb_subSection">
+
+      <div class="block_sec_title_row editWeb_carousel_sec_title">
+        <h4 class="block_sec_title green_text">List of All Videos</h4>
+        <div class="block_title_btn_div">
+          <!-- <button type="submit" class="button_appearance_none block_title_btn yellow_btn">Create event</button> -->
+          <button type="submit" class="button_appearance_none block_title_btn pink_btn" [ngClass]="{'disabled': videosData?.length === 0}" (click)="viewMoreVideo()">View more</button>
+          <!-- <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button> -->
+        </div>
+      </div>
+      <div class="editWeb_carousel_sec_body">
+        <div class="event_carousal_section ">
+          <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="videosData?.length === 0">
+            <h5>No Video Found</h5>
+          </div>
+          <!-- carousal -- main -- start --  -->
+          <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="videosData?.length !== 0">
+            <ng-template carouselSlide *ngFor="let video of videosData; let i = index" >
+              <div class="owl_item">
+                <a href={{video.link}} target="_blank">
+                  <div class="owl_item_imgVideo_block">
+                    <!-- <img class="owl_item_imgVideo" src="assets/images/event-activity-01.jpg"> -->
+                    <!-- <iframe class="owl_item_imgVideo_thumb"  src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>  -->
+                    <iframe class="owl_item_imgVideo_thumb pointer_event_none"  [src]="video.hlink" frameborder="0" allow="autoplay; picture-in-picture" allowfullscreen></iframe>
+                  </div>
+
+                  <div class="owl_item_imgVideo_title">
+                    <h5>{{video.title}}</h5>
+                  </div>
+                </a>
+              </div>
+            </ng-template>
+          </owl-carousel-o>
+          <!-- carousal -- main -- end --  -->
+        </div>
+      </div>
+
+    </div>
+    <!-- carousal section bg -- end --  -->
+
+    <!-- carousal section bg -- start --  -->
+    <div class=" editWeb_carousel_sec editWeb_subSection">
+
+      <div class="block_sec_title_row editWeb_carousel_sec_title">
+        <h4 class="block_sec_title green_text">List of All Events</h4>
+        <div class="block_title_btn_div">
+          <button type="submit" class="button_appearance_none block_title_btn yellow_btn" (click)="addEvent()">Create event</button>
+          <button type="submit" class="button_appearance_none block_title_btn pink_btn" [ngClass]="{'disabled': events?.length === 0}" (click)="viewEvent()">View more</button>
+          <!-- <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button> -->
+        </div>
+      </div>
+      <div class="editWeb_carousel_sec_body">
+        <div class="event_carousal_section ">
+          <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="events?.length === 0">
+            <h5>No Event Found</h5>
+          </div>
+          <!-- carousal -- main -- start --  -->
+          <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="events?.length !== 0">
+            <ng-template carouselSlide *ngFor="let item of events">
+              <div class="owl_item">
+                <span class="chip_block chip_block_floting">{{item.invitationType}}</span>
+                <a href="javascript:void(0)">
+                  <div class="owl_item_imgVideo_block">
+                    <img class="owl_item_imgVideo" src="{{item.image ? item.image : 'assets/images/no-image-found-3.png'}}" (click)="ShowEventDetails(item)">
+                  </div>
+                  <div class="owl_item_imgVideo_title">
+                    <h5>{{item.title | truncate:27}}.</h5>
+                  </div>
+                </a>
+              </div>
+            </ng-template>
+          </owl-carousel-o>
+          <!-- carousal -- main -- end --  -->
+        </div>
+      </div>
+
+    </div>
+    <!-- carousal section bg -- end --  -->
+
+    <!-- carousal section bg -- start --  -->
+    <div class=" editWeb_carousel_sec editWeb_subSection">
+
+      <div class="block_sec_title_row editWeb_carousel_sec_title">
+        <h4 class="block_sec_title green_text">List of All Announcements</h4>
+        <div class="block_title_btn_div">
+          <button type="submit" class="button_appearance_none block_title_btn yellow_btn" (click)="addAnnouncement()">Create Announcement</button>
+          <button type="submit" class="button_appearance_none block_title_btn pink_btn" [ngClass]="{'disabled': announcmentDetails?.length === 0}" (click)="viewMoreAnnouncement()">View more</button>
+          <!-- <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button> -->
+        </div>
+      </div>
+      <div class=" editWeb_carousel_sec editWeb_subSection about_carousel annoucemrnt_carousel">
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section ">
+            <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="announcmentDetails?.length === 0">
+            <h5>No Announcement Found</h5>
+          </div>
+            <!-- carousal -- main -- start --  -->
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="announcmentDetails?.length !== 0">
+              <ng-template carouselSlide *ngFor="let item of announcmentDetails">
+                <div class="owl_item ">
+                  <div class="owl_item_about">
+                    <div class="owl_item_about_img">
+                      <img class="owl_item_roundImg" src="assets/images/mike-img-02.png">
+                    </div>
+                    <div class="owl_item_about_cont owl_item_about_bottom">
+                      <span class="chip_block ">{{item.toWhom}}</span>
+                      <!-- <h5>{{item.toWhom}}</h5> -->
+                      <h5>{{item.title | truncate: 50}}</h5>
+                      <p>{{item.description | truncate: 35}}</p>
+                      <div class="announcement_box_block_bottom">
+                        <div class="announcement_box_bottom announcement_box_bottom_left">
+                          <!-- <h5>{{item.endDate }}</h5> -->
+                          <h5>{{item.endDate | date:'dd/MM/YYYY'}}</h5>
+                        </div>
+                        <div class="announcement_box_bottom announcement_box_bottom_right">
+                          <a href="javascript:void(0)" (click)="showDescription(item)">Read more</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- carousal section bg -- end --  -->
+
+    <!-- carousal section bg -- start --  -->
+    <div class=" editWeb_carousel_sec editWeb_subSection">
+
+      <div class="block_sec_title_row editWeb_carousel_sec_title">
+        <h4 class="block_sec_title green_text">List All of Groups </h4>
+        <div class="block_title_btn_div">
+          <button type="submit" class="button_appearance_none block_title_btn yellow_btn" (click)="addGroup()">Create Group</button>
+          <button type="submit" class="button_appearance_none block_title_btn pink_btn" [ngClass]="{'disabled': groups?.length === 0}" (click)="viewGroup()">View more</button>
+          <!-- <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button> -->
+        </div>
+      </div>
+      <div class="editWeb_carousel_sec_body">
+        <div class="event_carousal_section ">
+          <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="groups?.length === 0">
+            <h5>No Group Found</h5>
+          </div>
+          <!-- carousal -- main -- start --  -->
+          <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="groups?.length !== 0">
+            <ng-template carouselSlide *ngFor="let item of groups">
+              <div class="owl_item">
+                <a href="javascript:void(0)">
+                  <div class="owl_item_imgVideo_block" *ngIf="item.image">
+                    <img class="owl_item_imgVideo" src="{{item.image}}" (click)="ShowGroupDetails(item)">
+                  </div>
+                  <div class="owl_item_imgVideo_block" *ngIf="!item.image">
+                    <img class="owl_item_imgVideo_noImage" src="{{'assets/images/no-image-found-3.png'}}" (click)="ShowGroupDetails(item)">
+                  </div>
+                  <div class="owl_item_imgVideo_title">
+                    <h5>{{item.name | truncate: 27}}.</h5>
+                  </div>
+                </a>
+              </div>
+            </ng-template>
+          </owl-carousel-o>
+          <!-- carousal -- main -- end --  -->
+        </div>
+      </div>
+
+    </div>
+    <!-- carousal section bg -- end --  -->
+     <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+     <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" (click)="saveDetails('')" [ngClass]="{'disabled': !homeSettingForm.valid}">Save Settings</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveDetails('next')" [ngClass]="{'disabled': !homeSettingForm.valid}">Save Settings & Next</button>
+    </div>
+    <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+</form>
+
+
+<!------OpenModal For Announcement------>
+<div class="modal fade custom_modal" id="announcementDescription">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Announcement Details</h5>
+      </div>
+      <div class="modal-body ">
+        <p><span class="modal_level">Announcement Title:</span> {{announcementTitle}}</p>
+        <p><span class="modal_level">Announcement Description:</span> {{desc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Announcement------>
+
+<!------OpenModal For Events------>
+<div class="modal fade custom_modal" id="eventDetails">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Details</h5>
+      </div>
+      <div class="modal-body">
+        <p><span class="modal_level">Event Title:</span>{{eventTitle}}</p>
+           <p><span class="modal_level">Event Description:</span> {{eventDescription}}</p>
+           <p><span class="modal_level">Event Venue:</span> {{eventAddress}}</p>
+           <p><span class="modal_level">Event Start Date:</span> {{eventStartDate | date:'dd/MM/YYYY'}}</p>
+           <p><span class="modal_level">Event End Date:</span> {{eventEndDate | date:'dd/MM/YYYY'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Events------>
+
+<!------OpenModal For Groups------>
+<div class="modal fade custom_modal" id="groupDetails">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Group Details</h5>
+      </div>
+      <div class="modal-body">
+           <p><span class="modal_level">Group Title:</span>{{groupTitle ? groupTitle : 'N/A'}}</p>
+           <p><span class="modal_level">Group Description:</span>{{groupDescription ? groupDescription : 'N/A'}}</p>
+           <p><span class="modal_level">Total Member:</span> {{groupmemberCount}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Groups------>

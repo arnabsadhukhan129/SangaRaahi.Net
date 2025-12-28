@@ -1,0 +1,467 @@
+
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+  <h4 *ngIf="!blogEditId">Create Blogs</h4>
+  <h4 *ngIf="blogId">View Blogs</h4>
+  <h4 *ngIf="blogEditId">Edit Blogs</h4>
+  <!-- <h4 *ngIf="groupId">Edit Group</h4> -->
+  <div class="filterArea">
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a [routerLink]="['/blog']" >Back to list</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+</div>
+<!-- page title -- section -- end  -->
+<form [formGroup]="blogForm">
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+
+
+    <div class="onboard_form onboard_form_big edit_webPage" >
+
+      <!-- onboard_form_row  -->
+      <!-- <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30"> -->
+
+        <!-- <div class="announcement_box_block announcement_box_darkyellow">
+          <div class="announcement_box_block_top">
+            <div class="announcement_left_round_img">
+              <img class="announcement_left_default_img" src="assets/images/doc_up_icon-gray.png" *ngIf="pdfs">
+              <img class="announcement_left_default_img" src="assets/images/bank-doc-img.png" *ngIf="!pdfs">
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="pdfs">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deletePdfs()" *ngIf="!blogId">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn" *ngIf="!blogId">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept=".pdf" (change)="previewImage($event,'pdfs')" #filePdf/>
+              </div>
+
+              <h4>Click here to upload PDFs</h4>
+              <p class="upload_file_name" *ngIf="pdfs">{{getFileName ? getFileName : getPdfFile}}</p>
+              <button class="button_appearance_none announcement_show_download_btn" (click)="downloadFile()" *ngIf="pdfs">
+                <img class="" src="assets/images/icon-download-black.png">
+              </button>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- <div class="announcement_box_block announcement_box_darkyellow">
+          <div class="announcement_box_block_top">
+            <div class="announcement_left_round_img">
+              <img *ngIf="!mainImage" class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+              <img  *ngIf="mainImage" class="announcement_left_upload_img" src="{{mainImage}}">
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="mainImage">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage()" *ngIf="!blogId">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn" *ngIf="!blogId">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event, 'mainImage')" #fileImage/>
+              </div>
+              <h4>Upload images for blog</h4>
+              <p>(Maximum Size will be from 2-5MB )</p>
+            </div>
+            <div class="crop_window" *ngIf="OpenCropImageModal">
+              <image-cropper
+                [imageChangedEvent]="ImageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="1 / 1"
+                (imageCropped)="cropImg($event,'mainImage')"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()">
+              >
+              </image-cropper>
+              <div class="crop_btn_bottom">
+                <button class="button_appearance_none crop_btn crop_btn_close" (click)="closeImage('mainImage')">
+                  <img src="assets/images/crosspink.png">
+                </button>
+                <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="OpenCropImageModal" (click)="saveImage('mainImage')">
+                  <img src="assets/images/tick.png">
+                </button>
+              </div>
+            </div>
+        </div>
+      </div> -->
+
+      <!-- </div> -->
+      <!-- onboard_form_row  -->
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_darkyellow">
+            <div class="announcement_left_round_img">
+              <img *ngIf="!thumbnailImage"class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+              <img *ngIf="thumbnailImage" class="announcement_left_upload_img"  src="{{thumbnailImage}}">
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="thumbnailImage">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deletethumbnailImage()" *ngIf="!blogId">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn" *ngIf="!blogId">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event, 'thumbnailImage')" #fileThumbnail/>
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Upload thumbnail for blog </h4>
+              <p>(Maximum Size will be from 2-5MB , Image ratio & W:H resolution - 9:3 & 1800px:600px )</p>
+            </div>
+
+            <!-----Image croped start----->
+            <div class="crop_window"  *ngIf="thumbnailOpenCropImageModal">
+              <image-cropper
+              [imageChangedEvent]="thumbnailImageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="9 / 3"
+              (imageCropped)="cropImg($event,'thumbnailImage')"
+              (imageLoaded)="imgLoad()"
+              (cropperReady)="initCropper()"
+              (loadImageFailed)="imgFailed()">
+              >
+              </image-cropper>
+              <div class="crop_btn_bottom">
+                <button class="button_appearance_none crop_btn crop_btn_close" (click)="closeImage('thumbnailImage')">
+                  <img src="assets/images/crosspink.png">
+                </button>
+                <button class="button_appearance_none crop_btn crop_btn_done" (click)="saveImage('thumbnailImage')">
+                  <img src="assets/images/tick.png">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Event Name</label>
+              <div class="select_option_wrap">
+                <!-- <select class="input_appearance_none filter_input onboard_select" formControlName="eventId" [ngClass]="{'disabled': hasevent}"
+                onfocus='this.size=6;' onblur='this.size=6;' onfocusout='this.size=null;' onchange='this.size=6; this.blur();'
+                > -->
+                <select class="input_appearance_none filter_input onboard_select" formControlName="eventId" [ngClass]="{'disabled': hasevent}"
+                style="max-height: 160px; overflow: auto;"
+                onfocus="this.size=this.options.length;"
+                onblur="this.size=1;"
+                onchange="this.size=1; this.blur();"
+                >
+                  <option value="" disabled selected hidden>Select Events *</option>
+                  <ng-container *ngFor="let val of evetList">
+                      <option [value]="val.id">
+                        {{val.title}}
+                      </option>
+                  </ng-container>
+                </select>
+              </div>
+<!--
+              <div>
+                <select
+                  style="max-height: 160px; overflow: auto;"
+                  onfocus="this.size=this.options.length;"
+                  onblur="this.size=1;"
+                  onchange="this.size=1; this.blur();"
+                >
+                  <option value="text1">text1</option>
+                  <option value="text2">text2</option>
+                  <option value="text3">text3</option>
+                </select>
+              </div>
+ -->
+            </div>
+            <!-- <div class="form_input_row_error" *ngIf="(blogForm.get('eventId')?.errors?.['InvalidValue'] && (blogForm.get('eventId')?.dirty || blogForm.get('eventId')?.touched))">
+              <div class="form_field_error_msg">
+                Event Name is required.
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+
+      </div>
+      <!-- onboard_form_row  -->
+
+       <!-- onboard_form_row  -->
+       <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Blog Title *</label>
+                <input class="input_appearance_none" type="text" placeholder="Blog Title *" formControlName="blogTitle" [ngClass]="{'disabled': blogId}">
+            </div>
+            <div class="form_input_row_error" *ngIf="(blogForm.get('blogTitle')?.errors?.['InvalidValue'] && (blogForm.get('blogTitle')?.dirty || blogForm.get('blogTitle')?.touched))">
+              <div class="form_field_error_msg">
+                Blog title is required.
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(blogForm.get('blogTitle')?.errors?.['longName'] && (blogForm.get('blogTitle')?.dirty || blogForm.get('blogTitle')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum of 10 words.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Blog Category</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="blogCategory" [ngClass]="{'disabled': blogId}">
+                <option value="" disabled selected hidden>Select Category *</option>
+                <option value="Public" >Public</option>
+                <option value="Private">Private</option>
+                <option value="Fan">Fan/Members</option>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(blogForm.get('blogCategory')?.errors?.['InvalidValue'] && (blogForm.get('blogCategory')?.dirty || blogForm.get('blogCategory')?.touched))">
+              <div class="form_field_error_msg">
+                Blog Category is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <!-- <h4 class="block_sec_title green_text">Description of the Organization</h4> -->
+          <label class="form_label_green mb_10">Blog Description *</label>
+        </div>
+        <div class="textArea_block editWebPage_row" [ngClass]="{'disabled': blogId}">
+          <ckeditor class="input_appearance_none editWeb_textArea" formControlName="blogDescription"></ckeditor>
+          <!-- <div class="text_count_block">
+            123/500
+          </div> -->
+        </div>
+        <div class="form_input_row_error " *ngIf="(blogForm.get('blogDescription')?.errors?.['InvalidValue'] && (blogForm.get('blogDescription')?.dirty || blogForm.get('blogDescription')?.touched))">
+          <div class="form_field_error_msg">
+            Blog description is required.
+          </div>
+      </div>
+      </div>
+
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+            <!-- <h4 class="block_sec_title green_text">Description of the Organization</h4> -->
+            <label class="form_label_green mb_10">Blog Short Description *</label>
+        </div>
+        <div class="textArea_block editWebPage_row" [ngClass]="{'disabled': blogId}">
+          <ckeditor class="input_appearance_none editWeb_textArea" formControlName="blogShortDesc"></ckeditor>
+          <!-- <div class="text_count_block">
+            123/500
+          </div> -->
+        </div>
+          <div class="form_input_row_error " *ngIf="(blogForm.get('blogShortDesc')?.errors?.['InvalidValue'] && (blogForm.get('blogShortDesc')?.dirty || blogForm.get('blogShortDesc')?.touched))">
+            <div class="form_field_error_msg">
+              Blog short description is required.
+            </div>
+          </div>
+          <div class="form_input_row_error" *ngIf="(blogForm.get('blogShortDesc')?.errors?.['longName'] && (blogForm.get('blogShortDesc')?.dirty || blogForm.get('blogShortDesc')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum of 10 words.
+              </div>
+            </div>
+      </div>
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_30">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Facebook Link</label>
+                <input class="input_appearance_none" type="text" placeholder="Facebook Link" formControlName="fbLink" >
+            </div>
+          </div>
+        </div>
+
+
+        <div class="onboard_form_box width_30">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Twitter Link</label>
+                <input class="input_appearance_none" type="text" placeholder="Twitter Link" formControlName="twitterLink" >
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_30">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Linkedin Link</label>
+                <input class="input_appearance_none" type="text" placeholder="Linkedin Link" formControlName="likedinLink" >
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+       <!-- <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_30">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Linkedin Link</label>
+                <input class="input_appearance_none" type="text" placeholder="Linkedin Link" formControlName="likedinLink" >
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row ---  full row -- multiple img/dic upload -- start  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_darkyellow">
+            <div class="announcement_left_round_img">
+              <img class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+              <!-- <img *ngIf="thumbnailImage" class="announcement_left_upload_img"  src="{{thumbnailImage}}"> -->
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn" >
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*" (change)="onFileSelected($event,'image')" multiple/>
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Click Here to upload blog images (Maximum upload 5 files) </h4>
+              <p *ngIf="totalImageCount < 2">{{totalImageCount}} Image have been uploaded </p>
+              <p *ngIf="totalImageCount >= 2">{{totalImageCount}} Images have been uploaded </p>
+            </div>
+
+            <!-----Image croped start----->
+
+            <!-----Image croped end------->
+          </div>
+        </div>
+        <!--Upload multiple blog images-->
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_img_thumb">
+              <ul class="thumb_img_list">
+                <li *ngFor="let imageUrl of uploadedImages">
+                  <div class="round_thumb_img">
+                    <img class="announcement_left_upload_img"  src="{{imageUrl}}" style="display: block;">
+                  </div>
+                  <div class=" up_img_delete_btn_block" >
+                    <button class="button_appearance_none up_img_delete_btn" (click)="uploadedImgDelete(imageUrl)">
+                      <img src="assets/images/trash-delete.png">
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row ---  full row -- multiple img/dic upload -- end  -->
+
+      <!-- onboard_form_row ---  full row -- multiple img/dic upload -- start  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_darkyellow">
+            <div class="announcement_left_round_img">
+              <img class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+              <!-- <img *ngIf="thumbnailImage" class="announcement_left_upload_img"  src="{{thumbnailImage}}"> -->
+            </div>
+            <!-- <div class=" up_img_delete_btn_block" >
+              <button class="button_appearance_none up_img_delete_btn" >
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div> -->
+            <div class="announcement_top_des">
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn" >
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file"  accept=".pdf" (change)="onFileSelected($event,'pdf')" multiple/>
+              </div>
+              <!-- img / upload img -- end -->
+              <h4>Click Here to upload PDFs (Maximum upload 5 files) </h4>
+              <p *ngIf="totalPdfCount < 2">{{totalPdfCount}} pdf have been uploaded</p>
+              <p *ngIf="totalPdfCount >= 2">{{totalPdfCount}} pdfs have been uploaded</p>
+            </div>
+            <!-----Image croped start----->
+            <!-----Image croped end------->
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_img_thumb">
+              <ul class="thumb_img_list">
+                <li *ngFor="let pdf of uploadPdf">
+                  <div class="round_thumb_img round_thumb_img_doc">
+                    <!-- <img class="announcement_left_default_img"  src="assets/images/doc_up_icon.png" alt="File Name 01"> -->
+                    <img class="announcement_left_default_img"  src="assets/images/pdf-icon-img.png" alt="File Name 01">
+                  </div>
+                  <div class="roundThumbImg_fileName" >
+                    <p>{{pdf.name ? pdf.name : ''}}</p>
+                  </div>
+                  <div class=" up_img_view_btn_block" >
+                    <a class="button_appearance_none up_img_view_btn" style="margin-left: 16px;color:lightskyblue; font-size: 12px;" [href]="pdf.url" target="_blank" rel="noopener noreferrer">
+                      View PDF
+                      <!-- <img src="assets/images/icon-eye-black.png" alt="View PDF"> -->
+                    </a>
+                  </div>
+                  <div class=" up_img_delete_btn_block" >
+                    <button class="button_appearance_none up_img_delete_btn" (click)="uploadedPdfDelete(pdf.url)">
+                      <img src="assets/images/trash-delete.png">
+                    </button>
+                  </div>
+                </li>
+                
+              </ul>
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Error message for full section
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row ---  full row -- multiple img/dic upload -- end  -->
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section" *ngIf="!blogId">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" [routerLink]="['/blog']">Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" [ngClass]="{'disabled': !blogForm.valid}" (click)="saveBlogDetails()">Submit</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    </div>
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+</form>
+
+
+

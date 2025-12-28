@@ -1,0 +1,73 @@
+
+
+<div class=" dflex_justify_end mb_20">
+  <div class="filterArea dflex_justify_end">
+    <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+  </div>
+</div>
+
+<!-- ===  new filter section -- adjust start === -->
+<div class="fliter_sec_bg" *ngIf="toggleFilter">
+  <div class="filter_sec_block">
+    <form [formGroup]="filterForm">
+
+      <div class="form_row">
+
+        <!-- USER DROPDOWN -->
+        <div class="input_block_box w_50">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_select">
+              <ng-select formControlName="userId" [items]="activeMembersList" bindLabel="user.name" bindValue="user.id"
+                placeholder="Select User" (change)="applyFilter()"
+                class="input_appearance_none filter_input ngSelect_dropDown">
+
+                <ng-template ng-option-tmp let-item="item">
+                  {{ item.user?.name }}
+                </ng-template>
+
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATE RANGE -->
+        <div class="input_block_box w_50">
+          <div class="filter_input_block">
+            <div class="filter_input_box filter_search_date">
+              <mat-form-field>
+                <mat-label>Date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate matInput placeholder="Start date" formControlName="startDate"
+                    (dateChange)="applyFilter()">
+                  <input matEndDate matInput placeholder="End date" formControlName="endDate"
+                    (dateChange)="applyFilter()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</div>
+<!-- ===  new filter section -- adjust end === -->
+
+<div class="chart-card card_analytics">
+  <div class="charts-container analytics_tableChart_cont">
+    <div class="chart_card_table">
+      <h3 class="chart-title">My Spent Amount Vs Community</h3>
+      <p class="chart-subtitle">Always Yes RSVP--ed, with Count</p>
+
+      <div class="chart-wrapper chartTable">
+        <canvas baseChart [data]="chartData1" [options]="chartOptions1" [type]="'bar'">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+

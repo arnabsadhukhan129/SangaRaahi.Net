@@ -1,0 +1,56 @@
+/* Add styles here */
+.analytics_tableChart_cont {
+
+}
+.charts-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.chart_card_table {
+  flex: 1;
+  /* min-width: 300px; */
+  min-width: calc(50% - 20px);
+  max-width: 100%;
+  background: #040404;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid;
+  border-color:  var(--lightgrey);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 5px 0;
+}
+
+.chart-subtitle {
+  font-size: 12px;
+  color: #cccccc;
+  margin: 0 0 15px 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 350px;
+  width: 100%;
+}
+
+.chartTable canvas {
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    flex-direction: column;
+  }
+  
+  .chart-card {
+    min-width: 100%;
+  }
+}

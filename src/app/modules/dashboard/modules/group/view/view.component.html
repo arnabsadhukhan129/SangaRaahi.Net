@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h5 class="modal-title">Group Details</h5>
+</div>
+
+<div class="modal-body modal_body_scroll">
+  <div class="modal_body_blockBg modal_cont_scroll">
+    <div class="modalBody_row">
+      <p>
+        <strong>Group Name : &nbsp; </strong> {{groupData?.name}}
+      </p>
+    </div>
+    <div class="modalBody_row">
+      <p>
+        <strong>Group Type : &nbsp; </strong> {{groupData?.type}}
+      </p>
+    </div>
+    <div class="modalBody_row">
+      <p>
+        <strong>Group Description : &nbsp; </strong> {{groupData?.description | truncate:300}}
+      </p>
+    </div>
+
+    <div class="modalBody_row mt_20 mb_20">
+      <p>
+        <strong>Group Members : &nbsp; </strong> <span class="count_num_show count_num_show_modal">
+          {{groupData?.memberCount}}
+        </span>
+      </p>
+    </div>
+
+    <div class="modal_user_row" *ngFor="let member of groupData.members">
+      <div class="modal_user_row_left">
+        <span class="modal_user_row_avatar">
+          <img src="{{member.user.profileImage ? member.user.profileImage : 'assets/images/header-user.png'}}">
+        </span>
+        <h4>{{member?.user?.name}}<br>
+          <span><b>Phone No. -</b> {{member?.user?.phoneCode}} {{member.user.phone ? member.user.phone : 'N/A'}}</span>
+          <!-- | <span><b> Age -</b> 36</span> -->
+        </h4>
+      </div>
+    </div>
+
+    <!-- <div class="modal_user_row">
+      <div class="modal_user_row_left">
+        <span class="modal_user_row_avatar">
+          <img src="assets/images/header-user.png">
+        </span>
+        <h4>Abhisek Mannna <br>
+          <span><b>Phone No. -</b> 7686080075</span> | <span><b> Age -</b> 36</span>
+        </h4>
+      </div>
+    </div>
+    <div class="modal_user_row">
+      <div class="modal_user_row_left">
+        <span class="modal_user_row_avatar">
+          <img src="assets/images/header-user.png">
+        </span>
+        <h4>Abhisek Mannna <br>
+          <span><b>Phone No. -</b> 7686080075</span> | <span><b> Age -</b> 36</span>
+        </h4>
+      </div>
+    </div>
+    <div class="modal_user_row">
+      <div class="modal_user_row_left">
+        <span class="modal_user_row_avatar">
+          <img src="assets/images/header-user.png">
+        </span>
+        <h4>Abhisek Mannna <br>
+          <span><b>Phone No. -</b> 7686080075</span> | <span><b> Age -</b> 36</span>
+        </h4>
+      </div>
+    </div> -->
+
+    <div class="modalBody_row mt_20 mb_20">
+      <p>
+        <strong>Invited Events : &nbsp; </strong> <span class="count_num_show count_num_show_modal">{{eventLength}}</span>
+      </p>
+    </div>
+    <div class="modalBody_row flex_wrap_row gap_5">
+      <span class="capsule_small bg_pink color_white mr_10" *ngFor="let event of groupData.events">{{event?.title}}</span>
+      <!-- <span class="capsule_small bg_pink color_white mr_10">New Events Name -- pqr</span>
+      <span class="capsule_small bg_pink color_white mr_10">New Events Name -- xyz</span> -->
+    </div>
+
+
+  </div>
+
+
+
+</div>

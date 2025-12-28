@@ -1,0 +1,438 @@
+<form  [formGroup]="announcementForm">
+    <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+    <div class="edit_webPage_tab_body_bg">
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Announcement page settings</h4>
+          <div class="filterArea">
+            <a href="javascript:void(0)" class="pink_link_text" (click)="previousSetting()">Undo Previous Settings</a>
+          </div>
+        </div>
+        <div class="edit_webPage_tab_leftRight_btn">
+          <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" (click)="saveData('previous')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+          <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" (click)="saveData('next')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Announcements</h4>
+        </div>
+        <div class="editWebPage_row announcement_form_row_toggle">
+
+          <div class="toggle_box">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-1">
+                  <input type="checkbox" id="checkbox-1" formControlName="publicAnnouncement" (change)="togglePublicAnnouncement($event)"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Show Public Announcement
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText8=true" (mouseout)="changeText8=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText8">
+                The first toggle will determine if the announcements tagged as Public will be shown, and the second determines if those tagged for Members Only will also be shown.
+              </div>
+
+            </div>
+          </div>
+
+          <div class="toggle_box">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-2">
+                  <input type="checkbox" id="checkbox-2" formControlName="memberAnnouncement" (change)="toggleMemberAnnouncement($event)"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Show Member Announcement
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText2=true" (mouseout)="changeText2=false">
+              </button>
+
+              <div class="tooltip_hover_text" *ngIf="changeText2">
+                You may use this toggle to choose whether your Community’s announcements will be shown on the public “Announcements” page and the public “Home” page.
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+
+
+
+      <!---Public Announcement start-->
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">List of Public Announcements</h4>
+          <div class="block_title_btn_div">
+            <button type="submit" class="button_appearance_none block_title_btn yellow_btn" [routerLink]="['/announcements/add']">Create Announcement</button>
+            <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="announcmentDetails?.length !== 0" [routerLink]="['/announcements']">View more</button>
+          </div>
+        </div>
+        <div class=" editWeb_carousel_sec editWeb_subSection about_carousel annoucemrnt_carousel">
+          <div class="editWeb_carousel_sec_body">
+            <div class="event_carousal_section ">
+              <!-- carousal no data found -->
+            <div class="no_data_card" *ngIf="announcmentDetails?.length === 0">
+              <h5>No Public Announcement Found</h5>
+            </div>
+            <!-- carousal -- main -- start --  -->
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="announcmentDetails?.length !== 0">
+              <ng-template carouselSlide *ngFor="let item of announcmentDetails">
+                <div class="owl_item ">
+                  <div class="owl_item_about">
+                    <div class="owl_item_about_img">
+                      <img class="owl_item_roundImg" src="assets/images/mike-img-02.png">
+                    </div>
+                    <div class="owl_item_about_cont owl_item_about_bottom">
+                      <h5>{{item.title | truncate: 50}}</h5>
+                      <p>{{item.description | truncate: 35}}</p>
+                      <div class="announcement_box_block_bottom">
+                        <div class="announcement_box_bottom announcement_box_bottom_left">
+                          <!-- <h5>{{item.endDate }}</h5> -->
+                          <h5>{{item.endDate | date:'dd/MM/YYYY'}}</h5>
+                        </div>
+                        <div class="announcement_box_bottom announcement_box_bottom_right">
+                          <a href="javascript:void(0)" (click)="showDescription(item)">Read more</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+
+      </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+      <!---Public Announcement End---->
+
+
+
+      <!-----Member Announcement Start--->
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">List of Member Announcements</h4>
+          <div class="block_title_btn_div">
+            <!-- <button type="submit" class="button_appearance_none block_title_btn yellow_btn">Create MemberAnnouncement</button> -->
+            <!-- <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="memberAnnouncmentDetails?.length !== 0">View more</button> -->
+          </div>
+        </div>
+        <div class=" editWeb_carousel_sec editWeb_subSection about_carousel annoucemrnt_carousel">
+          <div class="editWeb_carousel_sec_body">
+            <div class="event_carousal_section ">
+              <!-- carousal no data found -->
+            <div class="no_data_card" *ngIf="memberAnnouncmentDetails?.length === 0">
+              <h5>No Member Announcement Found</h5>
+            </div>
+            <!-- carousal -- main -- start --  -->
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="memberAnnouncmentDetails?.length !== 0">
+              <ng-template carouselSlide *ngFor="let item of memberAnnouncmentDetails">
+                <div class="owl_item ">
+                  <div class="owl_item_about">
+                    <div class="owl_item_about_img">
+                      <img class="owl_item_roundImg" src="assets/images/mike-img-02.png">
+                    </div>
+                    <div class="owl_item_about_cont owl_item_about_bottom">
+                      <h5>{{item.title | truncate: 50}}</h5>
+                      <p>{{item.description | truncate: 35}}</p>
+                      <div class="announcement_box_block_bottom">
+                        <div class="announcement_box_bottom announcement_box_bottom_left">
+                          <!-- <h5>{{item.endDate }}</h5> -->
+                          <h5>{{item.endDate | date:'dd/MM/YYYY'}}</h5>
+                        </div>
+                        <div class="announcement_box_bottom announcement_box_bottom_right">
+                          <a href="javascript:void(0)" (click)="showDescription(item)">Read more</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+      <!---Member Announcement End-->
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Events</h4>
+        </div>
+        <div class="editWebPage_row announcement_form_row_toggle">
+
+          <div class="toggle_box">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-10">
+                  <input type="checkbox" id="checkbox-10" formControlName="publicEvent" (change)="togglePublicEvent($event)"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Show Public Events
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText9=true" (mouseout)="changeText9=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText9">
+                The first toggle determines whether Events tagged public will be shown, the second toggle determines the same for events tagged For Members Only, and the third toggle determines whether past events will be shown.
+              </div>
+            </div>
+            <!-- <div class="toggle_right toggle_tooltip">
+            </div> -->
+          </div>
+
+          <div class="toggle_box">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-9">
+                  <input type="checkbox" id="checkbox-9" formControlName="memberEvent" (change)="toggleMemberEvent($event)"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Show Member’s only Events
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText6=true" (mouseout)="changeText6=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText6">
+                You may use this toggle to choose whether your Community’s events will be shown on the public “Events” page and the public “Home” page.
+              </div>
+            </div>
+          </div>
+
+          <div class="toggle_box">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-7">
+                  <input type="checkbox" id="checkbox-7" formControlName="pastEvent"  (change)="togglePastEvent($event)"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Show Past Events
+              </div>
+            </div>
+            <div class="toggle_right toggle_tooltip">
+              <button class="button_appearance_none tooltip_btn">
+                <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText5=true" (mouseout)="changeText5=false">
+              </button>
+              <div class="tooltip_hover_text" *ngIf="changeText5">
+                Note that Past events will be shown only if the corresponding first two toggles are set to show such events (Public and Members Only).
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+
+
+      <!----Public event start--->
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">List of Public Events</h4>
+          <div class="block_title_btn_div">
+            <button type="submit" class="button_appearance_none block_title_btn yellow_btn" [routerLink]="['/events/add']">Create event</button>
+            <button type="submit" class="button_appearance_none block_title_btn pink_btn" [routerLink]="['/events']">View more</button>
+          </div>
+        </div>
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section">
+            <!-- carousal -- main -- start --  -->
+            <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="events?.length === 0">
+            <h5>No Public Event Found</h5>
+          </div>
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="events?.length !== 0">
+
+              <ng-template carouselSlide *ngFor="let item of events">
+                <div class="owl_item">
+                  <a href="javascript:void(0)">
+                    <div class="owl_item_imgVideo_block">
+                      <img class="owl_item_imgVideo" src="{{item.image ? item.image : 'assets/images/no-image-found-3.png'}}" (click)="ShowEventDetails(item)">
+                    </div>
+                    <div class="owl_item_imgVideo_title">
+                      <h5>{{item.title | truncate: 27}}.</h5>
+                    </div>
+                  </a>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+      <!----Public event end--->
+
+      <!----Member event start--->
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">List of Member Events</h4>
+          <div class="block_title_btn_div">
+            <!-- <button type="submit" class="button_appearance_none block_title_btn yellow_btn">Create event</button> -->
+            <!-- <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="memberEvents?.length !== 0">View more</button> -->
+          </div>
+        </div>
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section">
+            <!-- carousal -- main -- start --  -->
+            <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="memberEvents?.length === 0">
+            <h5>No Member Event Found</h5>
+          </div>
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="memberEvents?.length !== 0">
+
+              <ng-template carouselSlide *ngFor="let item of memberEvents">
+                <div class="owl_item">
+                  <a href="javascript:void(0)">
+                    <div class="owl_item_imgVideo_block">
+                      <img class="owl_item_imgVideo" src="{{item.image ? item.image : 'assets/images/no-image-found-3.png'}}" (click)="ShowEventDetails(item)">
+                    </div>
+                    <div class="owl_item_imgVideo_title">
+                      <h5>{{item.title | truncate:27}}.</h5>
+                    </div>
+                  </a>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+      <!----Member event end--->
+
+      <!----Past event start--->
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">List of Past Events</h4>
+          <div class="block_title_btn_div">
+            <!-- <button type="submit" class="button_appearance_none block_title_btn yellow_btn">Create event</button> -->
+            <!-- <button type="submit" class="button_appearance_none block_title_btn pink_btn" *ngIf="pastEvents?.length !== 0">View more</button> -->
+          </div>
+        </div>
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section">
+            <!-- carousal -- main -- start --  -->
+            <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="pastEvents?.length === 0">
+            <h5>No Past Event Found</h5>
+          </div>
+            <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="pastEvents?.length !== 0">
+
+              <ng-template carouselSlide *ngFor="let item of pastEvents">
+                <div class="owl_item">
+                  <a href="javascript:void(0)">
+                    <div class="owl_item_imgVideo_block">
+                      <img class="owl_item_imgVideo" src="{{item.image ? item.image : 'assets/images/no-image-found-3.png'}}" (click)="ShowEventDetails(item)">
+                    </div>
+                    <div class="owl_item_imgVideo_title">
+                      <h5>{{item.title | truncate:27}}.</h5>
+                    </div>
+                  </a>
+                </div>
+              </ng-template>
+            </owl-carousel-o>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+      <!----Member event end--->
+
+    </div>
+    <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+
+
+  <!-- </div> -->
+
+
+    <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+    <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_gray" type="button" (click)="saveData('previous')">Save Settings & Previous</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" (click)="saveData('')">Save Settings</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData('next')">Save Settings & Next</button>
+    </div>
+    <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+  <!-- edit web page Form Card -- end --  -->
+</form>
+
+
+<!------OpenModal For Announcement------>
+<div class="modal fade custom_modal" id="announcementDesc">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Announcement Details</h5>
+      </div>
+      <div class="modal-body">
+        <p><span class="modal_level">Announcement Title:</span>{{announcementTitle}}</p>
+        <p><span class="modal_level">Announcement Description:</span>{{desc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Announcement------>
+
+<!------OpenModal For Events------>
+<div class="modal fade custom_modal" id="eventDetails">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Details</h5>
+      </div>
+      <div class="modal-body">
+           <p><span class="modal_level">Event Title:</span>{{eventTitle}}</p>
+           <p><span class="modal_level">Event Description:</span>{{eventDescription}}</p>
+           <p><span class="modal_level">Event Venue:</span>{{eventAddress}}</p>
+           <p><span class="modal_level">Event Start Date:</span>{{eventStartDate | date:'dd/MM/YYYY'}}</p>
+           <p><span class="modal_level">Event End Date:</span>{{eventEndDate | date:'dd/MM/YYYY'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Events------>

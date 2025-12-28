@@ -1,0 +1,309 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Blog List</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="searchToggle()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+
+      <a href="javascript:void(0)" class="filter" (click)="filterToggle()">Filter</a>
+      <a class="pinkbtnsmall"  [routerLink]="['/blog/create']" *ngIf="getBlogDetails.canCreate">Create Blog</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/dashboard']">Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec" *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by blog name" formControlName="search" (keyup)="getAllBlogs(current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getAllBlogs(current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button"  (click)="clear()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="blogCategory" (change)="getAllBlogs(current)">
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="Public">Public Blog</option>
+                      <option value="Private">Private Blog</option>
+                      <option value="Fan">Fan/Members Blog</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+<!--
+            </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" (change)="sortData($event)">
+                      <option value="" disabled selected hidden>Sort</option>
+                      <option value="date" >Sort by date</option>
+                      <option value="name">Sort by blog name</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            <!-- </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select" *ngIf="sortDate">
+                    <select class="input_appearance_none filter_input" formControlName="sortByDate" (change)="getAllBlogs(current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascDate" >Ascending order</option>
+                      <option value="descDate">Descending order</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select" *ngIf="sortName">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getAllBlogs(current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Blog Name</th>
+                  <th>Event Name</th>
+                  <th>Blog Category</th>
+                  <th>Blog Thumbnail</th>
+                  <!-- <th>Blog Header</th> -->
+                  <!-- <th>Blog Status</th> -->
+                  <th>Public Status</th>
+                  <th>Permanent Status</th>
+                  <th>Permanent Status Initialization Time</th>
+                  <th>Blog Publish Date</th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of getBlogs, let i = index">
+                  <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                    {{'B100'+(current*10-(9-i))}}
+                  </td>
+                  <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                    {{'B10'+(current*10-(9-i))}}
+                  </td>
+                  <td class="td_readMore_bg">
+                    <p *ngIf="item.blogTitle">{{item.blogTitle | truncate:35}}</p>
+                    <p *ngIf="!item.blogTitle">{{'N/A'}}</p>
+                    <div class="td_readMore_block textRight" *ngIf="item.blogTitle && item.blogTitle.length > 35">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                    </div>
+                  </td>
+                  <td>
+                    <p *ngIf="item.eventName">{{item.eventName | truncate:35}}</p>
+                    <p *ngIf="!item.eventName">{{'N/A'}}</p>
+                    <div class="td_readMore_block textRight" *ngIf="item.eventName && item.eventName.length > 35">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails1(item)">Read more</a>
+                    </div>
+                    <!-- {{item.eventName ? item.eventName : 'N/A'}} -->
+                  </td>
+                  <td>
+                    {{item.blogCategory ? item.blogCategory : 'N/A'}}
+                  </td>
+                  <td>
+                    <div class="blog_td_img">
+                      <img [src]="item.thumbnailImage ? item.thumbnailImage : 'assets/images/no-image-found-01.png'" />
+                    </div>
+                  </td>
+                  <!-- <td>
+                    <div class="blog_header_td">
+                      <div class="blog_td_img">
+                        <img [src]="item.thumbnailImage ? item.thumbnailImage : 'assets/images/no-image-found-01.png'" />
+                      </div>
+                      <div class="blog_td_cont">
+                        <p>{{item.blogTitle ? item.blogTitle : 'N/A'}}</p>
+                      </div>
+                    </div>
+                  </td> -->
+                  <td>
+                    <div class="td_toggle" [ngClass]="{'disabled': item.paymentStatus}">
+                      <div class="toggle_btn">
+                        <label class="switch" for="checkbox-{{i+1}}">
+                            <input type="checkbox" id="checkbox-{{i+1}}"  [checked]="item.blogStatus" (change)="toggleBlogStatus($event,i,item.id)" />
+                            <div class="slider round"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="td_toggle" [ngClass]="{'disabled': item.paymentStatusTimeVerify}">
+                      <div class="toggle_btn">
+                        <label class="switch" for="paycheckbox-{{i+1}}">
+                            <input type="checkbox" id="paycheckbox-{{i+1}}" [checked]="item.paymentStatus" (change)="togglePermanentStatus($event,i,item.id)"/>
+                            <div class="slider round"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td *ngIf="item.paymentStatusTimestamp && item.paymentStatus">
+                    {{item.paymentStatusTimestamp | date: 'dd MMMM y'}}<br>
+                    {{item.paymentStatusTimestamp | date: 'hh:mm a':'UTC'}}
+                  </td>
+                  <td *ngIf="!item.paymentStatus || !item.paymentStatusTimestamp">N/A</td>
+                  <!-- <td *ngIf="!item.paymentStatusTimestamp">
+                    N/A
+                  </td> -->
+                  <td>
+                    {{item.createdAt | date: 'dd MMMM y'}}<br>
+                    {{item.createdAt | date: 'hh:mm a':'UTC'}}
+                  </td>
+                  <td>
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editBlog(item.id)" [ngClass]="{'disabled': item.paymentStatus}" *ngIf="getBlogDetails.canEdit">
+                        <img src="assets/images/active_item_btn_01.png" />
+                      </button>
+
+                      <span *ngIf="getBlogDetails.canView">
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="View" *ngIf="(current*limit)-((limit-1)-i) < 10" [routerLink]="['/blog/blog-view/'+ item.id + '/' + 'B100' + (current * 10 - (9 - i))]">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="View" *ngIf="(current*limit)-((limit-1)-i) >= 10" [routerLink]="['/blog/blog-view/'+ item.id + '/' + 'B10'+ (current * 10 - (9 - i))]">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+                      </span>
+
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteBlog(item.id,i)" [ngClass]="{'disabled': item.paymentStatus}" *ngIf="getBlogDetails.canDelete">
+                        <img src="assets/images/active_item_btn_06.png" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr *ngIf="!getBlogs.length">
+                  <td colspan="10">No Data Found</td>
+                </tr>
+              </tfoot>
+          </table>
+      </div>
+
+      <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit"><app-pagination
+            [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+</div>
+
+
+<div class="modal fade custom_modal " id="alertStatus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Perament Status Alert</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+            <h5>
+              Enabling this settings will permanently save the blog content & cannot be edited after 24 Hours. This settings will be only applicable for Member /fans type Blog Content.
+            </h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">No,Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button" (click)="togglePaymentStatus(event,index,blogId)">Yes,Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="blogNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Blog Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+               {{getGroupName ? getGroupName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="eventNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+               {{eventName ? eventName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

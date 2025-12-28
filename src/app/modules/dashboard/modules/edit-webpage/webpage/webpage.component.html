@@ -1,0 +1,117 @@
+
+<div class="dashboard_panel_bg editWebPage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title mb_30">
+    <h4 class="">{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <h4 class="block_sec_title headeingArea">Design you own Marketing Website</h4>
+      <div class="filterArea">
+          <!--
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a>
+          <a href="javascript:void(0)" class="track" >Track</a>
+           -->
+          <!-- <a href="javascript:void(0)" class="pink_link_text">Undo Previous Settings</a> -->
+          <a href="javascript:void(0)" class="pink_link_text" (click)="back()">Back To Community Profile</a>
+      </div>
+  </div>
+  <!-- filter and heading area end -->
+
+  <!-- ===  Edit Web-Page /  -- start === -->
+
+  <div class="onboard_form_section edit_webPage_section">
+
+
+    <!-- edit web page Form Card -- start --  -->
+    <div class="onboard_form onboard_form_big edit_webPage">
+      <!-- -----  Common top Tab Section -- start -----  -->
+      <div class="edit_webPage_top_tab">
+        <ul>
+          <li [ngClass]="{'active': homeActiveTab}">
+            <!-- <a href="javascript:void(0)" (click)="showHome()"> -->
+            <a href="javascript:void(0)" (click)="showHome()">
+              <img class="edit_webPageTopTab_icon" src="assets/images/editWebPage-icon-01.png">
+              Home
+            </a>
+          </li>
+          <li [ngClass]="{'active': announcementActiveTab}">
+            <!-- <a href="javascript:void(0)" (click)="showAnnouncement()"> -->
+            <a href="javascript:void(0)" (click)="showAnnouncement()">
+              <img class="edit_webPageTopTab_icon" src="assets/images/editWebPage-icon-02.png">
+              Announcement
+            </a>
+          </li>
+          <li [ngClass]="{'active': videoActiveTab}">
+            <!-- <a href="javascript:void(0)" (click)="showVideo()"> -->
+            <a href="javascript:void(0)" (click)="showVideo()">
+              <img class="edit_webPageTopTab_icon" src="assets/images/editWebPage-icon-03.png">
+              Videos
+            </a>
+          </li>
+          <li [ngClass]="{'active': paymentActiveTab}">
+            <!-- <a href="javascript:void(0)" (click)="showPayment()"> -->
+            <a href="javascript:void(0)" (click)="showPayment()">
+              <img class="edit_webPageTopTab_icon" src="assets/images/editWebPage-icon-04.png">
+              Payment details
+            </a>
+          </li>
+          <li [ngClass]="{'active': aboutActiveTab}">
+            <!-- <a href="javascript:void(0)" (click)="showAbout()"> -->
+            <a href="javascript:void(0)" (click)="showAbout()">
+              <img class="edit_webPageTopTab_icon" src="assets/images/editWebPage-icon-05.png">
+              About us
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- -----  Common top Tab Section -- end -----  -->
+
+      <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+
+      <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+      <router-outlet></router-outlet>
+      <!-- <app-home *ngIf="homeActiveTab" (newItemEvent)="getData($event)"></app-home>
+      <app-announcement *ngIf="announcementActiveTab"></app-announcement>
+      <app-videos *ngIf="videoActiveTab"></app-videos>
+      <app-payment *ngIf="paymentActiveTab"></app-payment>
+      <app-about *ngIf="aboutActiveTab"></app-about> -->
+    </div>
+
+
+    <!-- edit web page Form Card -- end --  -->
+
+
+  </div>
+  <!-- ===  Edit Web-Page /  -- end === -->
+
+
+  </div>
+
+<!-- -------  modal start ---   -->
+<!------OpenModal for reject invitaion start------>
+        <div class="modal fade custom_modal" id="saveModalData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title">Are you want to save this page ?</h5>
+                      </div>
+                      <div class="modal-body">
+                          <div class="btnArea">
+                              <button class="acceptButton">Yes</button>
+                              <button type="button" class="btn gen-btn-md gray" data-dismiss="modal" (click)="notSave()">
+                                No
+                              </button>
+                          </div>
+                      </div>
+                  </div>  
+          </div>
+      </div>
+<!------OpenModal for reject invitaion end------>
+  
+
+<!-- -------  modal end ---   -->

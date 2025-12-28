@@ -1,0 +1,183 @@
+<div class="page_top_title filter-headingArea"></div>
+<div class="edit_webPage_tab_body_bg ">
+
+  <form [formGroup]="reminderForm">
+
+    <div class="onboard_form onboard_form_big " >
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" *ngIf="fequencyStatus === 'yes'">
+            <div class="onboard_form_row gpa_30">
+              <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">SMS *</label>
+                          <input class="input_appearance_none" type="text" placeholder="Enter SMS" formControlName="rsvpYesSms">
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+          <div class="onboard_form_row describe_textarea">
+          <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Email *</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+              <ckeditor class="input_appearance_none editWeb_textArea" formControlName="rsvpYesEmail"></ckeditor>
+          </div>
+          </div>
+      </div>
+
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" *ngIf="fequencyStatus === 'no'">
+          <div class="onboard_form_row gpa_30">
+              <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">SMS *</label>
+                          <input class="input_appearance_none" type="text" placeholder="Enter SMS" formControlName="rsvpNoSms">
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="onboard_form_row describe_textarea">
+          <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Email *</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+              <ckeditor class="input_appearance_none editWeb_textArea" formControlName="rsvpNoEmail"></ckeditor>
+          </div>
+          </div>
+      </div>
+
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" *ngIf="fequencyStatus === 'not-attending'">
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">SMS *</label>
+                      <input class="input_appearance_none" type="text" placeholder="Enter SMS" formControlName="rsvpNoAttendingSms">
+                  </div>
+              </div>
+          </div>
+        </div>
+          <div class="onboard_form_row describe_textarea">
+          <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Email *</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+              <ckeditor class="input_appearance_none editWeb_textArea" formControlName="rsvpNoAttendingEmail"></ckeditor>
+          </div>
+          </div>
+      </div>
+
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" *ngIf="fequencyStatus === 'tentative'">
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">SMS *</label>
+                      <input class="input_appearance_none" type="text" placeholder="Enter SMS" formControlName="rsvpTentativeSms">
+                  </div>
+              </div>
+          </div>
+        </div>
+          <div class="onboard_form_row describe_textarea">
+          <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Email *</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+              <ckeditor class="input_appearance_none editWeb_textArea" formControlName="rsvpTentativeEmail"></ckeditor>
+          </div>
+          </div>
+      </div>
+
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" *ngIf="fequencyStatus === 'all'">
+
+          <div class="onboard_form_row gpa_30">
+              <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">SMS *</label>
+                          <input class="input_appearance_none" type="text" placeholder="Enter SMS" formControlName="rsvpAllSms">
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="onboard_form_row describe_textarea">
+          <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Email *</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+              <ckeditor class="input_appearance_none editWeb_textArea" formControlName="rsvpAllEmail"></ckeditor>
+          </div>
+          </div>
+      </div>
+
+      <!-- <form [formGroup]="cawnForm"> -->
+
+        <div class="onboard_form onboard_form_big" >
+          <div class=" edit_webPage onboard_form_event" >
+            <div class="onboard_form_row ">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Cron Type *</label>
+                  <select class="input_appearance_none filter_input onboard_select" (change)="selectCawnType($event)" formControlName="notificationType">
+                    <option value="" disabled selected hidden>Select Cron Type</option>
+                    <option value= "immediate" >Immediately</option>
+                    <option value= "scheduled" >Schedule Wise</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" edit_webPage onboard_form_event" *ngIf="isCawnType">
+            <div class="onboard_form_row gpa_30 ">
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Date *</label>
+                    <input class="input_appearance_none custom_date_input" type="date" placeholder="Date" formControlName="notificationDate" [min]="today"  [max]="getEventDate | date:'yyyy-MM-dd'">
+                  </div>
+                  <!-- <div class="form_input_row_error"  >
+                    <div class="form_field_error_msg">
+                      Date is required.
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Time *</label>
+                    <input class="input_appearance_none custom_date_input" type="time" placeholder="Time" formControlName="notificationTime">
+                  </div>
+                  <!-- <div class="form_input_row_error"  >
+                    <div class="form_field_error_msg">
+                      Time is required.
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section" *ngIf="cawnForm.value?.cawnType">
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveCawnData()">Save</button>
+          </div> -->
+        </div>
+
+      <!-- </form> -->
+
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="save()" >
+            <span *ngIf="isCawnType">Schedule</span>
+            <span *ngIf="!isCawnType">Send</span> 
+          </button>
+      </div>
+
+    </div>
+
+
+  </form>
+</div>

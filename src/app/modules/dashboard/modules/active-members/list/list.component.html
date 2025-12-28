@@ -1,0 +1,397 @@
+
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <h4 class="block_sec_title headeingArea">Member list</h4>
+      <div class="filterArea">
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()">
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+          <a href="javascript:void(0)" class="track" (click)="track()">Track</a>
+          <a href="javascript:void(0)" class="pinkbtnsmall" (click)="onboardUser()" *ngIf="getMemberDetails.canOnboard">Onboard Users</a>
+          <!-- <a href="javascript:void(0)" class="pinkbtnsmall" [matMenuTriggerFor]="menu1">Export</a> -->
+
+          <button class="button_appearance_none filter_drop_btn pinkbtnsmall" [matMenuTriggerFor]="menu1">Export</button>
+
+          <mat-menu #menu1="matMenu" class="logoutMat">
+            <!---View My Profile-->
+            <button class="matMenu_btn" mat-menu-item (click)="exportMember('all')">All</button>
+            <!---Edit Profile--->
+            <button class="matMenu_btn" mat-menu-item (click)="exportMember('family')">Family Wise</button>
+            <!---Logou-->
+            <button class="matMenu_btn" mat-menu-item (click)="exportMember('group')">Group Wise</button>
+
+          </mat-menu>
+      </div>
+  </div>
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec" *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by name, phone number or email" formControlName="search" (keyup)="getActiveMembersList(communityId, current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getActiveMembersList(communityId, current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="searchForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_date">
+                    <mat-form-field>
+                      <mat-label>Join date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate matInput placeholder="Start date" formControlName="startDate">
+                        <input matEndDate matInput placeholder="End date" formControlName="endDate">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getActiveMembersList(communityId, current)">
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" *ngIf="isSelected">All</option>
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select" *ngIf="!type">
+                    <select class="input_appearance_none filter_input" formControlName="roles" (change)="getActiveMembersList(communityId, current)">
+                      <option value="" disabled selected hidden>User Type</option>
+                      <option value="" >All</option>
+                      <option value="board_member">Board Member</option>
+                      <option value="executive_member">Executive Member</option>
+                      <option value="member">Member</option>
+                      <option value="fan">Fan</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="filter" (change)="getActiveMembersList(communityId, current)">
+                      <option value="" disabled selected hidden>Member Type</option>
+                      <option value="" >All</option>
+                      <option value="GroupWise">Group Wise</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getActiveMembersList(communityId, current)">
+                      <option value="" disabled selected hidden>Sort by member name</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box_btn">
+                    <button class="button_appearance_none filter_btn_search" (click)="getActiveMembersList(communityId, current)">Submit</button>
+                    <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                  <tr>
+                      <th>SI</th>
+                      <th>Member Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone No.</th>
+                      <th>User Type</th>
+                      <th>Group Name</th>
+                      <th>Last Activity On</th>
+                      <th>Status</th>
+                      <th>Action Items</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- <tr>
+                    <td>ID1234</td>
+                    <td>Mr. Jhone Doe</td>
+                    <td>jhone@gmail.com</td>
+                    <td>+91 000 000 0000</td>
+                    <td>Board member</td>
+                    <td>28th march 2023 <br> 01:17 PM</td>
+                    <td><button class="button_appearance_none td_active_btn">Active</button></td>
+                    <td>
+                      <div class="active_item_td">
+                        <button class="button_appearance_none active_item_td_btn td_btn_yellow">
+                          <img src="assets/images/active_item_btn_01.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_green">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_orange">
+                          <img src="assets/images/active_item_btn_03.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_pink">
+                          <img src="assets/images/active_item_btn_04.png" />
+                        </button>
+                      </div>
+                    </td>
+                </tr> -->
+                <tr *ngFor="let item of activeMemberList; let i = index">
+                  <td>{{current*10-(9-i)}}</td>
+                  <td>{{item?.members?.communityMemberId ? item?.members?.communityMemberId : 'N/A'}}</td>
+                  <td>{{item.members.user.name  ? item.members.user.name : 'N/A'}}</td>
+                  <td>{{item.members.user.email ? item.members.user.email : 'N/A'}}</td>
+                  <td>{{item.members.user.phone ? item.members.user.phone : 'N/A'}}</td>
+                  <td>{{item.members.roles ? item.members.roles :'N/A'}}</td>
+                  <td>
+                    <span *ngIf="item.groupNames.length > 2">
+                      <b>{{item.groupNames[0] | truncate:35}}</b> & <span class="td_modal_link" (click)="groupModal(item.groupNames, item.members.user.name )">{{item.groupNames.length - 1}} Others</span>
+                    </span>
+                    <span *ngIf="item.groupNames.length === 0">
+                      <b>{{'N/A'}}</b>
+                    </span>
+                    <span *ngIf="item.groupNames.length === 1">
+                      <b>{{item.groupNames[0] | truncate:35}}</b>
+                    </span>
+                    <span *ngIf="item.groupNames.length === 2">
+                      <b>{{item.groupNames[0] | truncate:35}} & <span class="td_modal_link" (click)="groupModal(item.groupNames, item.members.user.name )"> 1 Others</span></b>
+                    </span>
+                  </td>
+                  <td>{{item.members.joinedAt ? item.members.joinedAt : 'N/A'}}</td>
+                  <td>
+                    <!-- <button class="button_appearance_none td_active_btn" (click)="changeStatus(item.members.memberId,i)" [ngClass]="{'disabled': !item.members.isActiveDeletePermission}">{{item.members.isActive ? 'Active' : 'Inactive'}}</button> -->
+                    <button class="button_appearance_none td_status_btn td_active_btn"  (click)="changeStatus(item.members.memberId,i)" *ngIf="item.members.isActive === true " [ngClass]="{'disabled': !item.members.isActiveDeletePermission}">Active</button>
+                    <button class="button_appearance_none td_status_btn td_inactive_btn"  (click)="changeStatus(item.members.memberId,i)"  *ngIf="item.members.isActive === false" [ngClass]="{'disabled': !item.members.isActiveDeletePermission}">Inactive</button>
+                  </td>
+                  <td>
+                    <!-- <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_green" (click)="viewDetails(item.members.user.id)">
+                        <img src="assets/images/active_item_btn_02.png" />
+                      </button>
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink" (click)="deleteMember(item.members.memberId,i)">
+                        <img src="assets/images/active_item_btn_04.png" />
+                      </button>
+                    </div> -->
+                      <!-- <button (click)="viewDetails(item.members.user.id)">View Details</button>
+                      &nbsp;
+                      <button (click)="deleteMember(item.members.memberId,i)">Delete</button> -->
+                      <div class="active_item_td">
+                        <!-- <button class="button_appearance_none active_item_td_btn td_btn_yellow">
+                          <img src="assets/images/active_item_btn_01.png" />
+                        </button> -->
+                        <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editDetails(item.members.user.id)">
+                          <img src="assets/images/active_item_btn_01.png" />
+                        </button>
+
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="View" (click)="viewDetails(item.members.user.id)" *ngIf="getMemberDetails.canView">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+                        <!-- <button class="button_appearance_none active_item_td_btn td_btn_orange">
+                          <img src="assets/images/active_item_btn_03.png" />
+                        </button> -->
+                        <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteMember(item.members.memberId,i)" [ngClass]="{'disabled': !item.members.isActiveDeletePermission}" *ngIf="getMemberDetails.canDelete">
+                          <img src="assets/images/active_item_btn_04.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_gray" title="Promotion / Demotion" (click)="promoteModal(item.members)" *ngIf="getMemberDetails.canPromoteDemote">
+                          <!-- <img src="assets/images/active_item_btn_02.png" /> -->
+                          <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                  </td>
+                </tr>
+
+                <tr *ngIf="!activeMemberList?.length">
+                    <td colspan="8">No Data Found</td>
+                </tr>
+
+              </tbody>
+          </table>
+          <!-- <ng-template [ngIf]="total && total!== 0">
+              <div class="list_pagination">
+              </div>
+          </ng-template> -->
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <ng-template [ngIf]="total && total!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > 10"><app-pagination
+            [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+      <!-- <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+
+            <div class="pagination">
+              <a href="#">&laquo;</a>
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">&raquo;</a>
+            </div>
+
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing 1 - 25</p>
+        </div>
+      </div> -->
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+
+</div>
+
+
+<!-- ============  static HTML part ==== start  ======= -->
+
+
+<!-- ============  static HTML part ==== end  ======= -->
+
+
+<!--Promote or Demote Modal-->
+<div class="modal fade custom_modal" id="promoteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Promote/Demote User</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_task_cont_block mb_20 modal_task_cont_block_leftRight">
+            <div class="pad_tb_10 modal_task_cont_block_left">
+              <div class="round_thumb_img m_auto">
+                <img [src]="profileImage ? profileImage : 'assets/images/no-image-found-3.png' " />
+              </div>
+            </div>
+            <div class="modal_task_cont pad_tb_10 modal_task_cont_block_right">
+              <div class="modal_task_cont_block_right_row text_left">
+                <label class="text_left">Name: </label> <span class="text_left">{{name | titlecase}} </span>
+              </div>
+              <div class="modal_task_cont_block_right_row text_left">
+                <label class="text_left">Mail Id : </label> <span class="text_left">{{userEmail}} </span>
+              </div>
+              <div class="modal_task_cont_block_right_row text_left">
+                <label class="text_left">Mobile : </label> <span class="text_left"> {{userPhone}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal_body_block">
+            <div class="modal_task_cont_block ">
+              <div class="modal_task_cont flex_dir_col" >
+                <p class="text_center">Do you want to promote / demote the <br/> following user into next member type?</p>
+              </div>
+<!--
+              <div class="modal_task_cont flex_dir_col" >
+                <p *ngIf="userType !== 'Board Member'">By Promoting, this user's role will be {{role1}}</p>
+                <p *ngIf="userType !== 'Fan'">By deomoting, this user's role will be {{role2}}</p>
+              </div>
+-->
+            </div>
+          </div>
+
+        </div>
+<!--
+        <h5>Do you want to promote / demote the <br/> following user into next member type?</h5>
+        <h4 *ngIf="userType !== 'Board Member'">By Promoting, this user's role will be {{role1}}</h4>
+        <h4 *ngIf="userType !== 'Fan'">By deomoting, this user's role will be {{role2}}</h4>
+-->
+
+      </div>
+      <div class="modal-footer">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button"  (click)="promote(uid)" *ngIf="userType !== 'Board Member'">
+          <i class="fa fa-level-up" aria-hidden="true"></i> &nbsp; Promote To {{role1}}
+        </button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button"  (click)="demoteUser(uid)" *ngIf="userType !== 'Fan'">
+          <i class="fa fa-level-down" aria-hidden="true"></i> &nbsp; Demote To {{role2}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- td member modal -- start  -->
+<div class="modal fade custom_modal " id="groupModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Group's Name({{userName}})</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_body_list_box modal_body_assign_member">
+<!--
+            <div class="modal_user_row"  *ngFor="let value of getGroupDetails; let i = index">
+              <div class="modal_user_row_left" >
+                <p >{{i+1}}. &nbsp; {{value}}</p>
+              </div>
+            </div>
+          -->
+
+            <ol class="custom-counter">
+              <li   *ngFor="let value of getGroupDetails; let i = index">
+                <!-- <span>{{i+1}}</span> -->
+                <span > {{value}} </span>
+              </li>
+            </ol>
+
+          </div>
+        </div>
+
+        <div class="modal_no_data" *ngIf="getGroupDetails?.length === 0">
+          No data found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- td member modal -- end  -->
