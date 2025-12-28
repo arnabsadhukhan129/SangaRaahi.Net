@@ -1,0 +1,154 @@
+ <div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <h4 class="block_sec_title headeingArea">Onboarding User</h4>
+      <div class="filterArea">
+          <!-- <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a>
+          <a href="javascript:void(0)" class="track" >Track</a> -->
+          <!-- <a href="javascript:void(0)" class="pinkbtnsmall">Onboard passive users</a> -->
+          <div class="top_back_section">
+            <a href="javascript:void(0)" (click)="back()">Back to User Track List</a>
+          </div>
+      </div>
+  </div>
+  <!-- ===  new filter search start === -->
+
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- ===  new filter section start === -->
+
+  <!-- ===  new filter section end === -->
+  <!-- filter and heading area end -->
+
+  <!-- ===  Onboarding Passive User section -- start === -->
+
+  <div class="onboard_form_section">
+    <div class="onboard_form passive_users_form">
+      <h4>Find people by Mobile No.</h4>
+      <form [formGroup]="findForm" (ngSubmit)="findUser()" autocomplete="off" (keydown.enter)="$event.preventDefault()">
+        <!-- <div class="onboard_form_row flex_col">
+          <div class="form_input_row onboard_input_border">
+            <div class="onboard_form_input_icon">
+              <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-01.png">
+            </div>
+            <div class="onboard_form_input">
+              <input class="input_appearance_none" type="text" placeholder="dummy@mailinator.com" formControlName="email">
+            </div>
+          </div>
+          <div class="form_input_row_error">
+            <div class="form_field_error_msg">
+              Mail Id is required.
+            </div>
+          </div>
+        </div> -->
+        <div class="onboard_form_row onboard_form_row_tel">
+          <div class="form_country_code ">
+            <div class="form_input_row onboard_input_border">
+              <div class="onboard_form_input_icon">
+                <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+              </div>
+              <div class="onboard_form_input">
+                <!-- <select class="input_appearance_none onboard_select" >
+                  <option value="" disabled selected hidden>Country Code</option>
+                  <option value="" >All</option>
+                  <option value="">+ 91</option>
+                  <option value="">+ 99</option>
+                  <option value="">+ 91</option>
+                  <option value="">+ 91</option>
+                </select> -->
+                <div class="loginformflidArea">
+                      <input type="text"
+                      class="countryno countryno_mat"
+                      placeholder="Pick one"
+                      aria-label="Number"
+                      matInput
+                      formControlName="countryCode"
+                      [matAutocomplete]="auto"
+                      (keyup)="searchCountry($event)"
+                      >
+                    <ng-container class="login_mat_select_with_map_ngContainer">
+                        <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                        <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                          <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                        </mat-option>
+                      </mat-autocomplete>
+                    </ng-container>
+                  <!-- <input type="number" formControlName="phone"  (keypress)="numericOnly($event)"  (keydown.space)="$event.preventDefault()" placeholder="Enter Your Registered Mobile Number" aria-label="Number"
+                  class="numberfld" /> -->
+              </div>
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(findForm.get('countryCode')?.errors && (findForm.get('countryCode')?.dirty || findForm.get('countryCode')?.touched))">
+              <div class="form_field_error_msg">
+                Phone code is required.
+              </div>
+            </div>
+          </div>
+          <div class="form_tel_num ">
+            <div class="form_input_row onboard_input_border">
+              <div class="onboard_form_input ">
+                <input class="input_appearance_none" type="tel" placeholder="000 000 0000" formControlName="phone" (keypress)="numericOnly($event)"  (keydown.space)="$event.preventDefault()" (keypress)="isNumber($event)">
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(findForm.get('phone')?.errors?.['InvalidValue'] && (findForm.get('phone')?.dirty || findForm.get('phone')?.touched))">
+              <div class="form_field_error_msg">
+                Phone number is required.
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(findForm.get('phone')?.errors?.['invalidMobile'] && (findForm.get('phone')?.dirty || findForm.get('phone')?.touched))">
+              <div class="form_field_error_msg">
+                Phone Number must be 10 digits or 11 digits.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="onboard_form_row" >
+            <label class="error_text" *ngIf="(findForm.get('countryCode')?.errors && (findForm.get('countryCode')?.dirty || findForm.get('countryCode')?.touched))">
+              Phone code is required.
+            </label>
+        </div> -->
+        <!-- <div class="onboard_form_row" >
+            <label class="error_text" *ngIf="(findForm.get('phone')?.errors && (findForm.get('phone')?.dirty || findForm.get('phone')?.touched))">
+              Phone number is required.
+            </label>
+        </div> -->
+        <div class="onboard_form_row onboard_form_row_btn">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink"  type="submit" [ngClass]="{'disabled': !findForm.valid}">Find</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="onboard_bottom_section" *ngIf="alertMsg!=''">
+    <div class="onboard_bottom_box">
+      <img class="onboard_bottom_mike" src="assets/images/mike-img-02.png">
+      <h2>{{alertMsg}}</h2>
+    </div>
+  </div>
+
+  <!-- ===  Onboarding Passive User section -- end === -->
+
+  <!----Start has user component-->
+  <ng-template [ngIf]="memberFormBlock">
+    <app-no-user [data]="data"></app-no-user>
+  </ng-template>
+  <!---End has user component-->
+
+  <!--Start no user component-->
+  <ng-template [ngIf]="memberFormBlock1">
+    <app-has-user [userDetails]="userDetails"></app-has-user>
+  </ng-template>
+  <!--End no user component-->
+</div>

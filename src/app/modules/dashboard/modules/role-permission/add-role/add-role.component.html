@@ -1,0 +1,43 @@
+<div class="page_top_title filter-headingArea">
+    <h4>Add Role</h4>
+    <div class="filterArea">
+        <!-- -- back btn section start --  -->
+        <div class="top_back_section">
+            <a [routerLink]="['/role']">Back to list</a>
+        </div>
+        <!-- -- back btn section end --  -->
+    </div>
+</div>
+
+<form [formGroup]="roleForm">
+    <div class="edit_webPage_tab_body_bg">
+        <div class="onboard_form onboard_form_big edit_webPage">
+            <div class="onboard_form_row gpa_30">
+                <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Role Name *</label>
+                        <input class="input_appearance_none" type="text" placeholder="Role Name" formControlName="roleName" [ngClass]="{'disabled': roleName !== null}">
+                    </div>
+                </div>
+                <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Add Member *</label>
+                        <!-- <input type="text" class="countryno countryno_mat" placeholder="Select Member" aria-label="Number" matInput  formControlName="phoneCode" [matAutocomplete]="auto" (keyup)="searchCountry($event)"> -->
+                        <input #input class="countryno countryno_mat" type="text" placeholder="Select Member" matInput
+                               [matAutocomplete]="auto" (keyup)="searchRole($event)" formControlName="member">
+                        <mat-autocomplete #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                            <mat-option *ngFor="let option of filteredOptions" [value]="option?.members?.user?.name"
+                            (click)="addRole(option)">
+                                {{ option?.members?.user?.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                </div>
+            </div>
+            <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+                <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="save()">Submit</button>
+                <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</form>

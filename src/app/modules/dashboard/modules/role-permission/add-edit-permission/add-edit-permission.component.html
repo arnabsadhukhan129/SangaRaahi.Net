@@ -1,0 +1,444 @@
+
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>Role & Permission</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+   <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/role']">Back to role list</a>
+  </div>
+  <!-- -- back btn section start --  -->
+
+  <form [formGroup]="roleForm" >
+  <!-- card block --- start  -->
+  <!-- <div class="onboard_form onboard_form_big edit_webPage" *ngIf="roleId !== 'usher'"> -->
+  <div class="onboard_form onboard_form_big edit_webPage">
+    <!-- Announcements -- row -- start -->
+    <div class="onboard_form_row announcement_row editWeb_subSection">
+      <div class="block_sec_title_row">
+        <h4 class="block_sec_title green_text">Member</h4>
+      </div>
+      <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-member-1">
+                <input type="checkbox" id="checkbox-member-1" formControlName="canMemberOnboard"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Onboard
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-member-2">
+                <input type="checkbox" id="checkbox-member-2" formControlName="canMemberEdit"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Edit
+            </div>
+          </div>
+        </div> -->
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-member-3">
+                <input type="checkbox" id="checkbox-member-3" formControlName="canMemberView"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              View
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-member-4">
+                <input type="checkbox" id="checkbox-member-4" formControlName="canMemberDelete"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Delete
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-member-5">
+                <input type="checkbox" id="checkbox-member-5" formControlName="canMemberPromoteDemote"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Promote / Demote
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Announcements -- row -- end -->
+
+  </div>
+  <!-- card block --- end  -->
+
+  <!-- card block --- start  -->
+  <div class="onboard_form onboard_form_big edit_webPage">
+
+    <!-- Announcements -- row -- start -->
+    <div class="onboard_form_row announcement_row editWeb_subSection">
+      <div class="block_sec_title_row">
+        <h4 class="block_sec_title green_text">Group</h4>
+      </div>
+      <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-group-1">
+              <input type="checkbox" id="checkbox-group-1" formControlName="canGroupCreate"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Create
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-group-2">
+                <input type="checkbox" id="checkbox-group-2" formControlName="canGroupEdit"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Edit
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-group-3">
+                <input type="checkbox" id="checkbox-group-3" formControlName="canGroupView"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              View
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle_box width_25">
+          <div class="toggle_left ">
+            <div class="toggle_btn">
+              <label class="switch" for="checkbox-group-4">
+                <input type="checkbox" id="checkbox-group-4" formControlName="canGroupDelete"/>
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <div class="toggle_text">
+              Delete
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Announcements -- row -- end -->
+
+  </div>
+  <!-- card block --- end  -->
+<!-- card block --- start  -->
+<div class="onboard_form onboard_form_big edit_webPage">
+
+  <!-- Announcements -- row -- start -->
+  <div class="onboard_form_row announcement_row editWeb_subSection">
+    <div class="block_sec_title_row">
+      <h4 class="block_sec_title green_text">Event</h4>
+    </div>
+    <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+      <div class="toggle_box width_25">
+        <div class="toggle_left ">
+          <div class="toggle_btn">
+            <label class="switch" for="checkbox-event-1">
+              <input type="checkbox" id="checkbox-event-1" formControlName="canEventCreate"/>
+              <div class="slider round"></div>
+            </label>
+          </div>
+          <div class="toggle_text">
+            Create
+          </div>
+        </div>
+      </div>
+
+      <div class="toggle_box width_25">
+        <div class="toggle_left ">
+          <div class="toggle_btn">
+            <label class="switch" for="checkbox-event-2">
+              <input type="checkbox" id="checkbox-event-2" formControlName="canEventEdit"/>
+              <div class="slider round"></div>
+            </label>
+          </div>
+          <div class="toggle_text">
+            Edit
+          </div>
+        </div>
+      </div>
+
+      <div class="toggle_box width_25">
+        <div class="toggle_left ">
+          <div class="toggle_btn">
+            <label class="switch" for="checkbox-event-3">
+              <input type="checkbox" id="checkbox-event-3" formControlName="canEventView"/>
+              <div class="slider round"></div>
+            </label>
+          </div>
+          <div class="toggle_text">
+            View
+          </div>
+        </div>
+      </div>
+
+      <div class="toggle_box width_25">
+        <div class="toggle_left ">
+          <div class="toggle_btn">
+            <label class="switch" for="checkbox-event-4">
+              <input type="checkbox" id="checkbox-event-4" formControlName="canEventDelete"/>
+              <div class="slider round"></div>
+            </label>
+          </div>
+          <div class="toggle_text">
+            Delete
+          </div>
+        </div>
+      </div>
+    
+      <div class="toggle_box width_25">
+        <div class="toggle_left ">
+          <div class="toggle_btn">
+            <label class="switch" for="checkbox-event-5">
+              <input type="checkbox" id="checkbox-event-5" formControlName="canEventFrequency"/>
+              <div class="slider round"></div>
+            </label>
+          </div>
+          <div class="toggle_text">
+            Frequency
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!-- Announcements -- row -- end -->
+  </div>
+    <!-- card block --- start  -->
+    <div class="onboard_form onboard_form_big edit_webPage">
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title green_text">Announcement</h4>
+        </div>
+        <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+          <div class="toggle_box width_25">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-announcement-1">
+                  <input type="checkbox" id="checkbox-announcement-1" formControlName="canAnnouncementCreate"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Create
+              </div>
+            </div>
+          </div>
+  
+          <div class="toggle_box width_25">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-announcement-2">
+                  <input type="checkbox" id="checkbox-announcement-2" formControlName="canAnnouncementEdit"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Edit
+              </div>
+            </div>
+          </div>
+  
+          <div class="toggle_box width_25">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-announcement-3">
+                  <input type="checkbox" id="checkbox-announcement-3" formControlName="canAnnouncementView"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                View
+              </div>
+            </div>
+          </div>
+  
+          <div class="toggle_box width_25">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-announcement-4">
+                  <input type="checkbox" id="checkbox-announcement-4" formControlName="canAnnouncementDelete"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Delete
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+  
+    </div>
+    <!-- card block --- end  -->
+    <div class="onboard_form onboard_form_big edit_webPage">
+        <!-- card block --- start  -->
+
+          <!-- Announcements -- row -- start -->
+          <div class="onboard_form_row announcement_row editWeb_subSection">
+            <div class="block_sec_title_row">
+              <h4 class="block_sec_title green_text">Blog</h4>
+            </div>
+            <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+              <div class="toggle_box width_25">
+                <div class="toggle_left ">
+                  <div class="toggle_btn">
+                    <label class="switch" for="checkbox-blog-1">
+                      <input type="checkbox" id="checkbox-blog-1" formControlName="canBlogCreate"/>
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                  <div class="toggle_text">
+                    Create
+                  </div>
+                </div>
+              </div>
+      
+              <div class="toggle_box width_25">
+                <div class="toggle_left ">
+                  <div class="toggle_btn">
+                    <label class="switch" for="checkbox-blog-2">
+                      <input type="checkbox" id="checkbox-blog-2" formControlName="canBlogEdit"/>
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                  <div class="toggle_text">
+                    Edit
+                  </div>
+                </div>
+              </div>
+      
+              <div class="toggle_box width_25">
+                <div class="toggle_left ">
+                  <div class="toggle_btn">
+                    <label class="switch" for="checkbox-blog-3">
+                      <input type="checkbox" id="checkbox-blog-3" formControlName="canBlogView"/>
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                  <div class="toggle_text">
+                    View
+                  </div>
+                </div>
+              </div>
+      
+              <div class="toggle_box width_25">
+                <div class="toggle_left ">
+                  <div class="toggle_btn">
+                    <label class="switch" for="checkbox-blog-4">
+                      <input type="checkbox" id="checkbox-blog-4" formControlName="canBlogDelete"/>
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                  <div class="toggle_text">
+                    Delete
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Announcements -- row -- end -->
+        </div>
+        <!-- card block --- end  -->
+
+        <div class="onboard_form onboard_form_big edit_webPage">
+          <!-- card block --- start  -->
+            <!-- Announcements -- row -- start -->
+            <div class="onboard_form_row announcement_row editWeb_subSection">
+              <div class="block_sec_title_row">
+                <h4 class="block_sec_title green_text">Checkin</h4>
+              </div>
+              <div class="editWebPage_row announcement_form_row_toggle row_toggle_4">
+                <div class="toggle_box width_25">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn">
+                      <label class="switch" for="checkbox-checkin-1">
+                        <input type="checkbox" id="checkbox-checkin-1" formControlName="canView"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      View
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="toggle_box width_25">
+                  <div class="toggle_left ">
+                    <div class="toggle_btn">
+                      <label class="switch" for="checkbox-checkin-2">
+                        <input type="checkbox" id="checkbox-checkin-2" formControlName="canCheck"/>
+                        <div class="slider round"></div>
+                      </label>
+                    </div>
+                    <div class="toggle_text">
+                      Pay Now
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Announcements -- row -- end -->
+          </div>
+          <!-- card block --- end  -->
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="updateRoleData()">Save</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+  </form>
+</div>
+

@@ -1,0 +1,301 @@
+<!-- <div class="dashboard_panel_bg memberlistpage"> -->
+<!-- filter and heading area start -->
+<!-- <div class="filter-headingArea">
+        <h4 class="block_sec_title headeingArea">Track user list</h4>
+        <div class="filterArea">
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()">
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+            <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+            <a href="javascript:void(0)" class="track" (click)="track()">Track</a>
+            <a href="#" class="pinkbtnsmall">Onboard passive users</a>
+        </div>
+    </div> -->
+
+<!-- ===  new filter search start === -->
+<!-- <div class="filter_search_sec" *ngIf="seachFilter">
+      <div class="filter_sec_block_seach">
+        <div class="form_row">
+          <form [formGroup]="searchForm">
+            <div class="input_block_box filter_search_text">
+              <div class="filter_input_block">
+                <div class="filter_input_box">
+                  <input class="input_appearance_none filter_input" type="text" placeholder="Search name, phone number or email" formControlName="search">
+                </div>
+                <div class="filter_input_box_btn">
+                  <button class="button_appearance_none filter_btn_search" type="button" (click)="getInvitationPendingList(communityId, current)">Search</button>
+                  <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()">Clear</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div> -->
+<!-- ===  new filter search end === -->
+
+<!-- ===  new filter section start === -->
+<!--  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+      <div class="filter_sec_block">
+          <form [formGroup]="searchForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_box filter_search_date">
+                  <mat-form-field>
+                    <mat-label>Acknowladgement date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                      <input matStartDate matInput placeholder="Start date" formControlName="AcknowladgementDateStart">
+                      <input matEndDate matInput placeholder="End date" formControlName="AcknowladgementDateEnd">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                  </mat-form-field>
+                </div>
+                <div class="filter_label">
+                  Date Range:
+                </div>
+                <div class="filter_input_block">
+                  <div class="filter_input_box">
+                    <span class="fil_sub_label">Start Date: </span>
+                    <input class="input_appearance_none filter_input" type="date" formControlName="startDate" placeholder="Start Date" >
+                  </div>
+                  <div class="filter_input_box">
+                    <span class="fil_sub_label">End Date:</span>
+                    <input class="input_appearance_none filter_input" type="date" formControlName="endDate" placeholder="End Date" >
+                  </div>
+                  <div class="filter_input_box_btn">
+                    <button class="button_appearance_none filter_btn_search" (click)="getInvitationPendingList(communityId, current)">Search</button>
+                    <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Clear</button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="form_row">
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" (click)="getInvitationPendingList(communityId, current)">Sunmit</button>
+                <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Reset</button>
+              </div>
+            </div>
+
+          </form>
+      </div>
+    </div> -->
+<!-- ===  new filter section end === -->
+<!-- filter and heading area start -->
+
+<!-- table area start -->
+<!-- <div class="tableBox">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone No.</th>
+                        <th>Invitation sent date</th>
+                        <th>Acknowledgement Status</th>
+                        <th>Action Items</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of memberList; let i = index">
+                    <td>{{current*10-(9-i)}}</td>
+                    <td>{{item.members.user.name  ? item.members.user.name : 'N/A'}}</td>
+                    <td>{{item.members.user.email ? item.members.user.email : 'N/A'}}</td>
+                    <td>{{item.members.user.phone ? item.members.user.phone : 'N/A'}}</td>
+                    <td>{{item.members.invitationDate ? item.members.invitationDate :'N/A'}}</td>
+                    <td>{{item.members.acknowledgementStatus ? item.members.acknowledgementStatus :'N/A'}}</td>
+                    <td>
+                        <button class="button_appearance_none td_active_btn" [disabled]="!item.isResend">Resend</button>
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="!memberList?.length">
+                      <td colspan="7">No Data Found</td>
+                  </tr>
+
+                </tbody>
+
+            </table>
+        </div>-->
+
+<!-- ---  table bottom Pagination section -- start --  -->
+<!-- <ng-template [ngIf]="total && total!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > 10"><app-pagination
+              [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing 1 - {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template> -->
+<!-- </div> -->
+<!-- table area end -->
+<!-- </div> -->
+
+
+<!-- ============  static HTML part ==== start  ======= -->
+
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back to member list</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+    <h4 class="block_sec_title headeingArea">Track user list</h4>
+    <div class="filterArea">
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track">Track</a> -->
+      <a href="javascript:void(0)" class="pinkbtnsmall" (click)="onboardUser()">Onboard Users</a>
+    </div>
+  </div>
+
+
+<!-- ===  new filter search start === -->
+<div class="filter_search_sec" *ngIf="seachFilter">
+      <div class="filter_sec_block_seach">
+        <div class="form_row">
+          <form [formGroup]="searchForm">
+            <div class="input_block_box filter_search_text">
+              <div class="filter_input_block">
+                <div class="filter_input_box">
+                  <input class="input_appearance_none filter_input" type="text" placeholder="Search by name, phone number or email" formControlName="search" (keyup)="getInvitationPendingList(communityId, current)">
+                </div>
+                <div class="filter_input_box_btn">
+                  <button class="button_appearance_none filter_btn_search" type="button" (click)="getInvitationPendingList(communityId, current)">Search</button>
+                  <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()">Clear</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+  </div>
+<!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="searchForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_date">
+                    <mat-form-field>
+                      <mat-label>Acknowledgement date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate matInput placeholder="Start date" formControlName="AcknowladgementDateStart">
+                        <input matEndDate matInput placeholder="End date" formControlName="AcknowladgementDateEnd">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="acknowladgementStatus" (change)="getInvitationPendingList(communityId, current)">
+                      <option value="" disabled selected hidden> Acknowledgement Status</option>
+                      <option value="" *ngIf="isSelected">All</option>
+                      <option value="NoReply">No Reply</option>
+                      <option value="Accepted">Accepted</option>
+                      <option value="Rejected">Rejected</option>
+                      <option value="Blocked">Blocked</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box_btn">
+                    <button class="button_appearance_none filter_btn_search" (click)="getInvitationPendingList(communityId, current)">Submit</button>
+                    <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+    <div class="table-responsive">
+      <table class="table_list" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone No.</th>
+            <th>Invitation sent date</th>
+            <th>Acknowledgement Status</th>
+            <th>Action Items</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of memberList; let i = index">
+            <!-- <td>{{current*10-(9-i)}}</td> -->
+            <td>{{item.members.user.name  ? item.members.user.name : 'N/A'}}</td>
+            <td>{{item.members.user.email ? item.members.user.email : 'N/A'}}</td>
+            <td>{{item.members.user.phone ? item.members.user.phone : 'N/A'}}</td>
+            <td>{{item.members.invitationDate ? item.members.invitationDate :'N/A'}}</td>
+            <!-- <td>{{item.members.acknowledgementStatus ? item.members.acknowledgementStatus :'N/A'}}</td> -->
+            <td><button class="button_appearance_none td_active_btn minWidth144 pointer_event_none">{{item.members.acknowledgementStatus ? item.members.acknowledgementStatus :'N/A'}}</button></td>
+            <td>
+              <div class="active_item_td">
+                <button class="greenBtn mr_05" title="Resend"  [ngClass]="{'disabled': !item.isResend}"  (click)="resendInvitation(item.members.user.id)"><img src="assets/images/arrowIcon.png"> Resend</button>
+                <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editDetails(item.members.user.id)">
+                  <img src="assets/images/active_item_btn_01.png" />
+                </button>
+                <button class="button_appearance_none active_item_td_btn td_btn_green" (click)="viewPassiveMember(item.members.user.id)">
+                  <img src="assets/images/active_item_btn_02.png" />
+                </button>
+              </div>
+
+            </td>
+          </tr>
+          <tr *ngIf="!memberList?.length">
+            <td colspan="6">No Data Found</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+<!-- ---  table bottom Pagination section -- start --  -->
+    <div class="table_pagination_sec">
+      <div class="table_pagi_left pagination_block">
+        <span *ngIf="totalData > 10"><app-pagination
+        [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+        ></app-pagination></span>
+      </div>
+      <div class="table_pagi_right">
+        <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+      </div>
+    </div>
+
+<!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+
+
+</div>
+
+<!-- ============  static HTML part ==== end  ======= -->

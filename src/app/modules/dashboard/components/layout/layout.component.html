@@ -1,0 +1,344 @@
+<mat-card-content>
+  <header class="header_sec">
+    <div class="header_logo_sec">
+      <a href="javascript:void(0)">
+        <img class="header_logo" src="assets/images/sangarahi-logo-01.png" alt="SangaRaahi">
+      </a>
+    </div>
+    
+    <div class="header_block_sec">
+      <div class="header_block_left">
+        <div class="header_search_block">
+          <form [formGroup]="searchForm">
+            <div class="header_search">
+              <input 
+                class="input_appearance_none" 
+                type="text" 
+                placeholder="Search" 
+                formControlName="search" 
+                (keyup)="globalSearch()">
+              
+              <button 
+                type="reset" 
+                class="button_appearance_none header_search_btn" 
+                *ngIf="searchForm.value.search !== ''" 
+                (click)="clearSearch()">
+                <img class="search_btn_icon" src="assets/images/close.png" alt="Clear">
+              </button>
+              
+              <button 
+                type="submit" 
+                class="button_appearance_none header_search_btn" 
+                *ngIf="searchForm.value.search === ''" 
+                (click)="globalSearch()">
+                <img class="search_btn_icon" src="assets/images/search_btn_icon.png" alt="Search">
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="header_block_right">
+        <ng-container *ngIf="length > 1">
+          <div class="header_right_block community_btn_block">
+            <button 
+              type="button" 
+              class="button_appearance_none switch_comm_btn" 
+              (click)="switchCommunityOpenModal()">
+              Switch Community
+            </button>
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="length === 1">
+          <div class="header_right_block community_btn_block">
+            <button 
+              type="button" 
+              class="button_appearance_none switch_comm_btn pointer_event_none">
+              {{comName}}
+            </button>
+          </div>
+        </ng-container>
+
+        <div class="header_right_block bell_btn_block">
+          <button 
+            type="button" 
+            class="button_appearance_none bell_btn" 
+            (click)="showNotification()">
+            <img class="bell_icon" src="assets/images/header-bell-icon.png" alt="Notifications">
+            <div class="bell_icon_dot" *ngIf="hasNewNotifications"></div>
+          </button>
+        </div>
+
+        <div class="header_right_block avatar_btn_block">
+          <button 
+            type="button" 
+            class="button_appearance_none user_avater_btn" 
+            [matMenuTriggerFor]="menu">
+            <img 
+              class="user_avatar_img" 
+              [src]="image || 'assets/images/header-user.png'" 
+              alt="User Avatar">
+          </button>
+        </div>
+
+        <mat-menu #menu="matMenu" class="logoutMat user_drop_menu">
+          <button 
+            class="matMenu_btn" 
+            mat-menu-item 
+            (click)="viewProfile()" 
+            *ngIf="getRoles === 'Board Member' || getRoles === 'Executive Member' || getRoles === 'Member' || getRoles === 'Fan'">
+            My Profile
+          </button>
+          <button 
+            class="matMenu_btn" 
+            mat-menu-item 
+            (click)="editProfile()" 
+            *ngIf="getRoles === 'Board Member' || getRoles === 'Executive Member' || getRoles === 'Member' || getRoles === 'Fan'">
+            My Community Profile
+          </button>
+          <button class="matMenu_btn" mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </div>
+    </div>
+  </header>
+
+  <div 
+    class="main_body_bg"
+    [ngClass]="{
+      'main_body_bg_sideBarOpen': isSidebar,
+      'main_body_bg_sideBarClose': !isSidebar
+    }">
+    
+    <!-- <div class="left_sidebar_bg">
+
+      <div class="left_sidebar" [ngClass]="{'sidebar_expanded': isSidebar, 'sidebar_collapsed': !isSidebar}">
+        
+        <div class="sidebar_toggle_wrapper">
+          <button 
+            class="sidebar_toggle_btn" 
+            (click)="openSidebar(!isSidebar)"
+            [attr.aria-label]="isSidebar ? 'Collapse sidebar' : 'Expand sidebar'">
+            <i class="fa" [ngClass]="isSidebar ? 'fa-times' : 'fa-bars'" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="sidebar_menu_wrapper">
+          <ul class="sidebar_menu_list">
+            <li 
+              *ngFor="let menu of menuList; let i = index" 
+              class="sidebar_menu_item"
+              [ngClass]="{
+                'menu_active': isRouteActive(menu),
+                'menu_expanded': menu.id === expandedMenuId 
+              }">
+              
+              <div 
+                class="menu_item_header" 
+                
+                (click)="toggleSubMenu(menu.id, menu.routerLink, !!menu.children?.length)"
+                
+                [attr.data-tooltip]="isSidebar ? null : menu.content[0]?.text">
+                
+                <div class="menu_icon_wrapper">
+                  <img 
+                    class="menu_icon menu_icon_normal" 
+                    [src]="isRouteActive(menu) ? menu.activeIcon : menu.normalIcon"
+                    [alt]="menu.content[0]?.text">
+                </div>
+
+                <span class="menu_text" *ngIf="isSidebar">
+                  {{ menu.content[0]?.text }}
+                </span>
+                
+                <i 
+                  class="fa fa-caret-down menu_arrow" 
+                  *ngIf="menu.children?.length"
+                  [ngClass]="{'fa-rotate-90': menu.id === expandedMenuId}">
+                </i>
+                
+              </div>
+
+              <div 
+                class="sub_menu_wrapper" 
+                *ngIf="menu.children?.length"
+                [ngClass]="{
+                    'sub_menu_open': isSidebar && menu.id === expandedMenuId,
+                    'collapsed_flyout': !isSidebar && menu.id === expandedMenuId
+                }">
+                <ul class="sub_menu_list">
+                  <li *ngFor="let child of menu.children">
+                    <a
+                      [routerLink]="child.routerLink"
+                      (click)="removeClass(child.routerLink)"
+                      class="sub_menu_link"
+                      [class.active]="currentRoute.includes(child.routerLink)"
+                    >
+                      {{ child.text }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="left_sidebar_bg">
+  <div class="left_sidebar" [ngClass]="{'sidebar_expanded': isSidebar, 'sidebar_collapsed': !isSidebar}">
+    
+    <div class="sidebar_toggle_wrapper">
+      <button 
+        class="sidebar_toggle_btn" 
+        (click)="openSidebar(!isSidebar)"
+        [attr.aria-label]="isSidebar ? 'Collapse sidebar' : 'Expand sidebar'">
+        <i class="fa" [ngClass]="isSidebar ? 'fa-times' : 'fa-bars'" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="sidebar_menu_wrapper">
+      <ul class="sidebar_menu_list">
+        <li 
+          *ngFor="let menu of menuList; let i = index" 
+          class="sidebar_menu_item"
+          [ngClass]="{
+            'menu_active': isRouteActive(menu),
+            'menu_expanded': menu.id === expandedMenuId,
+            'has_children': menu.children?.length > 0
+          }">
+          
+          <div 
+            class="menu_item_header" 
+            (click)="toggleSubMenu(menu.id, menu.routerLink, !!menu.children?.length)"
+            [attr.data-tooltip]="isSidebar ? null : menu.content[0]?.text">
+            
+            <div class="menu_icon_wrapper">
+              <img 
+                class="menu_icon menu_icon_normal" 
+                [src]="isRouteActive(menu) ? menu.activeIcon : menu.normalIcon"
+                [alt]="menu.content[0]?.text">
+            </div>
+
+            <span class="menu_text" *ngIf="isSidebar">
+              {{ menu.content[0]?.text }}
+            </span>
+            
+            <i 
+              class="fa fa-caret-down menu_arrow" 
+              *ngIf="menu.children?.length && isSidebar"
+              [ngClass]="{'fa-rotate-90': menu.id === expandedMenuId}">
+            </i>
+          </div>
+
+          <!-- Submenu for BOTH expanded and collapsed states -->
+          <div 
+            class="sub_menu_wrapper" 
+            *ngIf="menu.children?.length"
+            [ngClass]="{
+              'sub_menu_open': isSidebar && menu.id === expandedMenuId
+            }">
+            <ul class="sub_menu_list">
+              <li *ngFor="let child of menu.children">
+                <a
+                  [routerLink]="child.routerLink"
+                  (click)="removeClass(child.routerLink)"
+                  class="sub_menu_link"
+                  [class.active]="currentRoute.includes(child.routerLink)"
+                >
+                  {{ child.text }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+    <div class="main_right_section_bg">
+      <div class="content_body_bg">
+        <router-outlet></router-outlet>
+      </div>
+      
+      <div class="footer_sec">
+        <div class="footer_copyRight_sec">
+          <p>© SangaRaahi. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div 
+    class="modal fade custom_modal" 
+    id="switchingCommunitity" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1" 
+    aria-labelledby="staticBackdropLabel" 
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Choose one community<br> to continue</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_list_box">
+            <div 
+              *ngFor="let communitityList of communities; let i = index" 
+              [class.active]="communitityList.id === comId" 
+              (click)="switchCommunity(communitityList.id, communitityList.logoImage)" 
+              class="community_btn_block_modal">
+              <span class="modal_switchCommunity_linkLogo">
+                <img 
+                  class="switchCommunity_linkLogo_img" 
+                  [src]="communitityList.logoImage || 'assets/images/event-activity-01.jpg'" 
+                  [alt]="communitityList.communityName">
+              </span>
+              <span>{{communitityList.communityName}} ({{communitityList.role}})</span>
+            </div>
+            <div *ngIf="!communities?.length">No active organisation found.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button 
+            class="button_appearance_none onboard_form_btn onboard_form_btn_pink" 
+            type="button" 
+            (click)="closeModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade custom_modal notification_modal" id="notficationCommunitity">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Notification Details</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_list_box">
+            <div 
+              class="community_btn_block_modal" 
+              *ngFor="let item of notificationDetails; let i = index">
+              <span class="modal_switchCommunity_linkLogo">
+                <img class="switchCommunity_linkLogo_img" src="assets/images/check-icon-2.png" alt="Notification">
+              </span>
+              <span>{{item.text}}</span>
+              <span class="switchCommunity_link_dateTime">
+                {{item.sentAt | date:'dd/MM/yyyy'}} - {{item.sentAt | date:'hh:mm a':'UTC'}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card-content>
+
+<app-notification (sendMessage)="getMessage($event)"></app-notification>

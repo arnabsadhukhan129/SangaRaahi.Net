@@ -1,0 +1,23 @@
+<div class="dashboard_panel_bg editWebPage">
+    <div class="onboard_form_section edit_webPage_section">
+        <div class="onboard_form onboard_form_big edit_webPage">
+            <div class="edit_webPage_top_tab">
+                <ul class="flex_start">
+                    <li [ngClass]="{'active': templateList}">
+                        <a href="javascript:void(0)">
+                          <img class="edit_webPageTopTab_icon" src="assets/images/mail-tab-icon-01.png">
+                          Mailing List
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active': mailTemplate}">
+                        <a href="javascript:void(0)">
+                          <img class="edit_webPageTopTab_icon" src="assets/images/mail-tab-icon-02.png">
+                          Mail Templates
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

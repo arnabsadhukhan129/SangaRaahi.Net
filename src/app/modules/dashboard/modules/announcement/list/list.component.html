@@ -1,0 +1,256 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Announcements List</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="toggleSearch()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <a class="pinkbtnsmall"  [routerLink]="['/announcements/add']" *ngIf="getAnnouncementDetails.canCreate">Create Announcement</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()" >Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+<div class="filter_search_sec"  *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Announcement Name" formControlName="search" (keyup)="getAnnouncementList(communityId, current)" (keypress)="restrictSpecialCharacter($event)" >
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getAnnouncementList(communityId, current)" >Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()" >Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <!-- <div class="filter_input_box filter_search_date">
+                    <input class="input_appearance_none" type="text" placeholder="Input Placeholder Text">
+                  </div> -->
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getAnnouncementList(communityId, current)" >
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="past">Past</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            <!-- </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" (change)="sortData($event)">
+                      <option value="" disabled selected hidden>Sort</option>
+                      <option value="date" >Sort by Date</option>
+                      <option value="name">Sort by Announcement Name</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            <!-- </div>
+            <div class="form_row"> -->
+
+              <div class="input_block_box w_50">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select" *ngIf="sortDate">
+                    <select class="input_appearance_none filter_input" formControlName="sortByDate" (change)="getAnnouncementList(communityId, current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascDate" >Ascending order</option>
+                      <option value="descDate">Descending order</option>
+                    </select>
+                  </div>
+                  <div class="filter_input_box filter_search_select" *ngIf="sortName">
+                    <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getAnnouncementList(communityId, current)">
+                      <option value="" disabled selected hidden>Choose sort option</option>
+                      <option value="ascName" >Ascending order</option>
+                      <option value="descName">Descending order</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Announcement Name</th>
+                  <th>Community Name</th>
+                  <th>Type</th>
+                  <th>End Date</th>
+                  <th>Announcement Status</th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of announcementList, let i = index">
+
+                  <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                    {{'ANN100'+(current*10-(9-i))}}
+                  </td>
+                  <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                    {{'ANN10'+(current*10-(9-i))}}
+                  </td>
+
+                  <!-- <td>{{(current*limit)-((limit-1)-i)}}</td> -->
+                  <td class="td_readMore_bg">
+                    <P>{{item?.title | truncate: 20}}</P>
+                    <div class="td_readMore_block textRight" *ngIf="item.title && item.title.length > 20">
+                      <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                    </div>
+                  </td>
+                  <td>
+                    {{item?.community?.communityName}}
+                  </td>
+                  <td>
+                    {{item?.toWhom}}
+                  </td>
+                  <td>
+                    {{item?.endDate}}
+                  </td>
+                  <td>
+                    <!-- <button class="button_appearance_none td_status_btn " [ngClass]="item.isActive ? 'td_active_btn': 'td_inactive_btn'"  (click)="changeStatus(item.id,i)" >{{item.isActive ? 'Active' : 'Inactive'}}</button>               -->
+                    <button class="button_appearance_none td_status_btn td_active_btn" title="Active"  (click)="changeStatus(item.id,i)" *ngIf="item.isActive === 'active' ">Active</button>
+                    <button class="button_appearance_none td_status_btn td_inactive_btn" title="Inactive"  (click)="changeStatus(item.id,i)" *ngIf="item.isActive === 'inactive' ">Inactive</button>
+                    <button class="button_appearance_none td_status_btn td_new_btn" title="Past" *ngIf="item.isActive === 'past' ">Past</button>
+                  </td>
+                  <td>
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editAnnouncement(item.id, item.isActive)" *ngIf="getAnnouncementDetails.canEdit">
+                        <img src="assets/images/active_item_btn_01.png" />
+                      </button>
+
+                      <button class="button_appearance_none active_item_td_btn td_btn_green" title="View"  (click)="displayAnnouncementDetail(item.id)" *ngIf="getAnnouncementDetails.canView">
+                        <img src="assets/images/active_item_btn_02.png" />
+                      </button>
+
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteAnnouncement(item.id,i)" *ngIf="getAnnouncementDetails.canDelete">
+                        <img src="assets/images/active_item_btn_06.png" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr *ngIf="!announcementList.length">
+                  <td colspan="8">No Data Found</td>
+                </tr>
+              </tfoot>
+          </table>
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <!-- <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+            <div class="pagination">
+              <a href="#">&laquo;</a>
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">&raquo;</a>
+            </div>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing 1 - 25</p>
+        </div>
+      </div> -->
+
+      <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit"><app-pagination
+            [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+
+
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+</div>
+
+
+<div class="modal fade custom_modal" id="displayEvent">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <app-view [announcementId]="announcementId" ></app-view>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade custom_modal " id="announceNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Announcement Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+               {{getannouncementName ? getannouncementName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

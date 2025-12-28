@@ -1,0 +1,8 @@
+<div>
+  <input type="file" (change)="onFileSelected($event)" multiple />
+  <button (click)="uploadImages()">Upload</button>
+  
+  <div *ngFor="let imageUrl of uploadedImages">
+    <img [src]="imageUrl" alt="Uploaded Image">
+  </div>
+</div>

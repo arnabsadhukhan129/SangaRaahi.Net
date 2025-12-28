@@ -1,0 +1,335 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+    <h4  *ngIf="!supplierIdVal">{{eventData?.title}} - Create Supply Orders</h4>
+    <h4 *ngIf="supplierIdVal">{{eventData?.title}} - Edit Supply Orders</h4>
+    <div class="filterArea">
+      <!-- -- back btn section start --  -->
+      <div class="top_back_section">
+        <a [routerLink]="['/events/supply-management/list/'+ eventId]">Back to list</a>
+      </div>
+      <!-- -- back btn section start --  -->
+    </div>
+  </div>
+  <!-- page title -- section -- end  -->
+  <form [formGroup]="supplierForm">
+    <div class="edit_webPage_tab_body_bg ">
+        <div class="onboard_form onboard_form_big edit_webPage" >
+            <!-- onboard_form_row  -->
+            <div class="onboard_form_row gpa_30 " >
+                <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                            <label class="form_label_green mb_10">Supply Item Name</label>
+                            <input class="input_appearance_none" type="text" placeholder="Supply Item Name" formControlName="supplyItem">
+                        </div>
+                        <div class="form_input_row_error " *ngIf="(supplierForm.get('supplyItem')?.errors?.['InvalidValue'] && (supplierForm.get('supplyItem')?.dirty || supplierForm.get('supplyItem')?.touched))">
+                            <div class="form_field_error_msg">
+                                Supply item name is required.
+                            </div>
+                        </div>
+                        <div class="form_input_row_error " *ngIf="(supplierForm.get('supplyItem')?.errors?.['longName'] && (supplierForm.get('supplyItem')?.dirty || supplierForm.get('supplyItem')?.touched))">
+                          <div class="form_field_error_msg">
+                            Maximum of 10 words.
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input onboard_form_input_quantity">
+                        <div class="count_btn_row">
+                            <div class="count_btn_row_left green_text">
+                                Quantity
+                            </div>
+                            <div class="count_btn_row_right">
+                                <div class="plus_minus_btn_block">
+                                    <button class="button_appearance_none count_btn" (click)="countDecrement()">-</button>
+                                    <!-- <span class="count_num_show"> {{totalQuaintyCount}} </span> -->
+                                    <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="quaintyNumber" (input)="onNumberInput($event)">
+                                    <button class="button_appearance_none count_btn" (click)="countIncrement()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form_input_row_error " >
+                            <div class="form_field_error_msg">
+                                Supply item description is required.
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="onboard_form_row describe_textarea ">
+                <div class="block_sec_title_row">
+                    <label class="form_label_green mb_10">Supply Item Description</label>
+                </div>
+                <div class="textArea_block editWebPage_row">
+                    <textarea class="input_appearance_none editWeb_textArea" placeholder="Supply Item Description" formControlName="supplyItemDescription"></textarea>
+                </div>
+                <div class="form_input_row_error " *ngIf="(supplierForm.get('supplyItemDescription')?.errors?.['InvalidValue'] && (supplierForm.get('supplyItemDescription')?.dirty || supplierForm.get('supplyItemDescription')?.touched))">
+                    <div class="form_field_error_msg">
+                        Supply item description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="onboard_form_row gpa_30 " >
+                <div class="onboard_form_box width_50">
+                    <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                            <label class="form_label_green mb_10">The reason for which it is needed</label>
+                            <input class="input_appearance_none custom_date_input" type="text" placeholder="The reason for which it is needed" formControlName="neededFor">
+                        </div>
+                    </div>
+                    <div class="form_input_row_error " *ngIf="(supplierForm.get('neededFor')?.errors?.['InvalidValue'] && (supplierForm.get('neededFor')?.dirty || supplierForm.get('neededFor')?.touched))">
+                        <div class="form_field_error_msg">
+                            The reason for which is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input mat_calendar_block">
+                    <div class="onboard_form_input ">
+                        <div class="onboard_form_input onboard_input_border">
+                            <label class="form_label_green mb_10">Required within</label>
+                            <!-- <input class="input_appearance_none custom_date_input" type="date"  placeholder="Required within" formControlName="requiredDate" [min]="tomorrow"> -->
+                            <mat-form-field appearance="fill">
+                              <input matInput [matDatepicker]="picker1"  [min]="tomorrow | date:'yyyy-MM-dd'" placeholder="Required within" formControlName="requiredDate">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="form_input_row_error " *ngIf="(supplierForm.get('requiredDate')?.errors?.['InvalidValue'] && (supplierForm.get('requiredDate')?.dirty || supplierForm.get('requiredDate')?.touched))">
+                        <div class="form_field_error_msg">
+                            Required within is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="onboard_form_row gpa_30 " >
+              <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">Submitted Start Time</label>
+                          <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Task Start Time" formControlName="fromtime">
+                      </div>
+                  </div>
+                  <div class="form_input_row_error " *ngIf="(supplierForm.get('fromtime')?.errors?.['InvalidValue'] && (supplierForm.get('fromtime')?.dirty || supplierForm.get('fromtime')?.touched))">
+                      <div class="form_field_error_msg">
+                        Submitted start time is required.
+                      </div>
+                  </div>
+              </div>
+              <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                          <label class="form_label_green mb_10">Submitted End Time</label>
+                          <input class="input_appearance_none custom_date_input" type="time" placeholder="Enter Task End Time" formControlName="totime">
+                      </div>
+                  </div>
+                  <div class="form_input_row_error " *ngIf="(supplierForm.get('totime')?.errors?.['InvalidValue'] && (supplierForm.get('totime')?.dirty || supplierForm.get('totime')?.touched))">
+                      <div class="form_field_error_msg">
+                        Submitted end time is required.
+                      </div>
+                  </div>
+              </div>
+          </div>
+            <!-- == counter / number addition section === start -->
+            <div class="count_add_block" >
+                <div class="total_count_num">
+                    <!-- <h3> Total Required Volunteer Count <span class="count_num_show">{{totalCount}}</span> </h3> -->
+                    <h3> Total Assigned Members <span class="count_num_show">{{totalCount}}</span> </h3>
+                </div>
+                <div class="btn_count_sec">
+
+                    <div class="count_btn_row">
+                      <div class="count_btn_row_left">
+                        No. of Adults
+                      </div>
+                      <div class="count_btn_row_right">
+                        <div class="plus_minus_btn_block">
+                          <button class="button_appearance_none count_btn" (click)="adultCountDecrement()" [ngClass]="{'disabled': supplierForm.value.adultNumber === 0 || supplierForm.value.adultNumber < 0 || supplierForm.value.adultNumber === '' || supplierForm.value.adultNumber === null}">-</button>
+                          <!-- <span class="count_num_show"> {{adultCount}} </span> -->
+                          <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="adultNumber" (keyup)="countValue()">
+                          <button class="button_appearance_none count_btn" (click)="adultCountIncrement()">+</button>
+                        </div>
+                        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" [ngClass]="{'disabled': supplierForm.value.adultNumber === 0 || supplierForm.value.adultNumber < 0 || supplierForm.value.adultNumber === '' || supplierForm.value.adultNumber === null}" (click)="adultAssign()">
+                          <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Assign
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="count_btn_row">
+                      <div class="count_btn_row_left">
+                        No. of Teenagers
+                      </div>
+                      <div class="count_btn_row_right">
+                        <div class="plus_minus_btn_block">
+                          <button class="button_appearance_none count_btn" (click)="teenagersCountDecrement()" [ngClass]="{'disabled': supplierForm.value.teenagerNumber === 0 || supplierForm.value.teenagerNumber < 0 || supplierForm.value.teenagerNumber === '' || supplierForm.value.teenagerNumber === null}">-</button>
+                          <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="teenagerNumber" (keyup)="countValue()">
+                          <!-- <span class="count_num_show"> {{teenagersCount}} </span> -->
+                          <button class="button_appearance_none count_btn" (click)="teenagersCountIncrement()">+</button>
+                        </div>
+                        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" [ngClass]="{'disabled': supplierForm.value.teenagerNumber === 0 || supplierForm.value.teenagerNumber < 0 || supplierForm.value.teenagerNumber === '' || supplierForm.value.teenagerNumber === null}" (click)="teenagersAssign()">
+                          <i class="fa fa-plus-circle" aria-hidden="true" ></i> &nbsp; Assign
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="count_btn_row">
+                      <div class="count_btn_row_left">
+                        No. of Children
+                      </div>
+                      <div class="count_btn_row_right">
+                        <div class="plus_minus_btn_block">
+                          <button class="button_appearance_none count_btn" (click)="childrenCountDecrement()" [ngClass]="{'disabled': supplierForm.value.childrenNumber === 0 || supplierForm.value.childrenNumber < 0 || supplierForm.value.childrenNumber === '' || supplierForm.value.childrenNumber === null}">-</button>
+                          <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="childrenNumber" (keyup)="countValue()">
+                          <!-- <span class="count_num_show"> {{childrenCount}} </span> -->
+                          <button class="button_appearance_none count_btn" (click)="childrenCountIncrement()">+</button>
+                        </div>
+                        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" [ngClass]="{'disabled': supplierForm.value.childrenNumber === 0 || supplierForm.value.childrenNumber < 0 || supplierForm.value.childrenNumber === '' || supplierForm.value.childrenNumber === null}" (click)="childrenAssign()">
+                          <i class="fa fa-plus-circle" aria-hidden="true" ></i> &nbsp; Assign
+                        </button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ==counter / number addition section === end -->
+
+            <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+                <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+                <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" [routerLink]="['/events/supply-management/list/'+ eventId]">Cancel</button>
+                <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" (click)="saveSupplier()">Submit</button>
+            </div>
+        </div>
+    </div>
+  </form>
+
+  <!------Open Adult List Modal------>
+  <div class="modal fade custom_modal" id="chooseAdultList">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Adult List</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_list_box">
+
+            <div class="modal_user_row"  *ngFor="let adultList of adultData; let i = index" >
+              <div class="modal_user_row_left">
+                <span class="modal_user_row_avatar">
+                  <img src="{{adultList.profileImage ? adultList.profileImage : 'assets/images/header-user.png'}}" >
+                </span>
+                <h4>{{adultList.name}} <br>
+                  <span><b>Phone No. -</b> {{adultList.number}}</span> | <span><b> Age -</b> {{adultList.age}}</span>
+                </h4>
+              </div>
+              <div class="modal_user_row_right">
+                <div class="modal_user_btn modal_user_btn_assign">
+                  <button class="button_appearance_none onboard_form_btn onboard_form_btn_green modal_user_row_btn" title="Assign" type="button" (click)="assignadult(adultList,i)" *ngIf="!adultList.showAssignAdult">+Assign</button>
+                </div>
+                <div class="modal_user_btn modal_user_btn_permission">
+                  <button class="button_appearance_none active_item_td_btn td_btn_green modal_user_row_btn" title="" type="button" *ngIf="adultList.showAssignAdult" (click)="saveAssignAdult(i)" [ngClass]="{'disabled': adultList.isAdultSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                  </button>
+                  <button class="button_appearance_none active_item_td_btn td_btn_pink modal_user_row_btn" title="" type="button" *ngIf="adultList.showAssignAdult" (click)="deleteAssignAdult(i,adultList.id)" [ngClass]="{'disabled': !adultList.isAdultSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal_data_not_found" *ngIf="!adultData?.length"> No data found.</div>
+
+        </div>
+    </div>
+    </div>
+</div>
+<!------End Adult List Modal------>
+
+   <!------Open Teengers List Modal------>
+   <div class="modal fade custom_modal" id="chooseTeengersList">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Teenagers List</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_list_box">
+
+            <div class="modal_user_row"  *ngFor="let teengersList of teengersData; let i = index" >
+              <div class="modal_user_row_left">
+                <span class="modal_user_row_avatar">
+                  <img src="{{teengersList.profileImage ? teengersList.profileImage : 'assets/images/header-user.png'}}" >
+                </span>
+                <h4>{{teengersList.name}} <br>
+                  <span><b>Phone No. -</b> {{teengersList.number}}</span> | <span><b> Age -</b>{{teengersList.age}}</span>
+                </h4>
+              </div>
+              <div class="modal_user_row_right">
+                <div class="modal_user_btn modal_user_btn_assign">
+                  <button class="button_appearance_none onboard_form_btn onboard_form_btn_green modal_user_row_btn" type="button" (click)="assignteengears(teengersList,i)" *ngIf="!teengersList.showAssignteengears">+Assign</button>
+                </div>
+                <div class="modal_user_btn modal_user_btn_permission">
+                  <button class="button_appearance_none active_item_td_btn td_btn_green modal_user_row_btn" type="button" *ngIf="teengersList.showAssignteengears" (click)="saveAssignTeengears(i)" [ngClass]="{'disabled': teengersList.isTeengearsSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                  </button>
+                  <button class="button_appearance_none active_item_td_btn td_btn_pink modal_user_row_btn" type="button" *ngIf="teengersList.showAssignteengears" (click)="deleteAssignTeengears(i,teengersList.id)" [ngClass]="{'disabled': !teengersList.isTeengearsSave}">
+                    <span class="active_item_td_btn_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal_data_not_found" *ngIf="!teengersData?.length"> No data found.</div>
+
+        </div>
+    </div>
+    </div>
+  </div>
+  <!------End Teengers List Modal------>
+
+  <!------Open Children List Modal------>
+  <div class="modal fade custom_modal" id="chooseChildrenList">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Children List</h5>
+          </div>
+          <div class="modal-body">
+            <div class="modal_body_list_box">
+
+              <div class="modal_user_row" *ngFor="let childList of childrenData; let i = index">
+                <div class="modal_user_row_left">
+                  <span class="modal_user_row_avatar">
+                    <img src="{{childList.profileImage ? childList.profileImage : 'assets/images/header-user.png'}}" >
+                  </span>
+                  <h4>{{childList.name}}<br>
+                    <span><b>Phone No. -</b> {{childList.number}}</span> | <span><b> Age -</b>{{childList.age}}</span>
+                  </h4>
+                </div>
+                <div class="modal_user_row_right">
+                  <div class="modal_user_btn modal_user_btn_assign">
+                    <button class="button_appearance_none onboard_form_btn onboard_form_btn_green modal_user_row_btn" type="button" (click)="assignChild(childList,i)" *ngIf="!childList.showAssignChild">+Assign</button>
+                  </div>
+                  <div class="modal_user_btn modal_user_btn_permission">
+                    <button class="button_appearance_none active_item_td_btn td_btn_green modal_user_row_btn" type="button" *ngIf="childList.showAssignChild" (click)="saveAssignChild(i)" [ngClass]="{'disabled': childList.isSave}">
+                      <span class="active_item_td_btn_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_pink modal_user_row_btn" type="button" *ngIf="childList.showAssignChild" (click)="deleteAssignChild(i,childList.id)" [ngClass]="{'disabled': !childList.isSave}">
+                      <span class="active_item_td_btn_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal_data_not_found" *ngIf="!childrenData?.length"> No data found.</div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!------End Children List Modal------>
+
+

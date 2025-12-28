@@ -1,0 +1,179 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+  <h4 *ngIf="!groupId">Create Group</h4>
+  <h4 *ngIf="groupId">Edit Group</h4>
+  <div class="filterArea">
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a [routerLink]="['/groups']" >Back to list</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+</div>
+<!-- page title -- section -- end  -->
+<form [formGroup]="groupForm" >
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+
+
+    <div class="onboard_form onboard_form_big edit_webPage" >
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border"> 
+              <label class="form_label_green mb_10">Group Name *</label>           
+                <input class="input_appearance_none" type="text" placeholder="Group Name *" formControlName="name">             
+            </div>
+            <div class="form_input_row_error" *ngIf="(groupForm.get('name')?.errors?.['required'] && (groupForm.get('name')?.dirty || groupForm.get('name')?.touched))">
+              <div class="form_field_error_msg">
+                Group Name is required.
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(groupForm.get('name')?.errors?.['longName'] && (groupForm.get('name')?.dirty || groupForm.get('name')?.touched))">
+              <div class="form_field_error_msg">
+                Maximum of 10 words.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Type</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="type">
+                <option value="" disabled selected hidden>Select Type *</option>
+                <option value="Restricted" >Restricted</option>
+                <option value="Public">Public</option>
+                <option value="Stealth">Stealth</option>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(groupForm.get('type')?.errors?.['required'] && (groupForm.get('type')?.dirty || groupForm.get('type')?.touched))">
+              <div class="form_field_error_msg">
+                Type is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <!-- <h4 class="block_sec_title green_text">Description of the Organization</h4> -->
+          <label class="form_label_green mb_10">Group Description</label>
+        </div>
+        <div class="textArea_block editWebPage_row">
+          <textarea class="input_appearance_none editWeb_textArea" formControlName="description"></textarea>
+          <!-- <div class="text_count_block">
+            123/500
+          </div> -->
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_pink">
+            <div class="announcement_left_round_img">
+              <img [class]="(groupImage && groupImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(groupImage && groupImage!='') ? groupImage : 'assets/images/banner-img-up.png' ">
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="groupImage && groupImage!=''">
+              <button class="button_appearance_none up_img_delete_btn"  (click)="deleteImage()">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="uploadImage($event, 'image')" />
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Choose Group Image</h4>
+              <p>(Image size should be within 2-5MB)</p>
+            </div>
+
+            <!-----Image croped start----->
+            <div class="crop_window"  *ngIf="openCropImageModal">
+              <image-cropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="1"
+                    (imageCropped)="cropImg($event)">
+              >
+            </image-cropper>
+            <div class="crop_btn_bottom">
+              <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                <img src="assets/images/crosspink.png">
+              </button>
+              <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                <img src="assets/images/tick.png">
+              </button>
+            </div>
+          </div>
+            <!-----Image croped end------->
+
+           
+          </div>
+        </div>
+        <div class="onboard_form_box width_50">
+          <div class="onboard_form_row  gpa_10 flex_col">
+            <label class="form_label_green mb_10">Add member for this group</label>
+            <mat-form-field class="example-chip-list tag_input_mat">
+              <mat-label>Add member for this group</mat-label>
+              <mat-chip-grid #chipGrid1 aria-label="Fruit selection">
+                <!-- <mat-chip *ngFor="let memberData of members; trackBy: trackMember" (removed)="removeMember(memberData)"> -->
+                  <mat-chip *ngFor="let memberData of members; trackBy: trackMember">
+                  {{ memberData}}
+                  <button matChipRemove [attr.aria-label]="'remove ' + memberData" (click)="cancelMember(memberData)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              </mat-chip-grid>
+              <input class="mat_selectOption_input" placeholder="member" #memberInput formControlName="memberCtrl"
+                [matChipInputFor]="chipGrid1" [matAutocomplete]="auto2"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                (matChipInputTokenEnd)="addMember($event)" />
+              <mat-autocomplete class="mat_select_dropOption" #auto2="matAutocomplete" (optionSelected)="selectedMember($event)">
+                <mat-option *ngFor="let member of getMemberData; trackBy: trackMember; let j = index" [value]="member?.members?.user?.id" [disabled]="member.isMemberDisabled === true" (click)="isMemberOptionDisabled(j)">
+                  <img class="mat_option_img" with="20" height="20" [src]="member?.members?.user?.profileImage ? member?.members?.user?.profileImage : 'assets/images/no-image-found-01.png'">{{ member?.members?.user?.name}}({{member?.members?.user?.phone}})
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div class="form_input_row_error" style="display: none;" >
+              <div class="form_field_error_msg">
+                Any Error
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <!-- onboard_form_row  -->
+
+     
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button"  (click)="cancel()" >Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()" [ngClass]="{'disabled': !groupForm.valid}">Submit</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    </div>
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+</form>
+
+

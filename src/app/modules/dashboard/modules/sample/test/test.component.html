@@ -1,0 +1,54 @@
+<form>
+    <!-- <mat-form-field class="example-chip-list tag_input_mat">
+        <mat-label>Favorite Fruits</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Fruit selection">
+          <mat-chip *ngFor="let fruit of fruits; trackBy: trackFruit" (removed)="remove(fruit)">
+            {{ fruit }}
+            <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-grid>
+        <input placeholder="New Fruit..." #fruitInput formControlName="fruitCtrl"
+          [matChipInputFor]="chipGrid" [matAutocomplete]="auto1"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)" />
+        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let fruit of filteredFruits | async; trackBy: trackFruit" [value]="fruit">
+            {{ fruit }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+
+      <div _ngcontent-mxx-c107="" class="onboard_form_row gpa_10 flex_col">
+        <label _ngcontent-mxx-c107="" class="form_label_green mb_10">Add member for this event</label>
+
+          <mat-form-field class="example-chip-list tag_input_mat">
+            <mat-label>Add member for this event</mat-label>
+            <mat-chip-grid #chipGrid1 aria-label="Fruit selection">
+              <mat-chip *ngFor="let memberData of members; trackBy: trackMember" (removed)="removeMember(memberData)">
+                {{ memberData }}
+                <button matChipRemove [attr.aria-label]="'remove ' + memberData" (click)="cancelMember(memberData)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            </mat-chip-grid>
+            <input class="mat_selectOption_input" placeholder="member" #memberInput
+              [matChipInputFor]="chipGrid1" [matAutocomplete]="auto2"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+              (matChipInputTokenEnd)="addMember($event)" />
+            <mat-autocomplete class="mat_select_dropOption" #auto2="matAutocomplete" (optionSelected)="selectedMember($event)">
+              <mat-option *ngFor="let member of getMemberData; trackBy: trackMember; let j = index" [value]="member?.members?.user?.id" [disabled]="member.isMemberDisabled === true" (click)="isMemberOptionDisabled(j)">
+                <img class="mat_option_img" with="20" height="20" [src]="member?.members?.user?.profileImage ? member?.members?.user?.profileImage : 'assets/images/no-image-found-01.png'">{{ member?.members?.user?.name}}({{member?.members?.user?.id}})
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+      </div>
+
+
+</form>
+
+<!--
+  mat-mdc-form-field example-chip-list ng-tns-c38-1 ng-star-inserted mat-mdc-form-field-type-mat-chip-grid mat-form-field-appearance-fill mat-form-field-hide-placeholder mat-primary
+-->

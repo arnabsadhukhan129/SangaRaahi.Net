@@ -1,0 +1,554 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>{{paymentEventDetails?.title}} - Payment History List</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="showSearch()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <a href="javascript:void(0)" class="pinkbtnsmall" (click)="paymentExport()">Export</a>
+      <!-- <a href="javascript:void(0)" class="filter">Filter</a>
+      <a href="javascript:void(0)" class="">Export</a> -->
+
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <!-- <a class="pinkbtnsmall" [routerLink]="['/announcements/add']">Create Announcement</a> -->
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back to list</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec" *ngIf="showSearchInput === true">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" formControlName="search" (keyup)="getPaymentList(eventPaymentId, current)" placeholder="Search by member name">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getPaymentList(eventPaymentId, current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+      <form [formGroup]="filterForm">
+        <div class="form_row">
+          <div class="input_block_box w_100">
+            <div class="filter_input_block">
+              <div class="filter_input_box filter_search_select">
+                <select class="input_appearance_none filter_input" formControlName="accessPlatfrom" (change)="getPaymentList(eventPaymentId, current)" >
+                  <option value="" disabled selected hidden>Filter By Portal</option>
+                  <option value="" >All</option>
+                  <option value="web">Web</option>
+                  <option value="app">App</option>
+                  <option value="org">Org</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+
+  <!-- list page -- counter block section -- start  -->
+  <div class="listPage_countBlock_sec">
+    <!-- <div class="listPage_countBlock_bg">
+
+      <div class="countblock">
+        <h4>$<span class="counter" data-target="2500000"></span></h4>
+        <p>Total Amount Received so far</p>
+      </div>
+
+      <div class="countblock">
+        <h4>$<span class="counter" data-target="5824"></span></h4>
+        <p>Total Refunded amount</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter" data-target="1876"></span></h4>
+        <p>RSVP’d Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter" data-target="760"></span></h4>
+        <p>Tentatively RSVP’d Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter" data-target="1260"></span></h4>
+        <p>Cancel Requested Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4>$<span class="counter" data-target="258760"></span></h4>
+        <p>Total Amount Received so far</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter" data-target="05"></span></h4>
+        <p>Upcoming / Opened Tasks</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span class="counter" data-target="15"></span></h4>
+        <p>Event Required Supplies</p>
+      </div>
+
+    </div> -->
+    <div class="listPage_countBlock_bg">
+
+      <div class="countblock">
+        <h4>{{getCurrency}} <span>{{getCountData.totalAmount}}</span></h4>
+        <p>Total Amount Received so far</p>
+      </div>
+
+      <div class="countblock">
+        <h4>{{getCurrency}} <span>{{getCountData.totalDonation}}</span></h4>
+        <p>Donation Amount</p>
+      </div>
+
+      <div class="countblock">
+        <h4>{{getCurrency}} <span>{{getCountData.totalConcession}}</span></h4>
+        <p>Concession Amount</p>
+      </div>
+
+      <!-- <div class="countblock">
+        <h4>$<span class="counter" data-target="5824"></span></h4>
+        <p>Total Refunded amount</p>
+      </div> -->
+
+      <div class="countblock">
+        <h4><span>{{getCountData.rsvpTotal}}</span></h4>
+        <p>RSVP’d Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.nonrsvpTotal}}</span></h4>
+        <p>Non RSVP'd Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.tentativelyrsvpTotal}}</span></h4>
+        <p>Tentatively RSVP’d Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.cancelrsvpTotal}}</span></h4>
+        <p>Cancel Requested Members</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.openTask}}</span></h4>
+        <p>Upcoming / Opened Tasks</p>
+      </div>
+
+      <div class="countblock">
+        <h4><span>{{getCountData.eventSupplies}}</span></h4>
+        <p>Event Required Supplies</p>
+      </div>
+
+    </div>
+  </div>
+  <!-- list page -- counter block section -- end  -->
+
+  <!-- list page -- top button block section -- start  -->
+
+  <div class="listPage_top top_button_sec">
+    <div class="top_button_block">
+      <button class="button_appearance_none topList_btn yellow_btn" (click)="redirectToSupplyList()">Event Supplier
+        Management</button>
+      <button class="button_appearance_none topList_btn pink_btn" (click)="redirectToEvent()">Event Task
+        Management</button>
+      <button class="button_appearance_none topList_btn green_btn" (click)="redirectToEventMemory()">Event
+        Memories</button>
+        <button class="button_appearance_none topList_btn gray_btn" (click)="addRsvp()">+ Add RSVP</button>
+    </div>
+  </div>
+
+  <!-- list page -- top button block section -- end  -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+    <div class="table-responsive">
+      <table class="table_list" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Payment ID</th>
+            <th>Member Name</th>
+            <th>Member Email</th>
+            <th>Phone No.</th>
+            <th>Type of Member</th>
+            <th>RSVP’d Date</th>
+            <th>Payment Amt.</th>
+            <th>No. of Attendees</th>
+            <th>Mode</th>
+            <th>Portal</th>
+            <th>RSVP’d Status</th>
+            <th>Payment Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of paymentList, let i = index">
+            <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+              <!-- {{'EV100'+(current*10-(9-i))}} -->
+              <span class="td_modal_link" (click)="payment_model(item, item.id)">{{'P100'+(current*10-(9-i))}}</span>
+            </td>
+            <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+              <span class="td_modal_link" (click)="payment_model(item, item.id)">{{'P'+(current*10-(9-i))}}</span>
+            </td>
+            <td>
+              <span *ngIf="item.memberType === 'web_vistor'">{{item?.name ? item?.name : 'N/A'}}</span>
+              <span *ngIf="item.memberType === 'user'">{{item?.userName ? item?.userName : 'N/A'}}</span>
+            </td>
+            <td>
+              <span *ngIf="item.memberType === 'web_vistor'">{{item?.email ? item?.email :'N/A'}}</span>
+              <span *ngIf="item.memberType === 'user'">{{item?.userEmail ? item?.userEmail : 'N/A'}}</span>
+            </td>
+            <td>
+              <span *ngIf="item.memberType === 'web_vistor'">{{item?.phoneCode}}{{item?.phone}}</span>
+              <span *ngIf="item.memberType === 'user'">{{item?.userPhoneCode}}{{item?.userPhone}}</span>
+            </td>
+            <td>
+              <span *ngIf="item.memberType === 'web_vistor'">{{'Web Visitor'}}</span>
+              <span *ngIf="item.memberType === 'user'">User</span>
+              <!-- {{item?.memberType}} -->
+            </td>
+            <td>
+              {{item?.createdAt}}
+            </td>
+            <td>
+              {{item?.amount}} {{item?.currency}}
+            </td>
+            <td>
+              {{item?.noOfAttendees}}
+            </td>
+            <td>
+              {{item?.paymentMode ? item?.paymentMode : 'N/A'}}
+            </td>
+            <td>
+              {{item?.accessPlatfrom ? item?.accessPlatfrom : 'N/A'}}
+            </td>
+            <td>
+              <div *ngIf="item?.rsvpStatus === 'paid'">Paid</div>
+              <div *ngIf="item?.rsvpStatus === 'tentatively_paid'">Tentatively Paid</div>
+              <div *ngIf="item?.rsvpStatus === 'unpaid'">Unpaid</div>
+              <div *ngIf="item?.rsvpStatus === 'refunded'">Refunded</div>
+              <!-- {{ item?.rsvpStatus === 'paid' ? 'Paid' : (item?.rsvpStatus === 'tentatively_paid' ? 'Tentatively Paid' : '') }} -->
+            </td>
+            <td>
+
+              <div class="active_item_td">
+                <!-- <span class="active_item_td_checkSpan">
+                  <span class="active_item_td_checkSpan">
+                    <input class="styled-checkbox" id="styled-checkbox-{{i}}" type="checkbox" value="value1"
+                      [checked]="item.rsvpStatus === 'paid'" [disabled]="item.rsvpStatus === 'paid'"
+                      (click)="changePaymentStatusAlert($event, item.id)">
+                    <label for="styled-checkbox-{{i}}"></label>
+                  </span>
+                </span> -->
+                <!-- <button class="button_appearance_none active_item_td_btn td_btn_green pointer_event_none">
+                  <span class="active_item_td_btn_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                </button> -->
+
+                <span class="active_item_td_checkSpan" *ngIf="item.transactionId === null">
+                  <span class="active_item_td_checkSpan" *ngIf="(current*limit)-((limit-1)-i) < 10">
+                    <input class="styled-checkbox" id="styled-checkbox-{{i}}" type="checkbox" value="value1"
+                      [checked]="item.rsvpStatus === 'paid'" [disabled]="item.rsvpStatus === 'paid'"
+                      (click)="payment_submit_model(item.id,item.amount, $event, 'P100' + (current * 10 - (9 - i )))">
+                    <label for="styled-checkbox-{{i}}"></label>
+                  </span>
+                  <span class="active_item_td_checkSpan" *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                    <input class="styled-checkbox" id="styled-checkbox-{{i}}" type="checkbox" value="value1"
+                      [checked]="item.rsvpStatus === 'paid'" [disabled]="item.rsvpStatus === 'paid'"
+                      (click)="payment_submit_model(item.id,item.amount, $event, 'P' + ( current * 10 - (9 - i)))">
+                    <label for="styled-checkbox-{{i}}"></label>
+                  </span>
+                </span>
+
+                <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteEvent(item.id)">
+                  <span class="active_item_td_btn_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                </button>
+
+                <button class="button_appearance_none active_item_td_btn td_btn_orange" title="Refund" type="button" *ngIf="item.transactionId && item.rsvpStatus === 'paid'" (click)="refund_amount(item.transactionId)" [disabled]="item.rsvpStatus === 'refunded'">
+                  <span class="active_item_td_btn_icon">
+                    <img src="assets/images/refund-icon-03.png" alt="" srcset="">
+                  </span>
+                </button>
+
+                <button class="button_appearance_none active_item_td_btn td_btn_green" title="View" (click)="payment_model(item, item.id)">
+                  <img src="assets/images/active_item_btn_02.png" />
+                </button>
+
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr *ngIf="!paymentList?.length">
+            <td colspan="9">No Data Found</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- ---  table bottom Pagination section -- start --  -->
+    <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+      <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+          <span *ngIf="totalData > limit">
+            <app-pagination [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"></app-pagination>
+          </span>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+        </div>
+      </div>
+    </ng-template>
+    <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+  <!-- Modal single view-->
+  <div class="modal fade custom_modal taskId_modal" id="single_payment_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">View payment Details</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_block">
+            <div class="modal_task_cont_block">
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.paymentStatus != null">
+                <label class="textLeft">Payment Status : </label>
+                <span class="green" *ngIf="singlePaymentDetails?.paymentStatus == true">Success</span>
+                <span class="red" *ngIf="singlePaymentDetails?.paymentStatus == false">Failed</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.transactionId != null">
+                <label class="textLeft">Transaction Id : </label> <span class="textLeft">{{singlePaymentDetails?.transactionId}}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.paymentMode != null">
+                <label class="textLeft">Mode Of Payment : </label> <span class="textLeft">{{singlePaymentDetails?.paymentMode}}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.cardNo != null">
+                <label class="textLeft">CARD NO : </label> <span class="textLeft">{{ formatCardNumber(singlePaymentDetails?.cardNo) }}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.createdAt != null">
+                <label class="textLeft">Payment Timestamp : </label> <span class="textLeft">{{singlePaymentDetails?.createdAt}} </span>
+              </div>
+              <!-- <div class="modal_task_cont">
+                <label>Account no : </label> <span class="textLeft">{{singlePaymentDetails?.accountNo}}</span>
+              </div> -->
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.userName != null">
+                <label class="textLeft">Member Name: </label> <span class="textLeft">{{singlePaymentDetails?.userName}}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.amount != null">
+                <label class="textLeft">Amount : </label> <span class="textLeft">{{singlePaymentDetails?.amount}} {{getCurrency}}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.gatewayChargeCost != null">
+                <label class="textLeft">Gateway Charge Cost : </label> <span class="textLeft">{{singlePaymentDetails?.gatewayChargeCost}} {{getCurrency}}</span>
+              </div>
+              <div class="modal_task_cont" *ngIf="singlePaymentDetails?.transactionAmount != null">
+                <label class="textLeft">Transaction Amount : </label> <span class="textLeft">{{singlePaymentDetails?.transactionAmount}} {{getCurrency}}</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- <div class="modal_no_data" *ngIf="getEventValue?.length === 0">
+              No data found.
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Form for payment-->
+  <div class="modal fade custom_modal taskId_modal" id="payment_form_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Update payment Details</h5>
+        </div>
+        <form [formGroup]="paymentSubmitForm" (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+            <div class="modal_body_block">
+              <div class="modal_task_cont_block mb_20 modal_task_cont_block_leftRight">
+                <div class="pad_tb_10 modal_task_cont_block_left">
+                  <div class="round_thumb_img m_auto">
+                    <img [src]="singlePaymentDetails?.profileImage ? singlePaymentDetails?.profileImage : 'assets/images/no-image-found-3.png' " />
+                  </div>
+                </div>
+                <div class="modal_task_cont pad_tb_10 modal_task_cont_block_right">
+                  <div class="modal_task_cont_block_right_row text_left">
+                    <label>Id: </label> <span>{{ paymentId ? paymentId : 'N/A'}}</span>
+                  </div>
+                  <div class="modal_task_cont_block_right_row text_left">
+                    <label>Member Name: </label>
+                    <!-- <span>{{singlePaymentDetails?.userName ? singlePaymentDetails?.userName : 'N/A'}}</span> -->
+                    <span *ngIf="singlePaymentDetails?.memberType === 'web_vistor'">{{singlePaymentDetails?.name ? singlePaymentDetails?.name : 'N/A'}}</span>
+                    <span *ngIf="singlePaymentDetails?.memberType === 'user'">{{singlePaymentDetails?.userName ? singlePaymentDetails?.userName : 'N/A'}}</span>
+                  </div>
+                  <div class="modal_task_cont_block_right_row text_left">
+                    <label>Phone Number: </label>
+                    <!-- <span>{{singlePaymentDetails?.phoneNumber ? singlePaymentDetails?.phoneNumber : 'N/A'}}</span> -->
+                    <span *ngIf="singlePaymentDetails?.memberType === 'web_vistor'">{{singlePaymentDetails?.phoneCode}}{{singlePaymentDetails?.phone}}</span>
+                    <span *ngIf="singlePaymentDetails?.memberType === 'user'">{{singlePaymentDetails?.userPhoneCode}}{{singlePaymentDetails?.phoneNumber}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div formGroupName="paymentDetails">
+
+              <div class="onboard_form_row ">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Customer Payment Amount</label>
+                    <input class="input_appearance_none remove-arrows" type="number" placeholder="Please put your Payment Amount here *"
+                      inputmode="numeric" formControlName="actualPaymentmtount" [(ngModel)]="paymentAmount" (keyup)="cal()">
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row ">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Payment Mode</label>
+                    <select class="input_appearance_none filter_input onboard_select" formControlName="paymentMode" (change)="changePaymentMode($event)">
+                      <option value="" disabled hidden [attr.selected]="true">Select payment Mode *</option>
+                      <option *ngFor="let payment of paymentMode" [value]="payment">{{ payment }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row " *ngIf="changePaymentStatus">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Gateway Charge Amount</label>
+                    <input class="input_appearance_none remove-arrows" type="number"
+                      placeholder="Please put your gateway charge cost here" inputmode="numeric"
+                      formControlName="gatewayChargeCost" [(ngModel)]="chargeCost" (keyup)="cal()">
+                  </div>
+                  <!-- <div class="form_input_row_error">
+                    <div class="form_field_error_msg">
+                      Gateway Charge Cost is required
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+
+              <div class="onboard_form_row ">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Org. / Community Received Amount</label>
+                    <input class="input_appearance_none remove-arrows" type="number" placeholder="Please put your Community Received Amount here *"
+                      inputmode="numeric" #transactionAmount readonly>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row">
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input">
+                    <label class="form_label_green ">Donation : &nbsp; {{donation ? donation : 0}}</label>
+                  </div>
+                </div>
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input">
+                    <label class="form_label_green ">Concession : &nbsp; {{concesion ? concesion : 0}}</label>
+                  </div>
+                </div>
+
+              </div>
+
+
+
+              <div class="onboard_form_row" *ngIf="paymentSubmitForm.get('paymentDetails.paymentMode')?.value === 'Check'">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Check No</label>
+                    <input class="input_appearance_none" type="text" placeholder="Please put your Check No here"
+                      inputmode="numeric" formControlName="checkNo">
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row" *ngIf="paymentSubmitForm.get('paymentDetails.paymentMode')?.value === 'Paypal' || paymentSubmitForm.get('paymentDetails.paymentMode')?.value === 'Zelle'">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Transaction Id</label>
+                    <input class="input_appearance_none" type="text" placeholder="Please put your Transaction Id here"
+                      inputmode="numeric" formControlName="transactionId">
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row ">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Payment Status</label>
+                    <select class="input_appearance_none filter_input onboard_select" (change)="getVal($event)">
+                      <option value="" disabled selected hidden>Select Payment Status *</option>
+                      <option value= "paid" >Sucess</option>
+                      <option value= "unpaid" >Failed</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="onboard_form_row ">
+                <div class="onboard_form_input">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Comment</label>
+                    <input class="input_appearance_none" type="text" placeholder="Please put your comment here"
+                      inputmode="numeric" formControlName="description">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal($event)">Cancel</button>
+            <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit">Submit</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</div>

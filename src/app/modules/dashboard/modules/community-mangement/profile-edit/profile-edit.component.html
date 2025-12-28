@@ -1,0 +1,516 @@
+ <!-- -- Dashboard panel / My Community details bg -- start --  -->
+ <div class="dashboard_panel_bg community_details_bg">
+  <div class="community_details">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back To Dashboard</a>
+  </div>
+  <!-- page title -- section -- end  -->
+    <div class="block_sec_title_row">
+      <h4 class="block_sec_title">My Community details</h4>
+      <h4>Currency: {{getCurrency}}</h4>
+    </div>
+    <form [formGroup]="communityDetailsForm">
+    <div class="edit_profile_sec">
+      <div class="edit_profile_top">
+        <div class="edit_profile_top_left">
+          <div class="left_img_block">
+            <div class="profile_edit_img">
+              <img src="{{image}}">
+              <!-- <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+              bshsujjkil -->
+            </div>
+            <!--
+            <button class="button_appearance_none profile_edit_btn">
+              <img src="assets/images/profileimage-edit-btn.png">
+            </button>
+            -->
+            <!-- img / upload img -- start -->
+            <div class="profile_img_edit_btn_block" *ngIf="enableEditOption">
+              <!-- <button class="button_appearance_none profile_edit_btn">
+                <img src="assets/images/profileimage-edit-btn.png">
+              </button> -->
+              <button class="button_appearance_none" *ngIf="!enableEditOption">
+                <img src="assets/images/profileimage-edit-btn.png">
+              </button>
+              <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event)"/>
+            </div>
+            <!-- img / upload img -- end -->
+
+            <!-----Image croped start----->
+            <div class="crop_window"  *ngIf="openCropImageModal">
+            <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [maintainAspectRatio]="true"
+                  [aspectRatio]="1"
+                  (imageCropped)="cropImg($event)"
+                  (imageLoaded)="imgLoad()"
+                  (cropperReady)="initCropper()"
+                  (loadImageFailed)="imgFailed()">
+            >
+          </image-cropper>
+          <div class="crop_btn_bottom">
+            <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+              <img src="assets/images/crosspink.png">
+            </button>
+            <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+              <img src="assets/images/tick.png">
+            </button>
+          </div>
+        </div>
+          <!-----Image croped end------->
+
+          </div>
+        </div>
+        <div class="edit_profile_top_right">
+          <div class="block_sec_title_row">
+            <h4 class="block_sec_title">upload your community profile image</h4>
+            <div class="block_title_btn_div">
+              <button type="submit" class="button_appearance_none block_title_btn pink_btn mr_20" [routerLink]="['/community-management/sms-verify']">Phone Number Verification</button>
+              <button type="submit" class="button_appearance_none block_title_btn pink_btn" (click)="editDetails()" *ngIf="!enableEditOption">Edit profile</button>
+              <button type="submit" class="button_appearance_none block_title_btn pink_btn"  *ngIf="enableEditOption" (click)="saveDetails()" [ngClass]="{'disabled': !communityDetailsForm.valid}">Save profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit_profile_box">
+        <div class="editprofile_form passive_users_form">
+          <!-- <form> -->
+
+            <!-- ========  New form field -- start ====  -->
+
+            <div class="form_row ">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-01.png">
+                </span>
+                <span class="form_field_input onboard_form_currency_input">
+                  <input class="input_appearance_none profileEdit_inpput" type="text" placeholder="Email Address" formControlName="communityEmail" [readOnly]="!enableEditOption">
+                  <span class="currency_input_block" >
+                    <button type="submit" class="button_appearance_none block_title_btn pink_btn" (click)="emailOpenModal()"  *ngIf="!isOtpVerified">Verify email</button>
+                    <span *ngIf="isOtpVerified">Veified</span>
+                  </span>
+
+                </span>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('communityEmail')?.errors && (communityDetailsForm.get('communityEmail')?.dirty || communityDetailsForm.get('communityEmail')?.touched))">
+                  <div class="form_field_error_msg">
+                    Email is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="form_row">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-02.png">
+                </span>
+                <span class="form_field_input">
+                  <input class="input_appearance_none profileEdit_inpput" type="tel" placeholder="+91 000 000 0000" formControlName="communityNumber" readonly>
+                </span>
+              </div>
+            </div> -->
+
+            <div class="form_row ">
+              <div class="onboard_form_box width_100">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_row onboard_form_row_tel">
+                    <div class="form_country_code ">
+                      <div class="form_input_row onboard_input_border">
+                        <div class="onboard_form_input_icon">
+                          <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+                        </div>
+                        <div class="onboard_form_input">
+                          <input class="input_appearance_none" type="tel" placeholder="Country Code" formControlName="communityPhoneCode" (keypress)="isNumber($event)" readonly>
+                          <!-- <select class="input_appearance_none onboard_select" >
+                            <option value="" disabled selected hidden>Country Code</option>
+                            <option value="" >All</option>
+                            <option value="">+ 91</option>
+                            <option value="">+ 99</option>
+                            <option value="">+ 91</option>
+                            <option value="">+ 91</option>
+                          </select> -->
+                        </div>
+                      </div>
+                      <!-- <div class="form_input_row_error" >
+                        <div class="form_field_error_msg">
+                          error message
+                        </div>
+                      </div> -->
+                    </div>
+                    <div class="form_tel_num ">
+                      <div class="form_input_row onboard_input_border">
+                        <div class="onboard_form_input ">
+                          <input class="input_appearance_none" type="tel" placeholder="000 000 0000" formControlName="communityNumber" [readOnly]="!enableEditOption">
+                        </div>
+                      </div>
+                      <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('communityNumber')?.errors?.['InvalidValue'] && (communityDetailsForm.get('communityNumber')?.dirty || communityDetailsForm.get('communityNumber')?.touched))">
+                        <div class="form_field_error_msg">
+                          Phone Number is required.
+                        </div>
+                      </div>
+                      <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('communityNumber')?.errors?.['invalidMobile'] && (communityDetailsForm.get('communityNumber')?.dirty || communityDetailsForm.get('communityNumber')?.touched))">
+                        <div class="form_field_error_msg">
+                          Phone Number must be 10 digits or 11 digits.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form_row ">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-03.png">
+                </span>
+                <span class="form_field_input">
+                  <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea" placeholder="Community Address Line 1*" formControlName="firstAddressLine" [readOnly]="!enableEditOption"></textarea>
+                </span>
+              </div>
+              <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('firstAddressLine')?.errors && (communityDetailsForm.get('firstAddressLine')?.dirty || communityDetailsForm.get('firstAddressLine')?.touched))">
+                <div class="form_field_error_msg">
+                  Address Line1 is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form_row ">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-03.png">
+                </span>
+                <span class="form_field_input">
+                  <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea" placeholder="Community Address Line 2" formControlName="secondAddressLine" [readOnly]="!enableEditOption"></textarea>
+                </span>
+              </div>
+
+              <!-- <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  error message
+                </div>
+              </div> -->
+
+            </div>
+
+            <div class="onboard_form_row form_row gpa_30">
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <!-- <select [class]="!enableEditOption ? 'input_appearance_none filter_input onboard_select disabled' : 'input_appearance_none filter_input onboard_select'"  formControlName="country">
+                      <option value="" disabled hidden selected>Country *</option>
+                      <ng-container *ngFor="let country of countryCodes" >
+                        <option [value]="country.code" >{{country.name}}</option>
+                      </ng-container>
+                    </select> -->
+                    <input class="input_appearance_none" type="text" placeholder="Country *" formControlName="country" readonly>
+                  </div>
+                  <!-- <div class="form_input_row_error" >
+                    <div class="form_field_error_msg">
+                      error message
+                    </div>
+                  </div> -->
+                </div>
+
+              </div>
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <span  *ngIf="enableEditOption">
+                    <select [class]="!enableEditOption ? 'input_appearance_none filter_input onboard_select disabled' : 'input_appearance_none filter_input onboard_select'" formControlName="state" (change)="stateChange()">
+                      <option value="" disabled selected hidden>State *</option>
+                      <ng-container *ngFor="let state of states">
+                        <option [value]="state.name.trim()">
+                          {{state.name}}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </span>
+                    <span *ngIf="!enableEditOption">
+                      <input class="input_appearance_none" type="text" placeholder="State *" formControlName="state" readonly>
+                    </span>
+                  </div>
+                  <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('state')?.errors && (communityDetailsForm.get('state')?.dirty || communityDetailsForm.get('state')?.touched))">
+                    <div class="form_field_error_msg">
+                      State is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="onboard_form_row form_row gpa_30">
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <input class="input_appearance_none" type="text" placeholder="City *" formControlName="city" [readOnly]="!enableEditOption">
+                  </div>
+                  <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('city')?.errors && (communityDetailsForm.get('city')?.dirty || communityDetailsForm.get('city')?.touched))">
+                    <div class="form_field_error_msg">
+                      City is required.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <input class="input_appearance_none" type="text" placeholder="Zip code *" formControlName="zipcode" [readOnly]="!enableEditOption" (keypress)="isNumber($event)">
+                  </div>
+                  <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('zipcode')?.errors?.['InvalidValue'] && (communityDetailsForm.get('zipcode')?.dirty || communityDetailsForm.get('zipcode')?.touched))">
+                    <div class="form_field_error_msg">
+                      Zip code is required.
+                    </div>
+                  </div>
+                  <div class="form_input_row_error" *ngIf="(communityDetailsForm.get('zipcode')?.errors?.['invalidPin'] && (communityDetailsForm.get('zipcode')?.dirty || communityDetailsForm.get('zipcode')?.touched))">
+                    <div class="form_field_error_msg">
+                      Zipcode must be 6 digit.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ========  New form field -- end ====  -->
+
+            <!-- ========  SMS App Number Verification  form field -- Start ====  -->
+             
+              <!--              
+            <div class="editprofile_form passive_users_form">
+              <h6>SMS App Number Verification</h6>
+              <div class="form_row ">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_row onboard_form_row_tel">
+                      <div class="form_country_code ">
+                        <div class="form_input_row onboard_input_border">
+                          <div class="onboard_form_input_icon">
+                            <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+                          </div>
+                          <div class="onboard_form_input">
+                            <div class="loginformflidArea">
+                              <input type="text" class="countryno countryno_mat" placeholder="Pick one" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (keyup)="searchCountry($event)">
+                              <ng-container class="login_mat_select_with_map_ngContainer">
+                                <mat-autocomplete #auto="matAutocomplete"
+                                  class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                                  <mat-option *ngFor="let country of filteredOptions" [value]="country.dialCode"
+                                    (click)="addCountryCode(country)">
+                                    <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form_tel_num ">
+                        <div class="form_input_row onboard_input_border">
+                          <div class="onboard_form_input ">
+                            <span class="form_field_input onboard_form_currency_input">
+                              <input class="input_appearance_none" type="tel" placeholder="000 000 0000"
+                                formControlName="communityNumber">
+                              <span class="currency_input_block">
+                                <button type="submit" class="button_appearance_none block_title_btn pink_btn"
+                                  (click)="emailOpenModal()" *ngIf="!isOtpVerified">Verify Number</button>
+                                <span *ngIf="isOtpVerified">Veified</span>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              -->
+
+            <!-- ========  SMS App Number Verification  form field -- End ====  -->
+
+            <!-- ========  OLD  form field -- Start ====  -->
+
+            <!-- <div class="form_row">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-01.png">
+                </span>
+                <span class="form_field_input">
+                  <input class="input_appearance_none profileEdit_inpput" type="text" placeholder="jhone @gmail.com" formControlName="communityEmail" [readOnly]="!enableEditOption">
+                </span>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  error message
+                </div>
+              </div>
+            </div>
+
+            <div class="form_row">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-02.png">
+                </span>
+                <span class="form_field_input">
+                  <input class="input_appearance_none profileEdit_inpput" type="tel" placeholder="+91 000 000 0000" formControlName="communityNumber" [readOnly]="!enableEditOption">
+                </span>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  error message
+                </div>
+              </div>
+            </div>
+
+            <div class="form_row">
+              <div class="form_row_field">
+                <span class="form_field_icon">
+                  <img class="" src="assets/images/profile-edit-form-icon-03.png">
+                </span>
+                <span class="form_field_input">
+                  <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea" placeholder="Address" formControlName="communityLocation" [readOnly]="!enableEditOption"></textarea>
+                </span>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  error message
+                </div>
+              </div>
+            </div> -->
+
+            <!-- ========  OLD  form field -- End ====  -->
+
+            <!-- <div class="form_row form_row_btn_area "> -->
+            <br>
+            <div class="onboard_form_row onboard_form_row_btn flex_center">
+              <div *ngIf="announcementCheckbox && videoCheckbox && paymentCheckbox && aboutUsCheckbox">
+                <button class="button_appearance_none profile_settings_btn btn_global green_btn" (click)="viewMyWebsite()" *ngIf="!enableEditOption">View My Website</button>
+              </div>
+
+              <button class="button_appearance_none profile_settings_btn btn_global yellow_btn" (click)="globalSetting()" *ngIf="!enableEditOption">Global Settings</button>
+              <button class="button_appearance_none profile_settings_btn btn_global pink_btn" *ngIf="!enableEditOption" (click)="editWebPage()">Edit Webpage</button>
+              <!-- <button class="button_appearance_none profile_settings_btn btn_global gray_btn" (click)="setCurrencyModal()">Set Currency</button> -->
+            </div>
+            <!-- </div> -->
+
+          <!-- </form> -->
+        </div>
+      </div>
+
+      <!-- --- card outside form button -- start --  -->
+      <!--
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside onboard_form_row_btn_community_management">
+        <button class="button_appearance_none profile_settings_btn btn_global" type="submit" >Save global settings</button>
+        <button class="button_appearance_none profile_settings_btn edit_web" type="button" >Cancel</button>
+      </div>
+       -->
+
+      <!-- --- card outside form button -- end --  -->
+
+      <div class="edit_profile_bg_img_sec">
+        <img class="edit_profile_bg_img" src="assets/images/community-profile-page-bg.png">
+      </div>
+    </div>
+  </form>
+
+    
+  </div>
+</div>
+<!-- -- Dashboard panel / My Community details bg -- end --  -->
+
+ 
+
+
+
+
+<div class="modal fade custom_modal taskId_modal" id="eventId_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Set Default Currency</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block">
+          <div class="modal_task_cont_block">
+            <div class="modal_task_cont">
+              <h6>Currency will be default based on community <br/> location specific</h6>
+            </div>
+            <form [formGroup]="currencyForm">
+            <div class="modal_task_cont">
+              <!-- ========   -->
+              <div class="onboard_form_input form_checkbox form_checkbox_green">
+                <div class="radio_btn_block">
+                  <div class="radio">
+                    <input id="radio-1" name="currency" type="radio" formControlName="currency" value="USD">
+                    <label for="radio-1" class="radio-label">USD for USA</label>
+                  </div>
+
+                  <div class="radio">
+                    <input id="radio-2" name="currency" type="radio" formControlName="currency" value="CAD">
+                    <label  for="radio-2" class="radio-label">CAD for Canada</label>
+                  </div>
+
+                  <div class="radio">
+                    <input id="radio-3" name="currency" type="radio" formControlName="currency" value="GBP">
+                    <label  for="radio-3" class="radio-label">GBP for UK</label>
+                  </div>
+
+                  <div class="radio">
+                    <input id="radio-4" name="currency" type="radio" formControlName="currency" value="INR">
+                    <label  for="radio-4" class="radio-label">INR for India</label>
+                  </div>
+                </div>
+              </div>
+              <!-- ========   -->
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal_footer_btn" >
+        <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_pink" (click)="closeCurrencyModal()">Close</button>
+        <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_green" (click)="saveCurrency()" *ngIf="!hasChangeCurrency || hasChangeCurrency===null">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!------Open Email Modal------>
+<div class="modal fade custom_modal" id="emailVerifyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otp send to your email address</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="otpSubmissionForm">
+          <!-- <input class="remove-arrows " type="number" placeholder="Please put your otp here" inputmode="numeric" formControlName="otp"> -->
+          <div class="onboard_form_input">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Enter OTP *</label>
+              <input class="input_appearance_none" type="password" placeholder="Please put your otp here" inputmode="numeric" formControlName="otp"  maxlength="6">
+            </div>
+            <!-- <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                Error Message
+              </div>
+            </div> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeEmailModal()">Close</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="button" (click)="otpSubmit()" [ngClass]="{'disabled': !otpSubmissionForm.valid}">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!---End Email Modal-->

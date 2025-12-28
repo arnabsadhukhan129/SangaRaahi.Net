@@ -1,0 +1,134 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title filter-headingArea">
+      <!-- <h4>Cron Log List</h4> -->
+       <h4>Event Reminder Logs: </h4>
+    </div>
+    <div class="page_top_title" *ngIf="cronList?.length > 0 && cronList[0]?.eventName">
+      <h4>Event Name : {{cronList[0]?.eventName}}</h4>
+    </div>
+    <!-- page title -- section -- end  -->
+  
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/events']">Back to event list</a>
+    </div>  
+    <!-- table area start -->
+    <div class="tableBox">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <!-- <th>Event Name</th> -->
+                    <th>Notification Date</th>
+                    <th>Notification Time</th>
+                    <th>Notification Type</th>
+                    <th>Created By</th>
+                    <th>Notification Status</th>
+                    <th>RSVP Type</th>
+                    <th>SMS Count</th>
+                    <th>Email Count</th>
+                    <th>Action Items</th>
+                  </tr>
+                </thead>
+  
+                <tbody>
+                  <tr *ngFor="let item of cronList, let i = index">
+  
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                      {{'CRON100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                      {{'CRON10'+(current*10-(9-i))}}
+                    </td>
+  
+                    <!-- <td>{{(current*limit)-((limit-1)-i)}}</td> -->
+                    <!-- <td class="td_readMore_bg">
+                        <p *ngIf="item.eventName">{{item.eventName | truncate:35}}</p>
+                        <p *ngIf="!item.eventName">{{'N/A'}}</p>
+                        <div class="td_readMore_block textRight" *ngIf="item.eventName && item.eventName.length > 35">
+                            <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                        </div>
+                    </td> -->
+                    <td>
+                        {{item.notificationDate | date: 'dd MMMM y'}}
+                    </td>
+                    <td>
+                        {{item.notificationTime | date: 'hh:mm a'}}
+                    </td>
+                    <td>
+                      {{item?.notificationType ? (item.notificationType | titlecase) : 'N/A'}}
+                    </td>
+                    <td>
+                      {{item?.userName ? (item.userName | titlecase) : 'N/A'}}
+                    </td>
+                    <td>
+                        {{item?.notificationStatus ? (item?.notificationStatus | titlecase) : 'N/A'}}
+                      </td>
+                      <td>
+                        {{ rsvpLabelMap[item?.rsvpType] || 'N/A' }}
+                      </td>
+                    <td>
+                      {{item?.smsCount ? item?.smsCount : '0'}}
+                    </td>
+                    <td>
+                      {{item?.emailCount ? item?.emailCount : '0'}}
+                  </td>
+                    <td>
+                      <div class="active_item_td" *ngIf="item?.notificationStatus!=='sent'">
+                        <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteCron(item.id,i)">
+                          <img src="assets/images/active_item_btn_06.png" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!cronList?.length">
+                    <td colspan="8">No Data Found</td>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+        <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > limit"><app-pagination
+              [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template>
+  
+  
+        <!-- ---  table bottom Pagination section -- end --  -->
+    </div>
+    <!-- table area end -->
+  
+  
+  </div>
+
+  <div class="modal fade custom_modal " id="eventNameModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Event Name</h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal_body_block ">
+              <p class="textJustify">
+                 {{eventName ? eventName : 'N/A'}}
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  

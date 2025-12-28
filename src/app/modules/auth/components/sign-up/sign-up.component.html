@@ -1,0 +1,635 @@
+
+<div class="signupBg">
+  <div class="auth_container signUp_container">
+    <div class="signup_sec_bg">
+        <div class="form_top_text">
+            <div class="logo"><img src="assets/images/logo.svg" /></div>
+            <div class="signUp_top">
+              <h2>Create Community</h2>
+              <p>Already a member? Login with your community to create announcement, groups, events & many more &nbsp; <b><a [routerLink]="['/auth']">Sign in</a></b></p>
+            </div>
+        </div>
+
+
+        <form [formGroup]="signUpForm">
+            <div class="community_details  ">
+                <div class=" passive_users_form ">
+                    <div class="form_tag_title  ">
+                        <h3>Creator Details Form</h3>
+                        <span class="title_border"></span>
+                    </div>
+                    <!---Creator Details start-->
+
+                    <!-- onboard_form_row img upload row -- start -->
+                    <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30 ">
+                        <div class="announcement_box_block announcement_box_darkyellow width_100">
+                            <div class="announcement_box_block_top">
+                                <div class="announcement_left_round_img">
+                                    <img *ngIf="!userImage" class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+                                    <img *ngIf="userImage" class="announcement_left_upload_img" src="{{userImage}}">
+                                </div>
+                                <div class=" up_img_delete_btn_block" *ngIf="userImage">
+                                    <button class="button_appearance_none up_img_delete_btn"  (click)="deleteUserImage()">
+                                        <img src="assets/images/trash-delete.png">
+                                    </button>
+                                </div>
+                                <div class="announcement_top_des">
+                                    <!-- img / upload img -- start -->
+                                    <div class="profile_img_edit_btn_block">
+                                        <button class="button_appearance_none profile_edit_btn" >
+                                        <img src="assets/images/profileimage-edit-btn.png">
+                                        </button>
+                                        <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewUserImage($event)" #userImg/>
+                                    </div>
+                                    <!-- img / upload img -- end -->
+                                    <h4>Upload User Image </h4>
+                                    <p>(Maximum Size will be from 2-5MB )</p>
+                                </div>
+                                <!-----Image croped start----->
+                                <div class="crop_window"  *ngIf="openCropUserImageModal">
+                                    <image-cropper
+                                            [imageChangedEvent]="userImageChangedEvent"
+                                            [maintainAspectRatio]="true"
+                                            [aspectRatio]="1"
+                                            (imageCropped)="userCropImg($event)"
+                                            (imageLoaded)="imgLoad()"
+                                            (cropperReady)="initCropper()"
+                                            (loadImageFailed)="imgFailed()">
+                                        >
+                                    </image-cropper>
+                                    <div class="crop_btn_bottom">
+                                        <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropUserImageModal" (click)="closeUserImage()">
+                                            <img src="assets/images/crosspink.png">
+                                        </button>
+                                        <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropUserImageModal" (click)="saveUserImage()">
+                                            <img src="assets/images/tick.png">
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-----Image croped end------->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- onboard_form_row img upload row -- end -->
+
+                    <!-- <div class="onboard_form_row gpa_30">
+                        <div class="signUp_imgUp_top_block">
+                            <div class="signUp_imgUp">
+                                <div class="left_img_block">
+                                    <div class="profile_edit_img">
+                                        <img src="{{userImage}}">
+                                    </div>
+                                    <div class="profile_img_edit_btn_block">
+                                        <button class="button_appearance_none profile_edit_btn">
+                                            <img src="assets/images/profileimage-edit-btn.png">
+                                        </button>
+                                        <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewUserImage($event)"/>
+                                    </div>
+                                    <div class="crop_window"  *ngIf="openCropUserImageModal">
+                                        <image-cropper
+                                            [imageChangedEvent]="userImageChangedEvent"
+                                            [maintainAspectRatio]="true"
+                                            [aspectRatio]="1"
+                                            (imageCropped)="userCropImg($event)"
+                                            (imageLoaded)="imgLoad()"
+                                            (cropperReady)="initCropper()"
+                                            (loadImageFailed)="imgFailed()">
+                                        >
+                                        </image-cropper>
+                                        <div class="crop_btn_bottom">
+                                            <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropUserImageModal" (click)="closeUserImage()">
+                                                <img src="assets/images/crosspink.png">
+                                            </button>
+                                            <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropUserImageModal" (click)="saveUserImage()">
+                                                <img src="assets/images/tick.png">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     -->
+                    <div class="onboard_form_row gpa_30">
+                        <div class="onboard_form_box width_100">
+                            <div class="onboard_form_input ">
+                                <div class="onboard_form_input onboard_input_border">
+                                    <input class="input_appearance_none" type="text" placeholder="Your Email Address *" formControlName="email">
+                                </div>
+                                <div class="form_input_row_error " *ngIf="(signUpForm.get('email')?.errors?.['InvalidValue'] && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched))">
+                                    <div class="form_field_error_msg">
+                                        User Email is required.
+                                    </div>
+                                </div>
+                                <div class="form_input_row_error" *ngIf="(signUpForm.get('email')?.errors?.['invalidEmail'] && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched))">
+                                    <div class="form_field_error_msg">
+                                    Invalid user email.
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="onboard_form_row gpa_30">
+                        <div class="onboard_form_box width_50">
+                            <!-- <div class="onboard_form_input "> -->
+                                <div class="onboard_form_input onboard_input_border">
+                                    <input class="input_appearance_none" type="text" placeholder="Your Name *" formControlName="firstName">
+                                </div>
+                                <div class="form_input_row_error " *ngIf="(signUpForm.get('firstName')?.errors?.['InvalidValue'] && (signUpForm.get('firstName')?.dirty || signUpForm.get('firstName')?.touched))">
+                                    <div class="form_field_error_msg">
+                                        User Name is required.
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="onboard_form_box width_50">
+                            <div class="onboard_form_input onboard_input_border">
+                                <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth">
+                                    <option value="" disabled selected hidden>Year of birth *</option>
+                                    <ng-container *ngFor="let year of arrYear">
+                                      <option [value]="year">
+                                        {{year}}
+                                      </option>
+                                    </ng-container>
+                                  </select>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('yearOfBirth')?.errors && (signUpForm.get('yearOfBirth')?.dirty || signUpForm.get('yearOfBirth')?.touched))">
+                                <div class="form_field_error_msg">
+                                  Year of birth is required.
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="onboard_form_row onboard_form_row_tel">
+                        <div class="form_country_code ">
+                            <div class="form_input_row ">
+                            <input type="text"
+                                class="countryno countryno_mat"
+                                placeholder="Country Code *"
+                                aria-label="Number"
+                                matInput
+                                formControlName="countryCode1"
+                                [matAutocomplete]="auto1"
+                                (keyup)="searchCountry1($event)"
+                                >
+                                <ng-container class="login_mat_select_with_map_ngContainer">
+                                <mat-autocomplete  #auto1="matAutocomplete" class="login_mat_select login_mat_select_with_map">
+                                <mat-option  *ngFor="let country1 of filteredOptions1" [value]="country1.dialCode" (click)="addCountryCode1(country1)">
+                                        <img with="20" height="20" [src]="country1.flag"> {{country1.name}} - [{{country1.dialCode}}]
+                                    </mat-option>
+                                </mat-autocomplete>
+                                </ng-container>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('countryCode1')?.errors && (signUpForm.get('countryCode1')?.dirty || signUpForm.get('countryCode1')?.touched))">
+                            <div class="form_field_error_msg">
+                                Phone Code is required.
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form_tel_num ">
+                        <div class="form_input_row onboard_input_border">
+                            <div class="onboard_form_input ">
+                                <input class="numberfld" type="tel" (keypress)="numericOnly($event)" (keydown.space)="$event.preventDefault()" placeholder="Enter your Mobile Number *" aria-label="Number" formControlName="creatorsphone"/>
+                            </div>
+                        </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('creatorsphone')?.errors && (signUpForm.get('creatorsphone')?.dirty || signUpForm.get('creatorsphone')?.touched))">
+                                <div class="form_field_error_msg">
+                                Phone number is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <!---Creator Details End-->
+                </div>
+                <div class=" passive_users_form ">
+                    <div class="form_tag_title  ">
+                        <h3>Community Details Form</h3>
+                        <span class="title_border"></span>
+                    </div>
+  
+                    <!---Community Details start-->
+
+                    <!-- onboard_form_row img upload row -- start -->
+                    <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30 ">
+                        <div class="announcement_box_block announcement_box_darkyellow width_100">
+                            <div class="announcement_box_block_top">
+                                <div class="announcement_left_round_img">
+                                    <img *ngIf="!image" class="announcement_left_default_img" src="assets/images/banner-img-up.png">
+                                    <img *ngIf="image" class="announcement_left_upload_img" src="{{image}}">
+                                </div>
+                                <div class=" up_img_delete_btn_block" *ngIf="image">
+                                    <button class="button_appearance_none up_img_delete_btn" (click)="deletecommunityImage()">
+                                        <img src="assets/images/trash-delete.png">
+                                    </button>
+                                </div>
+                                <div class="announcement_top_des">
+                                    <!-- img / upload img -- start -->
+                                    <div class="profile_img_edit_btn_block">
+                                        <button class="button_appearance_none profile_edit_btn" >
+                                        <img src="assets/images/profileimage-edit-btn.png">
+                                        </button>
+                                        <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event)" #communityImg/>
+                                    </div>
+                                    <!-- img / upload img -- end -->
+                                    <h4>Upload Community Image </h4>
+                                    <p>(Maximum Size will be from 2-5MB )</p>
+                                </div>
+                                <!-----Image croped start----->
+                                <div class="crop_window"  *ngIf="openCropImageModal">
+                                    <image-cropper
+                                        [imageChangedEvent]="imageChangedEvent"
+                                        [maintainAspectRatio]="true"
+                                        [aspectRatio]="1"
+                                        (imageCropped)="cropImg($event)"
+                                        (imageLoaded)="imgLoad()"
+                                        (cropperReady)="initCropper()"
+                                        (loadImageFailed)="imgFailed()">
+                                    >
+                                    </image-cropper>
+                                    <div class="crop_btn_bottom">
+                                        <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"  (click)="closeImage()">
+                                            <img src="assets/images/crosspink.png">
+                                        </button>
+                                        <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                                            <img src="assets/images/tick.png">
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-----Image croped end------->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- onboard_form_row img upload row -- end -->
+
+                    <!-- <div class="onboard_form_row gpa_30">
+                        <div class="signUp_imgUp_top_block">
+                            <div class="signUp_imgUp">
+                                <div class="left_img_block" >
+                                    <div class="profile_edit_img">
+                                        <img src="{{image}}">
+                                    </div>
+                                    <div class="profile_img_edit_btn_block">
+                                        <button class="button_appearance_none profile_edit_btn">
+                                            <img src="assets/images/profileimage-edit-btn.png">
+                                        </button>
+                                        <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="previewImage($event)"/>
+                                    </div>
+                                    <div class="crop_window"  *ngIf="openCropImageModal">
+                                        <image-cropper
+                                            [imageChangedEvent]="imageChangedEvent"
+                                            [maintainAspectRatio]="true"
+                                            [aspectRatio]="1"
+                                            (imageCropped)="cropImg($event)"
+                                            (imageLoaded)="imgLoad()"
+                                            (cropperReady)="initCropper()"
+                                            (loadImageFailed)="imgFailed()">
+                                        >
+                                    </image-cropper>
+                                    <div class="crop_btn_bottom">
+                                        <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                                        <img src="assets/images/crosspink.png">
+                                        </button>
+                                        <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                                        <img src="assets/images/tick.png">
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                            <!-- <div class="form_input_row_error" *ngIf="(signUpForm.get('creatorsphone')?.errors && (signUpForm.get('creatorsphone')?.dirty || signUpForm.get('creatorsphone')?.touched))">
+                                <div class="form_field_error_msg">
+                                Invalid Phone number.
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="onboard_form_box width_33">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Middle Name" formControlName="middleName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="onboard_form_box width_33">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Last Name" formControlName="lastName">
+                                    </div>
+                                    <div class="form_input_row_error " *ngIf="(signUpForm.get('lastName')?.errors?.['InvalidValue'] && (signUpForm.get('lastName')?.dirty || signUpForm.get('lastName')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Last Name is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  -->
+
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Community Email Address *" formControlName="communityEmail">
+                                    </div>
+                                    <div class="form_input_row_error " *ngIf="(signUpForm.get('communityEmail')?.errors?.['InvalidValue'] && (signUpForm.get('communityEmail')?.dirty || signUpForm.get('communityEmail')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Community Email is required.
+                                        </div>
+                                    </div>
+                                    <div class="form_input_row_error" *ngIf="(signUpForm.get('communityEmail')?.errors?.['invalidEmail'] && (signUpForm.get('communityEmail')?.dirty || signUpForm.get('communityEmail')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Invalid Community email.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Community Name *" formControlName="communityName">
+                                    </div>
+                                    <div class="form_input_row_error " *ngIf="(signUpForm.get('communityName')?.errors?.['InvalidValue'] && (signUpForm.get('communityName')?.dirty || signUpForm.get('communityName')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Community Name is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_50">
+                            <div class="onboard_form_input onboard_input_border">
+                                <select [class]="'input_appearance_none filter_input onboard_select'" formControlName="communityCategory" (change)="getTax($event)">
+                                    <!-- <option value="" disabled selected hidden>Community Payment Status</option> -->
+                                    <option value="" disabled selected hidden>Community Category *</option>
+                                    <option value="ForProfit">For Profit</option>
+                                    <option value="NonProfit">Non Profit</option>
+                                    <option value="Informal">Informal</option>
+                                </select>
+                            </div>
+
+                                <div class="form_input_row_error " *ngIf="(signUpForm.get('communityCategory')?.errors?.['InvalidValue'] && (signUpForm.get('communityCategory')?.dirty || signUpForm.get('communityCategory')?.touched))">
+                                    <div class="form_field_error_msg">
+                                    Community category is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="onboard_form_box width_50">
+                            <div class="onboard_form_input onboard_input_border">
+                                <select class="input_appearance_none filter_input onboard_select" formControlName="communityType">
+                                    <option value="" disabled selected hidden>Community Type *</option>
+                                    <option value="Social">Social</option>
+                                    <option value="Cultural">Cultural</option>
+                                    <option value="Religious">Religious</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+
+                                <div class="form_input_row_error " *ngIf="(signUpForm.get('communityType')?.errors?.['InvalidValue'] && (signUpForm.get('communityType')?.dirty || signUpForm.get('communityType')?.touched))">
+                                    <div class="form_field_error_msg">
+                                    Community type is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---Tax toggle start-->
+                        <div class="onboard_form_row gpa_30" *ngIf="taxToggle">
+                            <div class="onboard_form_box width_100">
+                                <div class="toggle_left ">
+                                    <div class="toggle_btn">
+                                    <label class="switch" for="checkbox-1">
+                                        <input type="checkbox" id="checkbox-1" formControlName="showProfileOrganization" (change)="toggleLegalNon($event)"/>
+                                        <div class="slider round"></div>
+                                    </label>
+                                    </div>
+                                    <div class="toggle_text">
+                                        This is a legal non profit organization
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30" *ngIf="taxToggle">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border" *ngIf="istoggleon">
+                                        <input class="input_appearance_none" type="text" placeholder="Non Profit Tax Id" formControlName="nonProfitTax" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---Tax toggle end-->
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <textarea class="input_appearance_none profileEdit_inpput profileEdit_textarea width_100" placeholder="Community Description" formControlName="communityDescription"></textarea>
+                                    </div>
+                                    <!-- <div class="form_input_row_error " *ngIf="(signUpForm.get('communityDescription')?.errors?.['InvalidValue'] && (signUpForm.get('communityDescription')?.dirty || signUpForm.get('communityDescription')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Community description is required.
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Community Address Line 1 *" formControlName="adressLine1">
+                                    </div>
+                                    <div class="form_input_row_error " *ngIf="(signUpForm.get('adressLine1')?.errors?.['InvalidValue'] && (signUpForm.get('adressLine1')?.dirty || signUpForm.get('adressLine1')?.touched))">
+                                        <div class="form_field_error_msg">
+                                        Address Line 1 is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <input class="input_appearance_none" type="text" placeholder="Community Address Line 2" formControlName="adressLine2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row onboard_form_row_tel">
+                        <div class="form_country_code ">
+                            <div class="form_input_row ">
+                                <input type="text"
+                                    class="countryno countryno_mat"
+                                    placeholder="Country Code *"
+                                    aria-label="Number"
+                                    matInput
+                                    formControlName="countryCode"
+                                    [matAutocomplete]="auto"
+                                    (keyup)="searchCountry($event)"
+                                    [ngClass]="'input_pointer_event_none'"
+                                    >
+                                    <ng-container class="login_mat_select_with_map_ngContainer">
+                                    <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_with_map">
+                                        <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                                            <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    </ng-container>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('countryCode')?.errors && (signUpForm.get('countryCode')?.dirty || signUpForm.get('countryCode')?.touched))">
+                            <div class="form_field_error_msg">
+                                Phone Code is required.
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form_tel_num ">
+                            <div class="form_input_row onboard_input_border">
+                            <div class="onboard_form_input ">
+                                <input class="numberfld" type="tel" (keypress)="numericOnly($event)" (keydown.space)="$event.preventDefault()" placeholder="Enter Community's Mobile Number *" aria-label="Number" formControlName="phone"/>
+                            </div>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('phone')?.errors && (signUpForm.get('phone')?.dirty || signUpForm.get('phone')?.touched))">
+                            <div class="form_field_error_msg">
+                                Phone number is required.
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_50">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                    <select class="input_appearance_none filter_input onboard_select" formControlName="country" (change)="changeState($event)" [ngClass]="'input_pointer_event_none'">
+                                        <option value="" disabled selected hidden>Country *</option>
+                                        <ng-container *ngFor="let country of filteredOptions">
+                                        <option [value]="country.name">
+                                            {{country.name}}
+                                        </option>
+                                        </ng-container>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form_input_row_error" *ngIf="(signUpForm.get('country')?.errors && (signUpForm.get('country')?.dirty || signUpForm.get('country')?.touched))">
+                                    <div class="form_field_error_msg">
+                                    Country is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="onboard_form_box width_50">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border">
+                                        <select class="input_appearance_none filter_input onboard_select" formControlName="state">
+                                        <option value="" disabled selected hidden>State *</option>
+                                        <ng-container *ngFor="let state of getState">
+                                            <option [value]="state.name.trim()">
+                                            {{state.name}}
+                                            </option>
+                                        </ng-container>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form_input_row_error" *ngIf="(signUpForm.get('state')?.errors && (signUpForm.get('state')?.dirty || signUpForm.get('state')?.touched))">
+                                    <div class="form_field_error_msg">
+                                    State is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                        <div class="onboard_form_box width_50">
+                            <div class="onboard_form_input ">
+                                <div class="onboard_form_input onboard_input_border" *ngIf="code === 'IN' || code === 'US' || code === 'GB' || code === 'CA'">
+                                    <input class="input_appearance_none" type="text" placeholder="City *" formControlName="city">
+                                </div>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('city')?.errors && (signUpForm.get('city')?.dirty || signUpForm.get('city')?.touched))">
+                                <div class="form_field_error_msg">
+                                    City is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_box width_50">
+                            <div class="onboard_form_input ">
+                                <div class="onboard_form_input onboard_input_border" *ngIf="code === 'IN' || code === 'US'">
+                                    <input class="input_appearance_none" type="text" placeholder="ZipCode *" (keypress)="isNumber($event)" formControlName="zipcode">
+                                </div>
+                                <div class="onboard_form_input onboard_input_border" *ngIf="code === 'GB' || code === 'CA'">
+                                    <input class="input_appearance_none" type="text" placeholder="ZipCode *" oninput="this.value = this.value.toUpperCase()" (keypress)="onlyCapsValue($event)" formControlName="zipcode">
+                                </div>
+                            </div>
+                            <div class="form_input_row_error" *ngIf="(signUpForm.get('zipcode')?.errors && (signUpForm.get('zipcode')?.dirty || signUpForm.get('zipcode')?.touched))">
+                                <div class="form_field_error_msg">
+                                    Zip code is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        <!-- <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="toggle_left ">
+                                    <div class="toggle_btn">
+                                    <label class="switch" for="checkbox-1">
+                                        <input type="checkbox" id="checkbox-1" formControlName="showProfileOrganization" (change)="toggleLegalNon($event)"/>
+                                        <div class="slider round"></div>
+                                    </label>
+                                    </div>
+                                    <div class="toggle_text">
+                                        This is a legal non profit organization
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="onboard_form_row gpa_30">
+                            <div class="onboard_form_box width_100">
+                                <div class="onboard_form_input ">
+                                    <div class="onboard_form_input onboard_input_border" *ngIf="istoggleon">
+                                        <input class="input_appearance_none" type="text" placeholder="Non Profit Tax Id" formControlName="nonProfitTax" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    <!---Community Details End-->
+                        <div class="robotArea">
+                            <!-- <img src="assets/images/robot.png" alt="" srcset=""> -->
+                            <ngx-recaptcha2
+                                [siteKey]="siteKey"
+                                formControlName="recaptcha">
+                            </ngx-recaptcha2>
+                        </div>
+                        
+                        <div class="onboard_form_row onboard_form_row_btn flex_center pad_t_30">
+                            <button class="button_appearance_none profile_settings_btn btn_global green_btn"  (click)="saveData()" [ngClass]="{'disabled': !signUpForm.valid}">Request for Community Creation</button>
+                        </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade custom_modal taskId_modal" id="success_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="modal_body_block">
+            <div class="modal_task_cont_block">
+              <div class="modal_task_cont">
+                <h6>Your community request was created successfully! <br/>Pending Admin Approval.</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal_footer_btn" >
+          <button type="button" class="button_appearance_none onboard_form_btn onboard_form_btn_green" (click)="redirectToSignIn()"> Ok </button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,232 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Group List</h4>
+
+    <div class="filterArea">
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()" >
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <a class="pinkbtnsmall" [routerLink]="['/groups/add']" *ngIf="getGroupDetails.canCreate">Create Group</a>
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <!-- ===  new filter search start === -->
+  <div class="filter_search_sec"  *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Group Name" formControlName="search" (keyup)="getGroupList(communityId, current)" >
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getGroupList(communityId, current)" >Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()" >Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg"  *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="filterForm">
+            <div class="form_row">
+
+                <div class="input_block_box w_50">
+                  <div class="filter_input_block">
+
+                    <div class="filter_input_box filter_search_select">
+                      <select class="input_appearance_none filter_input" formControlName="status" (change)="getGroupList(communityId, current)" >
+                        <option value="" disabled selected hidden>Status</option>
+                        <option value="" >All</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+              <!--
+              </div>
+              <div class="form_row">
+                -->
+                <div class="input_block_box w_50">
+                  <div class="filter_input_block">
+
+                    <div class="filter_input_box filter_search_select">
+                      <select class="input_appearance_none filter_input" formControlName="sortByName" (change)="getGroupList(communityId, current)">
+                        <option value="" disabled selected hidden>Sort by group name</option>
+                        <option value="ascName" >Ascending order</option>
+                        <option value="descName">Descending order</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                  <tr>
+                      <th>No</th>
+                      <th>Group name</th>
+                      <th>Community Name</th>
+                      <th>Created By</th>
+                      <th>Members <br>Added</th>
+                      <th>Group Status</th>
+                      <th>Action Items</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr *ngFor="let item of groupList; let i = index">
+                    <!-- <td>{{(current*limit)-((limit-1)-i)}}</td> -->
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                      {{'Gr100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                      {{'Gr10'+(current*10-(9-i))}}
+                    </td>
+                    <td class="td_readMore_bg">
+                      <div class="td_img_round_block">
+                        <img [src]="item?.image ? item.image : 'assets/images/no-image-found-3.png' ">
+                        {{item.name | truncate:35}}
+                      </div>
+                      <div class="td_readMore_block textRight " *ngIf="item.name && item.name.length > 35">
+                        <a class="td_readMore_link" href="javascript:void(0)" (click)="moreDetails(item)">Read more</a>
+                      </div>
+                    </td>
+                    <td>{{item?.community?.communityName}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.memberCount}}</td>
+                    <td>
+                      <button class="button_appearance_none" [ngClass]="item.isActive ? 'td_active_btn': 'td_inactive_btn'" (click)="changeStatus(item.id,i)">{{item.isActive ? 'Active' : 'Inactive'}}</button>
+                    </td>
+                    <td>
+                      <div class="active_item_td">
+                        <!-- <button class="button_appearance_none active_item_td_btn td_btn_yellow" [routerLink]="['edit/'+item.id]"> -->
+                        <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Edit" (click)="editBlog(item.id)" *ngIf="getGroupDetails.canEdit">
+                          <img src="assets/images/active_item_btn_01.png" />
+                        </button>
+                        <button class="button_appearance_none active_item_td_btn td_btn_green" title="View" (click)="displayGroupDEtail(item.id)" *ngIf="getGroupDetails.canView">
+                          <img src="assets/images/active_item_btn_02.png" />
+                        </button>
+                        <!-- <button class="button_appearance_none active_item_td_btn td_btn_orange">
+                          <img src="assets/images/active_item_btn_03.png" />
+                        </button> -->
+                        <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Delete" (click)="deleteGroup(item.id,i)" *ngIf="getGroupDetails.canDelete">
+                          <img src="assets/images/active_item_btn_04.png" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+
+                <tr *ngIf="!groupList.length">
+                    <td colspan="8">No Data Found</td>
+                </tr>
+
+              </tbody>
+          </table>
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <!-- <ng-template [ngIf]="totalPageNo && totalPageNo > 0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+                <div class="pagination">
+                  <a href="#">&laquo;</a>
+                  <a href="#" class="active">1</a>
+                  <a href="#">2</a>
+                  <a href="#">3</a>
+                  <a href="#">4</a>
+                  <a href="#">5</a>
+                  <a href="#">6</a>
+                  <a href="#">&raquo;</a>
+                </div>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing 1 - 25</p>
+            </div>
+          </div>
+    </ng-template> -->
+
+    <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+      <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+          <span *ngIf="totalData > limit"><app-pagination
+          [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+          ></app-pagination></span>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+        </div>
+      </div>
+    </ng-template>
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+
+</div>
+
+
+<!-- ============  static HTML part ==== start  ======= -->
+
+
+<!-- ============  static HTML part ==== end  ======= -->
+
+<div class="modal fade custom_modal" id="displayGroup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <app-view [groupId]="groupId" ></app-view>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade custom_modal " id="groupNameModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Group Name</h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal_body_block ">
+            <p class="textJustify">
+              {{getGroupName ? getGroupName : 'N/A'}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

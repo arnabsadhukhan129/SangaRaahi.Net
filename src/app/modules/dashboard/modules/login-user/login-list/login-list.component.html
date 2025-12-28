@@ -1,0 +1,81 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+    <div class="page_top_title filter-headingArea">
+        <h4>Login User List</h4>
+        <div class="filterArea">
+            <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="searchToggle()">
+                <img src="assets/images/filter-search-icon.png" />
+              </a>
+        </div>
+    </div>
+    <div class="top_back_section">
+        <a href="javascript:void(0)" [routerLink]="['/dashboard']">Back to dashboard</a>
+    </div>
+    <div class="filter_search_sec" *ngIf="seachFilter">
+        <div class="filter_sec_block_seach">
+          <div class="form_row">
+            <form [formGroup]="searchForm">
+              <div class="input_block_box filter_search_text">
+                <div class="filter_input_block">
+                  <div class="filter_input_box">
+                    <input class="input_appearance_none filter_input" type="text" placeholder="Search by name" formControlName="search" (keyup)="getLoginUserDetails(current)">
+                  </div>
+                  <div class="filter_input_box_btn">
+                    <button class="button_appearance_none filter_btn_search" type="button" (click)="getLoginUserDetails(current)">Search</button>
+                    <button class="button_appearance_none filter_btn_clear" type="button"  (click)="clear()">Clear</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="tableBox tableBox_memberDetails tableWidth_70 m_auto_30">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <!-- <th>No</th> -->
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of getLogs, let i = index">
+                        <!-- <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                            {{'Log100'+(current*10-(9-i))}}
+                          </td>
+                          <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                            {{'Log10'+(current*10-(9-i))}}
+                          </td> -->
+                          <td>
+                            {{ item?.members?.user?.name || 'N/A' }}
+                          </td>
+                          <td>Logged In <span class="green_dot"></span></td>
+                    </tr>
+                </tbody>
+                <!-- <tfoot>
+                    <tr *ngIf="!getLogs.length">
+                      <td colspan="2">No Data Found</td>
+                    </tr>
+                  </tfoot> -->
+            </table>
+        </div>
+        <!-- ---  table bottom Pagination section -- start --  -->
+      <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit">
+              <app-pagination
+                [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              >
+              </app-pagination>
+            </span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template>
+    <!-- ---  table bottom Pagination section -- end --  -->
+      </div>
+</div>

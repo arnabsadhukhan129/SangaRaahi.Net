@@ -1,0 +1,165 @@
+<div class="dashboard_panel_bg memberlistpage">
+  <div class="page_top_title">
+    <h4>Role List</h4>
+  </div>
+  <div class="filterArea">
+    <!-- <a href="javascript:void(0)" class="pinkbtnsmall" [routerLink]="['/role/add-role']"  *ngIf="getRoleList?.length === 0">Add Role</a> -->
+    <a href="javascript:void(0)" class="pinkbtnsmall" [routerLink]="['/role/add-role']">Add Role</a>
+  </div><br/>
+  <!-- page title -- section -- end  -->
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/dashboard']">Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <!-- <h4 class="block_sec_title headeingArea">Role list</h4> -->
+      <!-- <div class="filterArea">
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a>
+          <a href="javascript:void(0)" class="track" >Track</a>
+          <a href="javascript:void(0)" class="pinkbtnsmall" >Onboard Users</a>
+
+      </div> -->
+  </div>
+
+
+  <h5>Existing Role(s):</h5>
+    <!-- table area start -->
+    <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Role Name</th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of role?.name; let i = index">
+                  <td>{{i+1}}</td>
+                  <td class="width_100">{{item}}</td>
+                  <td class="table_active_td">
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_yellow" (click)="redirectPermission(i)" [ngClass]="{'disabled': currentRole === 'Executive Member' && item === 'Board Member'}"  title="Edit">
+                        <img src="assets/images/active_item_btn_01.png" />
+                      </button>
+<!--
+                      <button class="button_appearance_none active_item_td_btn td_btn_green">
+                        <img src="assets/images/active_item_btn_02.png" />
+                      </button>
+                      <button class="button_appearance_none active_item_td_btn td_btn_orange">
+                        <img src="assets/images/active_item_btn_03.png" />
+                      </button>
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink">
+                        <img src="assets/images/active_item_btn_04.png" />
+                      </button>
+ -->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <!-- <tr>
+                  <td colspan="3">No Data Found</td>
+                </tr> -->
+              </tfoot>
+          </table>
+          <!-- <ng-template [ngIf]="total && total!== 0">
+              <div class="list_pagination">
+              </div>
+          </ng-template> -->
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+  <h5>Custom Role(s):</h5>
+  <div class="tableBox">
+    <div class="table-responsive">
+        <table class="table_list" cellpadding="0" cellspacing="0">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Role Name</th>
+                <th>Action Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of getRoleList, let i = index">
+                <td>{{i+1}}</td>
+                <!-- <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                  {{'Role100'+(current*10-(9-i))}}
+                </td>
+                <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                  {{'Role10'+(current*10-(9-i))}}
+                </td> -->
+                <td class="width_100">{{item?.name}}</td>
+                <td class="table_active_td table_active_td_big">
+                  <div class="active_item_td">
+                    <button class="button_appearance_none active_item_td_btn td_btn_yellow" (click)="redirectPermissionForNewRole(item?.slug)" title="Edit">
+                      <img src="assets/images/active_item_btn_01.png" />
+                    </button>
+                    <button class="button_appearance_none active_item_td_btn td_btn_green" (click)="getUsherList(item?.slug)" title="View">
+                      <img src="assets/images/active_item_btn_02.png" />
+                    </button>
+                    <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" (click)="redirectAssignMember(item?.slug)" title="Assign Member">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Assign
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="getRoleList?.length === 0">
+                <td colspan="3">No Data Found</td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+      </div>
+      <!-- <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+        <div class="table_pagination_sec">
+          <div class="table_pagi_left pagination_block">
+            <span *ngIf="totalData > limit"><app-pagination
+            [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+            ></app-pagination></span>
+          </div>
+          <div class="table_pagi_right">
+            <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+          </div>
+        </div>
+      </ng-template> -->
+  </div>
+</div>
+
+
+<div class="modal fade custom_modal " id="usharListModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assigned Members List</h5>
+      </div>
+      <div class="modal-body">
+            <div class="modal_task_cont pad_tb_10 modal_task_cont_block_right" *ngFor="let item of getUsherLists; let i = index">
+              <div class="modal_body_block modal_task_cont_block_right_row text_left">
+                <span class="textJustify">
+                  {{i+1}}. &nbsp;{{item?.members?.user?.name}} &nbsp;({{item?.members?.user?.phone}})
+                </span>
+
+              </div>
+            </div>
+            <div class="modal_task_cont pad_tb_10 modal_task_cont_block_right" *ngIf="getUsherLists?.length === 0">
+              <div class="modal_body_block modal_task_cont_block_right_row text_left">
+                <span >
+                  No Data Found !!
+                </span>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>

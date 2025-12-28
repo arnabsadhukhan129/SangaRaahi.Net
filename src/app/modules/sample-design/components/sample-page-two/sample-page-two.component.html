@@ -1,0 +1,95 @@
+<div class="sample_page_bg">
+
+<p>sample-page-two works!</p>
+
+<!-- -------  tooltip end ---   -->
+<a (click)="openModal()">open modal</a>
+<!-- -------  modal start ---   -->
+<div class="modal fade custom_modal" id="test">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">test modal</h5>
+      </div>
+      <div class="modal-body">
+        test modal body
+      </div>
+    </div>
+  </div>
+</div>
+<!-- -------  modal end ---   -->
+</div>
+
+<div class="container">
+  <label class="switch" for="checkbox">
+    <input type="checkbox" id="checkbox" />
+    <div class="slider round"></div>
+  </label>
+</div>
+
+
+<!-- ---- material UI test -------     -->
+
+<div class="metiral_container_section">
+
+  <mat-form-field>
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date">
+      <input matEndDate placeholder="End date">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <br>
+<!--
+  <button mat-raised-button (click)="openDialog('0ms', '0ms')">Open dialog without animation</button>
+  <button mat-raised-button (click)="openDialog('3000ms', '1500ms')">Open dialog slowly</button>
+ -->
+
+
+</div>
+
+<!-- ---- material UI test -------     -->
+
+
+<!-- =====  test carousal ==== -->
+<div class="edit_webPage_tab_body_bg" style="padding: 50px 50px;">
+  <div class="event_carousal_section ">
+    <!-- carousal -- main -- start --  -->
+    <owl-carousel-o [options]="customOptions" class="owl_car_block owl_car_block_test">
+
+      <ng-template carouselSlide >
+        <div class="owl_item">
+          <a href="#">
+            <div class="owl_item_imgVideo_block">
+              <img class="owl_item_imgVideo" src="assets/images/event-activity-01.jpg">
+            </div>
+            <div class="owl_item_imgVideo_title">
+              <h5>ffdfdf fdfdf</h5>
+            </div>
+          </a>
+        </div>
+      </ng-template>
+
+
+
+    </owl-carousel-o>
+    <!-- carousal -- main -- end --  -->
+  </div>
+</div>
+
+<!-- === test box -- start ===  -->
+
+<div class="box_container_test">
+  <div class="item item-1">1</div>
+  <div class="item item-1">2</div>
+  <div class="item item-1">3</div>
+  <div class="item item-1">4</div>
+  <div class="item item-1">5</div>
+  <div class="item item-1">6</div>
+</div>
+
+<!-- === test box -- end ===  -->

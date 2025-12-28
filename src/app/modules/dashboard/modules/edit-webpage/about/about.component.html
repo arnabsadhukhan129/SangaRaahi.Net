@@ -1,0 +1,430 @@
+  <!-- ===  Edit Web-Page /  -- start === -->
+  <form [formGroup]="aboutForm">
+    <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+    <div class="edit_webPage_tab_body_bg">
+
+      <!-- Announcements -- row -- start -->
+      <div class="onboard_form_row announcement_row editWeb_subSection">
+        <div class="block_sec_title_row">
+          <h4 class="block_sec_title block_sec_title_tooltip green_text">
+            About us page settings
+          </h4>
+          <div class="filterArea">
+            <a href="javascript:void(0)" class="pink_link_text" (click)="previousSetting()">Undo Previous Settings</a>
+          </div>
+        </div>
+        <div class="edit_webPage_tab_leftRight_btn">
+          <a class="tab_leftRight_btn tab_leftRight_btn_left" href="javascript:void(0)" (click)="saveData('previous')"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-left-btn.png"></a>
+          <a class="tab_leftRight_btn tab_leftRight_btn_right" href="javascript:void(0)" [ngClass]="'disabled'"><img class="edit_webPageTopTab_icon" src="assets/images/carousel-arrow-right-btn.png"></a>
+        </div>
+      </div>
+      <!-- Announcements -- row -- end -->
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-1">
+                    <input type="checkbox" id="checkbox-1" formControlName="showOrganizationDescription"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Show Organization Description
+                </div>
+              </div>
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false">
+                </button>
+                <div class="tooltip_hover_text" *ngIf="changeText">
+                  You may use this toggle to choose if your Community’s description will also be shown on the public “About Us” page.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Type of Organization</label>
+                <select class="input_appearance_none filter_input onboard_select" formControlName="communityType">
+                  <option value="" disabled selected hidden>Enter User Type *</option>
+                  <option value="Social">Social</option>
+                  <option value="Cultural">Cultural</option>
+                  <option value="Religious">Religious</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  <!-- Phone number is required. -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Profit status</label>
+                <select class="input_appearance_none filter_input onboard_select" formControlName="nonProfit">
+                  <option value="" disabled selected hidden>Enter User Type *</option>
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option>
+                  <!-- <option value="ForProfit">For Profit</option>
+                  <option value="NonProfit">Non Profit</option>
+                  <option value="Informal">Informal</option> -->
+                </select>
+              </div>
+              <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  <!-- Phone number is required. -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row describe_textarea ">
+          <div class="block_sec_title_row">
+            <!-- <h4 class="block_sec_title green_text">Description of the Organization</h4> -->
+            <label class="form_label_green mb_10">Description of the Organization</label>
+          </div>
+          <div class="textArea_block editWebPage_row">
+            <textarea class="input_appearance_none editWeb_textArea" readonly placeholder="Description" [innerHTML]="getInnerHTML(getDetails?.communityDescription)"></textarea>
+            <!-- <ckeditor class="input_appearance_none editWeb_textArea" [readOnly] = "true"  placeholder="Description" [data]="getDetails?.communityDescription"></ckeditor> -->
+            <!-- <div class="text_count_block">
+              123/500
+            </div> -->
+          </div>
+        </div>
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-6">
+                    <input type="checkbox" id="checkbox-6" formControlName="showOrganizationAddress"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Publically show contact address
+                </div>
+              </div>
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText3=true" (mouseout)="changeText3=false">
+                </button>
+                <div class="tooltip_hover_text" *ngIf="changeText3">
+                  You may use this toggle to choose whether your Community’s address will be shown on the public “About Us” page.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <div class="onboard_form_row ">
+          <div class="onboard_form_input ">
+            <div class="onboard_input_border">
+              <input class="input_appearance_none" type="text" placeholder="Location" value="{{getDetails?.communityLocation}}" readonly>
+            </div>
+            <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                <!-- Error msg Showing -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-2">
+                    <input type="checkbox" id="checkbox-2" formControlName="showContactEmailPublicly"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Publically show contact email address
+                </div>
+              </div>
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText2=true" (mouseout)="changeText2=false">
+                </button>
+                <div class="tooltip_hover_text" *ngIf="changeText2">
+                  You may use this toggle to choose whether your Community’s contact email address will be shown on the public “About Us” page.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <div class="onboard_form_row ">
+          <div class="onboard_form_input ">
+            <div class="onboard_input_border">
+              <input class="input_appearance_none" type="text" placeholder="Email Address" value="{{getDetails?.communityEmail}}" readonly>
+            </div>
+            <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                <!-- Error msg Showing -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-3">
+                    <input type="checkbox" id="checkbox-3" formControlName="showContactPhonePublicly"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Publically show contact phone number
+                </div>
+              </div>
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText1=true" (mouseout)="changeText1=false">
+                </button>
+
+                <div class="tooltip_hover_text" *ngIf="changeText1">
+                  You may use this toggle to choose whether your Community’s contact phone will be shown on the public “About Us” page.
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <!-- ===== phn no. row =======   -->
+        <div class="form_row ">
+          <div class="onboard_form_box width_100">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_row onboard_form_row_tel">
+                <div class="form_country_code ">
+                  <div class="form_input_row onboard_input_border">
+                    <!-- <div class="onboard_form_input_icon">
+                      <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+                    </div> -->
+                    <div class="onboard_form_input">
+                      <input class="input_appearance_none" type="tel" placeholder="+91" value="{{getDetails?.communityPhoneCode}}" readonly>
+                      <!--
+                      <select class="input_appearance_none onboard_select" >
+                        <option value="" disabled selected hidden>Country Code</option>
+                        <option value="" >All</option>
+                        <option value="">+ 91</option>
+                        <option value="">+ 99</option>
+                        <option value="">+ 91</option>
+                        <option value="">+ 91</option>
+                      </select>
+                      -->
+                    </div>
+                  </div>
+                  <!-- <div class="form_input_row_error" >
+                    <div class="form_field_error_msg">
+                      error message
+                    </div>
+                  </div> -->
+                </div>
+                <div class="form_tel_num width_100">
+                  <div class="form_input_row onboard_input_border">
+                    <div class="onboard_form_input ">
+                      <input class="input_appearance_none" type="tel" placeholder="000 000 0000" value="{{getDetails?.communityNumber}}" readonly>
+                    </div>
+                  </div>
+                  <div class="form_input_row_error" >
+                    <div class="form_field_error_msg">
+                      <!-- Phone Number is required. -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ===== phn no. row =======   -->
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-4">
+                    <!-- <input type="checkbox" id="checkbox-4" formControlName="showBoardMembers" (change)="toggleshowBoardMembers($event)"/> -->
+                    <input type="checkbox" id="checkbox-4" formControlName="showBoardMembers"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Show Board Members
+                </div>
+              </div>
+
+              <div class="right_btn">
+                <button type="submit" class="button_appearance_none block_title_btn pink_btn mr_10" (click)="viewAllBoardMembers()">View more</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <div class="onboard_form_row">
+          <div class="onboard_form_input ">
+            <div class="onboard_input_border" *ngIf="getMemberRole?.length !== 0">
+              <input class="input_appearance_none" type="text" placeholder="Set <%label_name%> to mark board members of your community" [(ngModel)]="boaMember" formControlName="boardMembersLabelName">
+            </div>
+            <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                <!-- Phone number is required. -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- carousal section bg -- start --  -->
+        <!-- <div class="editWeb_carousel_sec editWeb_subSection about_carousel" *ngIf="communityAboutDetails?.showBoardMembers"> -->
+        <div class="editWeb_carousel_sec editWeb_subSection about_carousel">
+          <div class="editWeb_carousel_sec_body">
+            <!-- carousal no data found -->
+            <div class="no_data_card" *ngIf="getMemberRole?.length === 0">
+              <h5>No Data Found</h5>
+            </div>
+            <!-- carousal no data found -->
+            <div class="event_carousal_section ">
+              <!-- carousal -- main -- start --  -->
+              <owl-carousel-o [options]="customOptions" class="owl_car_block">
+                <ng-template carouselSlide *ngFor="let item of getMemberRole">
+                  <div class="owl_item">
+                    <a href="javascript:void(0)">
+                      <div class="owl_item_about">
+                        <div class="owl_item_about_img">
+                          <img class="owl_item_roundImg" src="{{item?.members?.user?.profileImage ? item?.members?.user?.profileImage : 'assets/images/header-user.png'}}">
+                        </div>
+                        <div class="owl_item_about_cont">
+                          <h5>{{item?.members?.user?.name}}</h5>
+                          <p>{{boaMember}}</p>
+                          <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p> -->
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </ng-template>
+              </owl-carousel-o>
+              <!-- carousal -- main -- end --  -->
+            </div>
+          </div>
+        </div>
+        <!-- carousal section bg -- end --  -->
+
+        <!-- Announcements -- row -- start -->
+        <div class="onboard_form_row announcement_row editWeb_subSection">
+          <div class="editWebPage_row announcement_form_row_toggle">
+            <div class="toggle_box width_100">
+              <div class="toggle_left ">
+                <div class="toggle_btn">
+                  <label class="switch" for="checkbox-5">
+                    <!-- <input type="checkbox" id="checkbox-5" formControlName="showExecutiveMembers" (change)="toggleshowExecutiveMembers($event)"/> -->
+                    <input type="checkbox" id="checkbox-5" formControlName="showExecutiveMembers"/>
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+                <div class="toggle_text">
+                  Show Executive Members
+                </div>
+              </div>
+              <div class="right_btn">
+                <button type="submit" class="button_appearance_none block_title_btn pink_btn mr_10" (click)="viewAllExecutiveMembers()">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Announcements -- row -- end -->
+
+        <div class="onboard_form_row">
+          <div class="onboard_form_input">
+            <div class="onboard_input_border" *ngIf="getExecutiveMember?.length !== 0">
+              <input class="input_appearance_none" type="text" placeholder="Set <%label_name%> to mark executive members of your community" [(ngModel)]="exeMember" formControlName="executiveMembersLabelName">
+            </div>
+            <div class="form_input_row_error" >
+              <div class="form_field_error_msg">
+                <!-- Phone number is required. -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- carousal section bg -- start --  -->
+        <!-- <div class=" editWeb_carousel_sec editWeb_subSection about_carousel" *ngIf="communityAboutDetails?.showExecutiveMembers"> -->
+        <div class=" editWeb_carousel_sec editWeb_subSection about_carousel">
+          <!-- carousal no data found -->
+          <div class="no_data_card" *ngIf="getExecutiveMember?.length === 0">
+            <h5>No Data Found</h5>
+          </div>
+          <!-- carousal no data found -->
+          <div class="editWeb_carousel_sec_body">
+            <div class="event_carousal_section ">
+              <!-- carousal -- main -- start --  -->
+              <owl-carousel-o [options]="customOptions" class="owl_car_block">
+                <ng-template carouselSlide *ngFor="let val of getExecutiveMember">
+                  <div class="owl_item ">
+                    <a href="javscript:void(0)">
+                      <div class="owl_item_about">
+                        <div class="owl_item_about_img">
+                          <img class="owl_item_roundImg" src="{{val?.members?.user?.profileImage ? val?.members?.user?.profileImage : 'assets/images/header-user.png'}}">
+                        </div>
+                        <div class="owl_item_about_cont">
+                          <h5>{{val?.members?.user?.name}}</h5>
+                          <p>{{exeMember}}</p>
+                          <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p> -->
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </ng-template>
+              </owl-carousel-o>
+              <!-- carousal -- main -- end --  -->
+            </div>
+          </div>
+
+        </div>
+        <!-- carousal section bg -- end --  -->
+
+
+    </div>
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_gray" type="button" (click)="saveData('previous')">Save Settings & Previous</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" (click)="saveData('')">Save Settings</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit">Send join message to member</button> -->
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+    </form>
+  <!-- ===  Edit Web-Page /  -- end === -->
+

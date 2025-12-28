@@ -1,0 +1,504 @@
+<div class="dashboard_panel_bg memberlistpage">
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title">
+      <h4>Add RSVP for ({{eventData?.title}})</h4>
+    </div>
+    <!-- page title -- section -- end  -->
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/events/payment-history-list/'+ eventId]">Back to Payment List</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+  
+  <form [formGroup]="rsvpForm">
+    <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+    <div class="edit_webPage_tab_body_bg ">
+  
+  
+      <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" >
+  
+        <!-- =====  RSVP Form  -- start ====  -->
+  
+        <!-- onboard_form_row  -->
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_100" *ngIf="getSelectedUser !== 'webvisitor' || getSelectedUser !==''">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">User Type *</label>
+                <select class="input_appearance_none filter_input onboard_select" (change)="selectUser($event)" formControlName="userType">
+                  <option value="" disabled selected hidden>Select User Type</option>
+                  <option value="activeuser">Active User</option>
+                  <option value="passiveuser" *ngIf="eventData?.invitationType !== 'Private' &&  eventData?.invitationType !== 'Members'">Passive User</option>
+                  <option value="webvisitor" *ngIf="eventData?.invitationType !== 'Private'  &&  eventData?.invitationType !== 'Members'">Web Visitor</option>
+                </select>
+              </div>
+              <!-- <div class="form_input_row_error" >
+                <div class="form_field_error_msg">
+                  User Type is required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_100" *ngIf="getSelectedUser === 'passiveuser'">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Select User *</label>
+                <select class="input_appearance_none filter_input onboard_select" formControlName="userId">
+                  <option value="" disabled selected hidden>Select User</option>
+                  <ng-container *ngFor="let member of passiveMemberList">
+                    <option [value]="member.members.user.id">{{member?.members?.user?.name}}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <!-- <div class="form_input_row_error" >
+                <div class="form_field_error_msg">
+                  Select User required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <!-- onboard_form_row  -->
+
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_100" *ngIf="getSelectedUser === 'activeuser'">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Select User *</label>
+                <select class="input_appearance_none filter_input onboard_select" formControlName="userId">
+                  <option value="" disabled selected hidden *ngIf="activeMemberList?.length">Select User</option>
+                  <option value="" disabled selected hidden *ngIf="!activeMemberList?.length">No User Found</option>
+                  <ng-container *ngFor="let activeMember of activeMemberList">
+                    <option [value]="activeMember?.rsvp?.userId">{{activeMember?.rsvp?.user?.name}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- onboard_form_row  -->
+        <div class="onboard_form_row gpa_30 " *ngIf="getSelectedUser === 'webvisitor'">
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Web Visitor Name *</label>
+                    <input class="input_appearance_none" type="text" placeholder="Web Visitor Name" formControlName="name">
+                </div>
+              </div>
+            </div>  
+          </div>
+
+          <div class="onboard_form_row gpa_30 " *ngIf="getSelectedUser === 'webvisitor'">
+            <div class="onboard_form_box width_50" >
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Select Country Code *</label>
+                  <select class="input_appearance_none filter_input onboard_select" formControlName="phoneCode">
+                    <option value="" disabled selected hidden>Select Country Code</option>
+                    <option value="+1">Canada</option>
+                    <option value="+91">India</option>
+                    <option value="+44">United Kingdom</option>
+                    <option value="+1">United States</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+    
+            <div class="onboard_form_box width_50" >
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Web Visitor Phone no. *</label>
+                    <input class="input_appearance_none" type="text" placeholder="Web Visitor Phone Number" formControlName="phone"
+                    (keypress)="numericOnly($event)"  (keydown.space)="$event.preventDefault()" (keypress)="isNumber($event)">
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- onboard_form_row  -->
+  
+        <!-- onboard_form_row  -->
+        <div class="onboard_form_row gpa_30 " *ngIf="getSelectedUser === 'webvisitor'">
+          <div class="onboard_form_box width_100">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Web Visitor Email Address</label>
+                  <input class="input_appearance_none" type="text" placeholder="Web Visitor Email Address" formControlName="email">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- onboard_form_row  -->
+  
+        <hr>
+        <!-- onboard_form_row  -- count num -- start  -->
+        <div class="tableBox tableBox_memberDetails" *ngIf="eventData?.paymentStatus!== 'Free'">
+          <div class="onboard_form_row_count_num_block">
+            <div class="width_100" >
+              <div class="">
+                <!-- <label class="form_label_green mb_10">Per Head Payment Package</label> -->
+                <label class="form_label_green mb_10">Package Details</label>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_row gpa_10 onboard_form_row_count_num_block" *ngIf="eventPackageDetails?.length > 0">
+            <form [formGroup]="packageForm">
+              <ng-container formArrayName="packages">
+                <div  *ngFor="let packageCtrl of packages.controls; let i = index" [formGroupName]="i">
+                  <div class="onboard_form_box width_100" >
+                    <div class="onboard_form_input ">
+                      <div class="count_btn_row count_btn_row_yellow mb_10">
+                        <div class="count_btn_row_left green_text">
+                          {{ eventPackageDetails[i].packageName ? eventPackageDetails[i].packageName : 'Per Head' }} 
+                          (Package Rate: {{ eventPackageDetails[i].packageRate ? eventPackageDetails[i].packageRate : 0 }})
+                        </div>
+                        <div class="count_btn_row_right" >
+                          <div class="plus_minus_btn_block">
+                            <button type="button" (click)="decrementPackageCount(i)" class="button_appearance_none count_btn">-</button>
+                              <input formControlName="number" class="input_appearance_none remove-arrows count_num_show" type="number" min="0" placeholder="Number" inputmode="numeric"  (keyup)="calculateGrandTotal()">
+                            <button type="button" (click)="incrementPackageCount(i)" class="button_appearance_none count_btn">+</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+          </form>
+  
+            <!-- <div class="onboard_form_box width_100" >
+              <div class="onboard_form_input ">
+  
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Package Name 2
+                  </div>
+                  <div class="count_btn_row_right">
+                    <div class="plus_minus_btn_block" >
+                      <button class="button_appearance_none count_btn" >-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric">
+                      <button class="button_appearance_none count_btn" >+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+  
+            <!-- <div class="onboard_form_box width_100" >
+              <div class="onboard_form_input ">
+  
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Package Name 3
+                  </div>
+                  <div class="count_btn_row_right">
+                    <div class="plus_minus_btn_block" >
+                      <button class="button_appearance_none count_btn" >-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric">
+                      <button class="button_appearance_none count_btn" >+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+  
+          </div>
+          <div class="onboard_form_row gpa_10 onboard_form_row_count_num_block">
+  
+            <div class="onboard_form_box width_100" >
+              <div class="onboard_form_input ">
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Total Payment for Event RSVP
+                  </div>
+                  <div class="count_btn_row_right">
+                    <h3>{{grandTotal}} {{getCurrency}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+        <!-- onboard_form_row  -- count num -- end  -->
+        <!-- onboard_form_row  -- count num -- start  -->
+        <div class="tableBox tableBox_memberDetails">
+          <div class="onboard_form_row_count_num_block">
+            <div class="width_100" >
+              <div class="">
+                <label class="form_label_green mb_10">Per Head Member wise count Package</label>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_row gpa_10 onboard_form_row_count_num_block">
+            <div class="onboard_form_box width_50" >
+              <div class="onboard_form_input ">
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Select Senior Count
+                  </div>
+                  <div class="count_btn_row_right" >
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'per_head'">
+                      <button class="button_appearance_none count_btn" (click)="seniorCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberSeniors === 0 || rsvpForm.value.numberSeniors < 0 || rsvpForm.value.numberSeniors === '' || rsvpForm.value.numberSeniors === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberSeniors" (keyup)="countValue()" [ngClass]="{'disabled': hasIncrement}">
+                      <button class="button_appearance_none count_btn" (click)="seniorCountIncrement()" [ngClass]="{'disabled': hasIncrement}">+</button>
+                    </div>
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'package_wise'">
+                      <button class="button_appearance_none count_btn" (click)="seniorCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberSeniors === 0 || rsvpForm.value.numberSeniors < 0 || rsvpForm.value.numberSeniors === '' || rsvpForm.value.numberSeniors === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberSeniors" (keyup)="countValue()" >
+                      <button class="button_appearance_none count_btn" (click)="seniorCountIncrement()" >+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="onboard_form_box width_50" >
+              <div class="onboard_form_input ">
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Select Adult Count
+                  </div>
+                  <div class="count_btn_row_right">
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'per_head'">
+                      <button class="button_appearance_none count_btn" (click)="adultCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberAdults === 0 || rsvpForm.value.numberAdults < 0 || rsvpForm.value.numberAdults === '' || rsvpForm.value.numberAdults === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberAdults" (keyup)="countValue()" [ngClass]="{'disabled': hasIncrement}">
+                      <button class="button_appearance_none count_btn" (click)="adultCountIncrement()" [ngClass]="{'disabled': hasIncrement}">+</button>
+                    </div>
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'package_wise'">
+                      <button class="button_appearance_none count_btn" (click)="adultCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberAdults === 0 || rsvpForm.value.numberAdults < 0 || rsvpForm.value.numberAdults === '' || rsvpForm.value.numberAdults === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberAdults" (keyup)="countValue()">
+                      <button class="button_appearance_none count_btn" (click)="adultCountIncrement()">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="onboard_form_box width_50" >
+              <div class="onboard_form_input ">
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Select Children Count
+                  </div>
+                  <div class="count_btn_row_right">
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'per_head'">
+                      <button class="button_appearance_none count_btn" (click)="childrenCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberChildren === 0 || rsvpForm.value.numberChildren < 0 || rsvpForm.value.numberChildren === '' || rsvpForm.value.numberChildren === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberChildren" (keyup)="countValue()" [ngClass]="{'disabled': hasIncrement}">
+                      <button class="button_appearance_none count_btn" (click)="childrenCountIncrement()" [ngClass]="{'disabled': hasIncrement}">+</button>
+                    </div>
+                    <div class="plus_minus_btn_block" *ngIf="paymentCategoryValue === 'package_wise'">
+                      <button class="button_appearance_none count_btn" (click)="childrenCountDecrement()" [ngClass]="{'disabled': rsvpForm.value.numberChildren === 0 || rsvpForm.value.numberChildren < 0 || rsvpForm.value.numberChildren === '' || rsvpForm.value.numberChildren === null}">-</button>
+                      <input class="input_appearance_none remove-arrows count_num_show" type="number" placeholder="Number" inputmode="numeric" formControlName="numberChildren" (keyup)="countValue()">
+                      <button class="button_appearance_none count_btn" (click)="childrenCountIncrement()">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+          <div class="onboard_form_row gpa_10 onboard_form_row_count_num_block">
+            <div class="onboard_form_box width_100" >
+              <div class="onboard_form_input ">
+  
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Total RSVP Attendee Count
+                  </div>
+                  <div class="count_btn_row_right">
+                    <h3>{{totalCount}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="onboard_form_box width_100" >
+              <div class="onboard_form_input ">
+  
+                <div class="count_btn_row count_btn_row_yellow mb_10">
+                  <div class="count_btn_row_left green_text">
+                    Total Payment for Event RSVP
+                  </div>
+                  <div class="count_btn_row_right">
+                    <h3>500</h3>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <!-- onboard_form_row  -- count num -- end  -->
+        <hr>
+  
+        <div class="tableBox tableBox_memberDetails" *ngIf="eventData?.paymentStatus!== 'Free'">
+          <!-- onboard_form_row  -->
+          <div class="onboard_form_row gpa_30 " >
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Payment Mode *</label>
+                  <select class="input_appearance_none filter_input onboard_select" (change)="changePaymentMode($event)" formControlName="paymentMode">
+                    <option value="" disabled hidden [attr.selected]="true">Select Payment Type *</option>
+                    <option *ngFor="let payment of paymentMode" [value]="payment">{{ payment }}</option>
+                  </select>
+                </div>
+                <!-- <div class="form_input_row_error" >
+                  <div class="form_field_error_msg">
+                    Payment Mode is required.
+                  </div>
+                </div> -->
+              </div>
+            </div>
+  
+          </div>
+          <!-- onboard_form_row  -->
+  
+          <!-- onboard_form_row  -->
+          <div class="onboard_form_row gpa_30" *ngIf="changePaymentValue === 2">
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Enter Cheque No. *</label>
+                  <input class="input_appearance_none" type="text" placeholder="Enter Cheque No. for Offline Payment" formControlName="checkNo">
+                </div>
+                <!-- <div class="form_input_row_error" >
+                  <div class="form_field_error_msg">
+                    ***is required.
+                  </div>
+                </div>
+                <div class="form_input_row_error" >
+                  <div class="form_field_error_msg">
+                    ***
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="onboard_form_row gpa_30" *ngIf="changePaymentValue === 1">
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Enter Transaction ID *</label>
+                  <input class="input_appearance_none" type="text" placeholder="Enter Transaction ID for Online Payment" formControlName="transactionId">
+                </div>
+                <!-- <div class="form_input_row_error" >
+                  <div class="form_field_error_msg">
+                    Email Address is required.
+                  </div>
+                </div>
+                <div class="form_input_row_error" >
+                  <div class="form_field_error_msg">
+                    Email format
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- onboard_form_row  -->
+
+          <div class="onboard_form_row gpa_30 " >
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Enter Amount *</label>
+                  <span><input class="input_appearance_none remove-arrows" type="number" placeholder="Enter Amount" formControlName="transactionAmount" (keyup)="cal()"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="onboard_form_row">
+            <div class="onboard_form_box width_50">
+              <div class="onboard_form_input">
+                <label class="form_label_green ">Donation : &nbsp; {{donation}}</label>
+              </div>
+            </div>
+            <div class="onboard_form_box width_50">
+              <div class="onboard_form_input">
+                <label class="form_label_green ">Concession : &nbsp; {{concesion}}</label>
+              </div>
+            </div>
+          </div>
+  
+          <!-- onboard_form_row  -->
+          <div class="onboard_form_row describe_textarea">
+            <div class="block_sec_title_row">
+              <label class="form_label_green mb_10">Comment</label>
+            </div>
+            <div class="textArea_block editWebPage_row">
+              <textarea class="input_appearance_none editWeb_textArea" placeholder="Type Payment Description" formControlName="description"></textarea>
+            </div>
+          </div>
+          <!-- onboard_form_row  -->
+        </div>
+  
+  
+        <!-- Donation section onboard_form_row  -->
+         <!-- <div class="tableBox tableBox_memberDetails" *ngIf="eventData?.paymentStatus!== 'Free'">
+          <div class="onboard_form_row announcement_row editWeb_subSection">
+            <div class="editWebPage_row announcement_form_row_toggle ">
+  
+              <div class="toggle_box mb_20 width_100 d_flex dflex_justify_center">
+                <div class="toggle_left dflex_justify_center ">
+                  <div class="toggle_text mr_20">
+                    Donation Amount
+                  </div>
+                  <div class="toggle_btn ml_20" >
+                    <label class="switch" for="checkbox-10">
+                      <input type="checkbox" id="checkbox-10"  act (change)="changeConsessionDonation($event)"/>
+                      <div class="slider round slider_both"></div>
+                    </label>
+                  </div>
+                  <div class="toggle_text">
+                    Consession Amount
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_row gpa_30 " >
+            <div class="onboard_form_box width_100">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10" *ngIf="!changeTypeStatus">Enter Donation Amount</label>
+                  <label class="form_label_green mb_10" *ngIf="changeTypeStatus">Enter Consessions Amount</label>
+                  <div>
+                    <span><input class="input_appearance_none remove-arrows" type="number" placeholder="Enter Amount" formControlName="totalAmount" [value]="grandTotal" readonly></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span style="position: relative; top: 30px;">{{getCurrency}}</span>
+          </div>
+        </div> -->
+        <!-- Donation section onboard_form_row  -->
+  
+        <!-- =====  RSVP Form  -- end ====  -->
+  
+  
+  
+  
+  
+  
+        <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+        <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" [routerLink]="['/events/payment-history-list/'+this.eventId]">Cancel</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()">Submit</button>
+        </div>
+        <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+  
+      </div>
+  
+    </div>
+    <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+  
+  </form>
+  
+  
+  
+  
+  

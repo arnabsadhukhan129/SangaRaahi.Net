@@ -1,0 +1,340 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+    <h4>Edit User</h4>
+    <div class="filterArea">
+      <!-- -- back btn section start --  -->
+      <div class="top_back_section">
+        <a [routerLink]="['/active-members/my-profile/'+userId]" >Back to my profile</a>
+      </div>
+      <!-- -- back btn section start --  -->
+    </div>
+  </div>
+  <!-- page title -- section -- end  -->
+  <form [formGroup]="userForm">
+    <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+    <div class="edit_webPage_tab_body_bg ">
+      <div class="onboard_form onboard_form_big edit_webPage" >
+        <!-- onboard_form_row  -->
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Name *</label>
+                  <input class="input_appearance_none" type="text" placeholder="Name" formControlName="name">
+              </div>
+              <div class="form_input_row_error" *ngIf="(userForm.get('name')?.errors?.['required'] && (userForm.get('name')?.dirty || userForm.get('name')?.touched))">
+                <div class="form_field_error_msg">
+                    Name is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Email *</label>
+                  <input class="input_appearance_none" type="text" placeholder="Email" formControlName="email"  readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+        <div class="onboard_form_box width_50">
+
+          <div class="onboard_form_input mb_30">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10"> Primary Phone Number *</label>
+                <input class="input_appearance_none" type="text" placeholder="Phone Number" formControlName="phone" readonly>
+            </div>
+          </div>
+          <div class="onboard_form_input mb_0">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10"> Secondary Phone Number</label>
+                <input class="input_appearance_none" type="text" placeholder="Phone Number" formControlName="secondaryPhone">
+            </div>
+          </div>
+
+        </div>
+       
+
+        <div class="announcement_box_block announcement_box_pink">
+          <div class="announcement_box_block_top">
+            <div class="announcement_left_round_img">
+              <img [class]="(profileImage && profileImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(profileImage && profileImage!='') ? profileImage : 'assets/images/banner-img-up.png' ">
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="profileImage && profileImage!=''">
+              <button class="button_appearance_none up_img_delete_btn"  (click)="deleteImage()">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="uploadImage($event, 'image')" />
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Choose Profile Image</h4>
+              <p>(Image size should be within 2-5MB)</p>
+            </div>
+
+            <!-----Image croped start----->
+            <div class="crop_window"  *ngIf="openCropImageModal">
+              <image-cropper
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]="1"
+                      (imageCropped)="cropImg($event)">
+                >
+              </image-cropper>
+              <div class="crop_btn_bottom">
+                <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                  <img src="assets/images/crosspink.png">
+                </button>
+                <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                  <img src="assets/images/tick.png">
+                </button>
+              </div>
+            </div>
+            <!-----Image croped end------->
+          </div>
+        </div>
+
+      </div>
+      <!-- onboard_form_row  -->
+<!--
+        <div class="onboard_form_row gpa_30 " >
+            <div class="onboard_form_box width_50">
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">Phone Number *</label>
+                      <input class="input_appearance_none" type="text" placeholder="Phone Number" formControlName="phone" readonly>
+                  </div>
+                </div>
+            </div>
+            <div class="onboard_form_box width_50">
+              <div class="announcement_box_block announcement_box_pink">
+                <div class="announcement_box_block_top">
+                  <div class="announcement_left_round_img">
+                    <img [class]="(profileImage && profileImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(profileImage && profileImage!='') ? profileImage : 'assets/images/banner-img-up.png' ">
+                  </div>
+                  <div class=" up_img_delete_btn_block" *ngIf="profileImage && profileImage!=''">
+                    <button class="button_appearance_none up_img_delete_btn"  (click)="deleteImage()">
+                      <img src="assets/images/trash-delete.png">
+                    </button>
+                  </div>
+                  <div class="announcement_top_des">
+
+                    <div class="profile_img_edit_btn_block">
+                      <button class="button_appearance_none profile_edit_btn">
+                        <img src="assets/images/profileimage-edit-btn.png">
+                      </button>
+                      <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="uploadImage($event, 'image')" />
+                    </div>
+
+                    <h4>Choose Profile Image</h4>
+                    <p>(Image size should be within 2-5MB)</p>
+                  </div>
+
+                  <div class="crop_window"  *ngIf="openCropImageModal">
+                    <image-cropper
+                          [imageChangedEvent]="imageChangedEvent"
+                          [maintainAspectRatio]="true"
+                          [aspectRatio]="1"
+                          (imageCropped)="cropImg($event)">
+                    >
+                  </image-cropper>
+                  <div class="crop_btn_bottom">
+                    <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                      <img src="assets/images/crosspink.png">
+                    </button>
+                    <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                      <img src="assets/images/tick.png">
+                    </button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+        </div>
+-->
+
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Gender *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="gender">
+                <option value="" disabled selected hidden>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Non Binary">Non Binary</option>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('gender')?.errors && (userForm.get('gender')?.dirty || userForm.get('gender')?.touched))">
+              <div class="form_field_error_msg">
+                Gender is required.
+              </div>
+            </div>
+        </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Year of birth *</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth">
+                <option value="" disabled selected hidden>Select Year of birth</option>
+                <ng-container *ngFor="let year of arrYear">
+                  <option [value]="year">
+                    {{year}}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('yearOfBirth')?.errors && (userForm.get('yearOfBirth')?.dirty || userForm.get('yearOfBirth')?.touched))">
+              <div class="form_field_error_msg">
+                Year of birth is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Hobbies</label>
+                <input class="input_appearance_none" type="text" placeholder="Hobbies" formControlName="hobbies">
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Profession</label>
+                <input class="input_appearance_none" type="text" placeholder="Profession" formControlName="profession">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_100">
+            <label class="form_label_green mb_10">About Yourself</label>
+            <div class="textArea_block editWebPage_row">
+              <textarea class="input_appearance_none editWeb_textArea" placeholder="About Yourself" formControlName="aboutYourself"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">Address Line 1*</label>
+                    <input class="input_appearance_none" type="text" placeholder="Address Line 1" formControlName="firstAddressLine">
+                </div>
+              </div>
+              <div class="form_input_row_error" *ngIf="(userForm.get('firstAddressLine')?.errors && (userForm.get('firstAddressLine')?.dirty || userForm.get('firstAddressLine')?.touched))">
+                <div class="form_field_error_msg">
+                  Address Line 1 is required.
+                </div>
+              </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Address Line 2</label>
+                  <input class="input_appearance_none" type="text" placeholder="Address Line 2" formControlName="secondAddressLine">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">Country *</label>
+                <select class="input_appearance_none filter_input onboard_select" formControlName="country" (change)="changeState($event)">
+                    <option value="" disabled selected hidden>Select Country</option>
+                    <ng-container *ngFor="let country of filteredOptions">
+                    <option [value]="country.code">
+                        {{country.name}}
+                    </option>
+                    </ng-container>
+                </select>
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('country')?.errors && (userForm.get('country')?.dirty || userForm.get('country')?.touched))">
+              <div class="form_field_error_msg">
+              Country is required.
+            </div>
+          </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <label class="form_label_green mb_10">State *</label>
+                    <select class="input_appearance_none filter_input onboard_select" formControlName="state">
+                      <option value="" disabled selected hidden>Select State</option>
+                      <ng-container *ngFor="let state of getState">
+                          <option [value]="state.stateCode">
+                          {{state.name}}
+                          </option>
+                      </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('state')?.errors && (userForm.get('state')?.dirty || userForm.get('state')?.touched))">
+              <div class="form_field_error_msg">
+              State is required.
+              </div>
+            </div>
+        </div>
+        </div>
+        <div class="onboard_form_row gpa_30 " >
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <label class="form_label_green mb_10">City *</label>
+                  <input class="input_appearance_none" type="text" placeholder="City" formControlName="city">
+              </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('city')?.errors && (userForm.get('city')?.dirty || userForm.get('city')?.touched))">
+              <div class="form_field_error_msg">
+                City is required.
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <label class="form_label_green mb_10">Zip Code *</label>
+                <div class="onboard_form_input onboard_input_border" *ngIf="code === 'IN' || code === 'US' || code === null">
+                    <input class="input_appearance_none" type="text" placeholder="ZipCode *" (keypress)="isNumber($event)" formControlName="zipcode">
+                </div>
+                <div class="onboard_form_input onboard_input_border" *ngIf="code === 'GB' || code === 'CA'">
+                    <input class="input_appearance_none" type="text" placeholder="ZipCode *" oninput="this.value = this.value.toUpperCase()" (keypress)="onlyCapsValue($event)" formControlName="zipcode">
+                </div>
+            </div>
+            <div class="form_input_row_error" *ngIf="(userForm.get('zipcode')?.errors && (userForm.get('zipcode')?.dirty || userForm.get('zipcode')?.touched))">
+                <div class="form_field_error_msg">
+                    Zip code is required.
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+        <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="button" >Save Settings</button> -->
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" [routerLink]="['/active-members/my-profile/'+userId]">Cancel</button>
+          <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" [ngClass]="{'disabled': !userForm.valid}" (click)="saveData()">Submit</button> -->
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()">Submit</button>
+        </div>
+        <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+      </div>
+      </div>
+    <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+  </form>
+
+

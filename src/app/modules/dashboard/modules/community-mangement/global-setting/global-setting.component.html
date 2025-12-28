@@ -1,0 +1,457 @@
+
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title">
+    <h4>{{comName}}</h4>
+  </div>
+  <!-- page title -- section -- end  -->
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" (click)="back()">Back To Community Profile</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <h4 class="block_sec_title headeingArea">Design you own Marketing Website - Global Settings</h4>
+      <div class="filterArea">
+          <!--
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a>
+          <a href="javascript:void(0)" class="track" >Track</a>
+           -->
+          <a href="javascript:void(0)" class="pink_link_text" (click)="previousPage()" [ngClass]="{'disabled': !communityDetails?.lebel}">Undo Previous Settings</a>
+      </div>
+  </div>
+
+  <!-- filter and heading area end -->
+
+  <!-- ===  Onboarding Passive User section -- start === -->
+
+  <div class="onboard_form_section">
+
+    <div class="onboard_form_section">
+      <form [formGroup]="globalSettingForm">
+        <div class="onboard_form onboard_form_big announcement_form_row_toggle">
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-1">
+                  <input type="checkbox" id="checkbox-1" (change)="toggleSmsReminder($event)" [checked]="viewToggleDetails?.sms"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Set SMS Reminder
+              </div>
+            </div>
+          </div>
+          <div class="toggle_box mb_20 width_50">
+            <div class="toggle_left ">
+              <div class="toggle_btn">
+                <label class="switch" for="checkbox-2">
+                  <input type="checkbox" id="checkbox-2" (change)="toggleEmailReminder($event)" [checked]="viewToggleDetails?.email"/>
+                  <div class="slider round"></div>
+                </label>
+              </div>
+              <div class="toggle_text">
+                Set Email Reminder
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- Onboarding Form Card -- start --  -->
+      <div class="onboard_form onboard_form_big">
+          <!-- --- onboard checkbox form -- start --  -->
+          <div class="onboard_form_row onboard_form_column onboard_form_row_checkbox">
+
+            <div class="global_settings_form_row checkbox_row">
+              <div class="onboard_form_input form_checkbox">
+                <div class="form-group" *ngIf="announcementCheckbox && videoCheckbox && paymentCheckbox && aboutUsCheckbox">
+                  <input type="checkbox" id="checkbox_1" (change)="checkAll($event)" checked>
+                  <label class="onboard_form_checkbox_label" for="checkbox_1">Show all as Public Website</label>
+                </div>
+                <div class="form-group" *ngIf="!announcementCheckbox || !videoCheckbox || !paymentCheckbox || !aboutUsCheckbox">
+                  <input type="checkbox" id="checkbox_1" (change)="checkAll($event)">
+                  <label class="onboard_form_checkbox_label" for="checkbox_1">Show all as Public Website</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="global_settings_form_row checkbox_inner_row">
+              <div class="onboard_form_input form_checkbox form_checkbox_gray">
+                <div class="form-group pointer_event_none">
+                  <input  type="checkbox" id="checkbox_2" checked>
+                  <label class="onboard_form_checkbox_label" for="checkbox_2">Show Home Page</label>
+                  <span class="checkbox_status_span">Default</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="global_settings_form_row checkbox_inner_row">
+              <div class="onboard_form_input form_checkbox form_checkbox_green">
+                <div class="form-group">
+                  <input type="checkbox" id="checkbox_3" formControlName="announcementPage" [checked]="announcementCheckbox"  (change)="chkAnnouncement($event)">
+                  <label class="onboard_form_checkbox_label" for="checkbox_3">Show Announcement page</label>
+                </div>
+              </div>
+              <div class="onboard_form_input form_checkbox form_checkbox_green">
+                <div class="form-group">
+                  <input type="checkbox" id="checkbox_4" formControlName="videoPage" [checked]="videoCheckbox"  (change)="chkVideo($event)">
+                  <label class="onboard_form_checkbox_label" for="checkbox_4">Show Videos page</label>
+                </div>
+              </div>
+              <div class="onboard_form_input form_checkbox form_checkbox_green">
+                <div class="form-group">
+                  <input type="checkbox" id="checkbox_5" formControlName="paymentPage" [checked]="paymentCheckbox"  (change)="chkPayment($event)">
+                  <label class="onboard_form_checkbox_label" for="checkbox_5">Show Payment page</label>
+                </div>
+              </div>
+              <div class="onboard_form_input form_checkbox form_checkbox_green">
+                <div class="form-group">
+                  <input type="checkbox" id="checkbox_6" formControlName="aboutPage" [checked]="aboutUsCheckbox"  (change)="chkAbout($event)">
+                  <label class="onboard_form_checkbox_label" for="checkbox_6">Show About Us page</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- --- onboard checkbox form -- end --  -->
+      </div>
+
+      <div class="onboard_form onboard_form_big">
+        <div class="form_description_level_box">
+
+          <div class="form_description_left">
+             <!-- --- tooltip text --  -->
+             <h5 class="block_sec_title block_sec_title_tooltip ">
+              <span class="form_label_green" >Add webpage label</span>
+              <div class="toggle_right toggle_tooltip">
+                <button class="button_appearance_none tooltip_btn">
+                  <img class="edit_webPageTopTab_icon" src="assets/images/tooltip_icon.png" (mouseover)="changeText=true" (mouseout)="changeText=false"  >
+                </button>
+                <!-- <div class="tooltip_hover_text" > -->
+                  <div class=" tooltip_hover_text" *ngIf="changeText">
+                    <ol>
+                      <li>1. You can use only letters, numbers and the symbol “-“, with no spaces.</li>
+                      <li>2. Upper-case letters and lower-case letters are not distinguished, for example “CHDP5” and “chdp5” are considered the same webpage label.</li>
+                      <li>3. Please use a minimum of 5 and a maximum of 30 letters in the label. <br>
+                        Some incorrect examples are “Bombay Cricket Group” (contains spaces), “CHDP” (too short), and “Chapel Hill Community * Group” (contains disallowed character ‘*’).
+                      </li>
+                    </ol>
+                  </div>
+                <!-- </div> -->
+              </div>
+            </h5>
+             <!-- --- tooltip text --  -->
+            <h5>(The name must be available, and not used by any other organization as OrgID)</h5>
+          </div>
+        </div>
+
+        <div class="onboard_form_row ">
+          <div class="onboard_form_input ">
+            <div class="onboard_input_border">
+              <input class="input_appearance_none" type="text" placeholder="Webpage label" formControlName="lebel" >
+            </div>
+            <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['InvalidValue'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                <!-- <img class="form_description_icon" src="assets/images/exclamanation-icon-02.png" > -->
+                Webpage label is required.
+              </div>
+            </div>
+            <!-- <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['invalidSpace'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                <img class="form_description_icon" src="assets/images/exclamanation-icon-02.png" >
+                White space is not allowed.
+              </div>
+            </div> -->
+            <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['hasSpace'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                <!-- <img class="form_description_icon" src="assets/images/exclamanation-icon-02.png" > -->
+                Space is not allowed.
+              </div>
+            </div>
+            <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['longLabel'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                <!-- <img class="form_description_icon" src="assets/images/exclamanation-icon-02.png" > -->
+                Web page label must be 5 characters to 30 characters.
+              </div>
+            </div>
+            <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['hasSlash'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                Can not start with slash.
+              </div>
+            </div>
+            <div class="form_input_row_error " *ngIf="(globalSettingForm.get('lebel')?.errors?.['sameWord'] && (globalSettingForm.get('lebel')?.dirty || globalSettingForm.get('lebel')?.touched))">
+              <div class="form_field_error_msg">
+                Can not use SangaRaahi word
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="onboard_form onboard_form_big ">
+
+        <div class="onboard_form_row gpa_30 onboard_form_big_imgblock">
+          <div class="announcement_box_block announcement_box_pink">
+            <div class="announcement_box_block_top">
+              <div class="announcement_left_round_img">
+                <!-- <img src="assets/images/camera-img.png"> -->
+                <img src="{{image || 'assets/images/camera-img.png'}}">
+              </div>
+              <div class="announcement_top_des">
+
+                <!-- img / upload img -- start -->
+                <div class="profile_img_edit_btn_block">
+                  <button class="button_appearance_none profile_edit_btn">
+                    <img src="assets/images/profileimage-edit-btn.png">
+                  </button>
+                  <!-- <input class="input_appearance_none input_upload_btn" type="file" accept="image/jpg, image/jpeg, image/bmp, image/tiff" (change)="previewImage($event)"/> -->
+                  <input class="input_appearance_none input_upload_btn" type="file" accept="image/png" (change)="previewImage($event)"/>
+                </div>
+                <!-- img / upload img -- end -->
+                <!-- img / Delete Button  -- start -->
+                <div class=" up_img_delete_btn_block">
+                  <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage()">
+                    <img src="assets/images/trash-delete.png">
+                  </button>
+                </div>
+                <!-- img / Delete Button  -- end -->
+
+                <h4>Add webpage watermark here </h4>
+                <!-- <p>Uploadwatermark image for your community (Maximum size allowed is 2 MB) Allowed file types : e.g. JPG, BMP, TIFF</p> -->
+                <p>Uploadwatermark image for your community (Maximum size allowed is 2 MB) Allowed file types : e.g. PNG</p>
+
+              </div>
+
+              <!-----Image croped start----->
+            <div class="crop_window"  *ngIf="openCropImageModal">
+              <image-cropper 
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="1"
+                (imageCropped)="cropImg($event)"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()">
+                >
+              </image-cropper>
+              <div class="crop_btn_bottom">
+                <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                  <img src="assets/images/crosspink.png">
+                </button>
+                <button class="button_appearance_none crop_btn crop_btn_done"  *ngIf="openCropImageModal" (click)="saveImage()">
+                  <img src="assets/images/tick.png">
+                </button>
+              </div>
+            </div>
+            <!-----Image croped end------->
+
+
+              <!-----Image croped start----->
+<!--               
+              <image-cropper *ngIf="openCropImageModal"
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="1"
+              (imageCropped)="cropImg($event)"
+              (imageLoaded)="imgLoad()"
+              (cropperReady)="initCropper()"
+              (loadImageFailed)="imgFailed()">
+            >
+            </image-cropper>
+            <button *ngIf="openCropImageModal" (click)="saveImage()">Done</button>
+            <button *ngIf="openCropImageModal"   (click)="closeImage()">Close</button>
+           -->
+
+            <!-----Image croped end------->
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green">Select header font type</label>
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="headerFont" [(ngModel)]="headerFont">
+                  <!-- <option value="" disabled selected hidden>Select header font type</option> -->
+                  <option value="Alegreya">Alegreya</option>
+                  <option value="Lato">Lato</option>
+                  <option value="Merriweather">Merriweather</option>
+                  <option value="Montserrat">Montserrat</option>
+                  <!-- <option value="Noto Fonts">Noto Fonts</option> -->
+                  <option value="Open Sans">Open Sans</option>
+                  <option value="Oswald">Oswald</option>
+                  <option value="Poppins" [attr.selected]="true">Poppins</option>
+                  <option value="PT Sans">PT Sans</option>
+                  <option value="Raleway">Raleway</option>
+                  <option value="Roboto">Roboto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green">Select header font size</label>
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <!-- <input class="input_appearance_none" type="number" placeholder="Select header font size"> -->
+                <select class="input_appearance_none filter_input onboard_select" [(ngModel)]="headerSize" formControlName="headerFontSize">
+                  <option value="" disabled selected hidden>Select header font size</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12" >12</option>
+                  <option value="14" >14</option>
+                  <option value="16" >16</option>
+                  <option value="18" >18</option>
+                  <option value="24" [attr.selected]="true">24</option>
+                  <!-- <option value="30" >30</option>
+                  <option value="36" >36</option>
+                  <option value="48" >48</option>
+                  <option value="60" >60</option>
+                  <option value="72" >72</option>
+                  <option value="90" >90</option> -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green">Select body font type</label>
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="bodyFont" [(ngModel)]="bodyFont">
+                  <!-- <option value="" disabled selected hidden>Select body font type</option>-->
+                  <option value="Alegreya">Alegreya</option>
+                  <option value="Lato">Lato</option>
+                  <option value="Merriweather">Merriweather</option>
+                  <option value="Montserrat">Montserrat</option>
+                  <!-- <option value="Noto Fonts">Noto Fonts</option> -->
+                  <option value="Open Sans">Open Sans</option>
+                  <option value="Oswald">Oswald</option>
+                  <option value="Poppins" [attr.selected]="true">Poppins</option>
+                  <option value="PT Sans">PT Sans</option>
+                  <option value="Raleway">Raleway</option>
+                  <option value="Roboto">Roboto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green">Select body font size</label>
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <!-- <input class="input_appearance_none" type="number" placeholder="Select body font size"> -->
+                <select class="input_appearance_none filter_input onboard_select" [(ngModel)]="bodySize" formControlName="bodyFontSize">
+                  <option value="" disabled selected hidden>Select body font size</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="14">14</option>
+                  <option value="16">16</option>
+                  <option value="18" [attr.selected]="true">18</option>
+                  <!-- <option value="24" [attr.selected]="true">24</option> -->
+                  <!-- <option value="30">30</option>
+                  <option value="36">36</option>
+                  <option value="48">48</option>
+                  <option value="60">60</option>
+                  <option value="72">72</option>
+                  <option value="90">90</option> -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+         <!-- color input row section -- start  -->
+        <!-- <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input onboard_input_border">
+              <input class="input_appearance_none" type="color" placeholder="Select body font size">
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input onboard_input_border">
+              <input class="input_appearance_none" type="color" placeholder="Select body font size">
+            </div>
+          </div>
+        </div> -->
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green mb_20">Text color</label>
+            <div class="onboard_form_input color_picker text_color">
+              <input class="input_appearance_none" type="color" placeholder="Select header color" [(ngModel)]="color" formControlName="textColor">
+            </div>
+          </div>
+          <div class="onboard_form_box width_50">
+            <label class="form_label_green mb_20">Background color</label>
+            <div class="onboard_form_input color_picker background_color" >
+              <input class="input_appearance_none" type="color" placeholder="Select body color" [(ngModel)]="bgColor" formControlName="backgroupColor">
+            </div>
+          </div>
+        </div>
+        <!-- color input row section -- end  -->
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_100">
+            <label class="form_label_green mb_20">Showing Header font Preview Here</label>
+
+            <div class="yelloow_textarea_block yelloow_textarea_block_heading" [ngStyle]="{'background-color': bgColor}">
+              <div class="yelloow_textarea yelloow_textarea_block_left" [ngStyle]="{'font-size': (headerSize || '24') + 'px', 'color': color,'font-family':headerFont}">
+               <span>abcdefghijklmnopqrstuvwxyz <br/> ABCDEFGHIJKLMNOPQRSTUVWXYZ <br/>1234567890.:,; ' " (!?) +-*/=</span>
+              </div>
+              <div class="yelloow_textarea yelloow_textarea_block_right" [ngStyle]="{'font-size': (headerSize || '18') + 'px', 'color': color, 'background-color': bgColor, 'font-family':headerFont}">
+                The quick brown fox jumps over the lazy dog
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_100">
+            <label class="form_label_green mb_20">Showing Body font Preview Here</label>
+
+            <div class="yelloow_textarea_block yelloow_textarea_block_paragraph" [ngStyle]="{'background-color': bgColor}">
+              <div class="yelloow_textarea yelloow_textarea_block_left" [ngStyle]="{'font-size': (bodySize || '24') + 'px', 'color': color, 'font-family':bodyFont}">
+                abcdefghijklmnopqrstuvwxyz <br/> ABCDEFGHIJKLMNOPQRSTUVWXYZ <br/> 1234567890.:,; ' " (!?) +-*/=
+              </div>
+              <div class="yelloow_textarea yelloow_textarea_block_right" [ngStyle]="{'font-size': (bodySize || '24') + 'px', 'color': color, 'background-color': bgColor, 'font-family':bodyFont}">
+                The quick brown fox jumps over the lazy dog
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- --- card outside form button -- start --  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside onboard_form_row_btn_community_management">
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow"  type="submit">Save Settings</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green"  type="submit" [ngClass]="{'disabled': !globalSettingForm.valid}" (click)="saveDetails()">Save global settings</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink"  type="button" (click)="cancel()">Cancel</button>
+      </div>
+      <!-- --- card outside form button -- end --  -->
+
+      <!-- Onboarding Form Card -- end --  -->
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ===  Onboarding Passive User section -- end === -->
+
+
+</div>

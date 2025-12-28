@@ -1,0 +1,334 @@
+<!-- container area start -->
+<div class="wrpperContainer"  *ngIf="invalidTokenMessage==''">
+
+    <!-- logo area start -->
+    <div class="logoArea">
+        <img src="assets/images/logo_small.svg" alt="" srcset="">
+    </div>
+    <!-- logo area end -->
+
+    <!-- welcomeArea start -->
+    <div class="welcomearea">
+        <h1>Welcome {{invitationDetail?.userDetails.name}}</h1>
+        <h2><span>{{invitationDetail?.orgAdminDetails.name}}</span> wants to add you to <span>{{invitationDetail?.communityDetails[0]?.communityName}}</span> on the SangaRaahi platform. </h2>
+    </div>
+    <!-- welcomeArea end -->
+
+    <!-- family member area start -->
+    <div class="selectOption" (click)="openCloseModal()" *ngIf="invitationDetail?.userDetails?.familyMembers.length > 0">
+        <div class="selectheading">View Family Members</div>
+        <label class="memberno">{{invitationDetail?.userDetails?.familyMembers.length}}</label>
+        <a class="whiteArrow"><img src="assets/images/select-drop-icon.png" alt=""
+                srcset=""></a>
+    </div>
+    <!-- family member area end -->
+
+    <!-- dropdownbox start -->
+    <div class="dropdownBox" *ngIf="showFamilyMembers">
+        <ul>
+            <li *ngFor="let familyMembers of invitationDetail?.userDetails?.familyMembers; let i = index">{{familyMembers.memberName}} ({{familyMembers.ageOfMinority |  titlecase}}) </li>
+            <!-- <li>Josef Rogers (Adult)</li>
+            <li>Billo Rogers (Minor)</li>
+            <li>Jack Rogers (Adult)</li> -->
+        </ul>
+    </div> 
+    <!-- dropdownbox end -->
+
+    <!-- accept invitation area start -->
+    <div class="acceptArea">
+        <h3>You will be added when you accept the invitation.</h3>
+
+        <div class="actionbtnarea">
+            <button class="acceptBtn" (click)="acceptOpenModal()">Accept</button>
+            <button class="rejectBtn" (click)="rejectOpenModal()">Reject</button>
+            <button class="blockBtn" (click)="blockOpenModal()">Block</button>
+        </div>
+
+        <!-- toggle area start -->
+        <div class="toggleArea">
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" [checked]="invitationDetail?.emailSmsPreferences?.smsEvent"  (change)="updatePreference($event,'smsEvent')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Receive SMS for Events</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" [checked]="invitationDetail?.emailSmsPreferences?.smsAnnouncement"  (change)="updatePreference($event,'smsAnnouncement')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Receive SMS for Announcements</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" [checked]="invitationDetail?.emailSmsPreferences?.emailEvent"  (change)="updatePreference($event,'emailEvent')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Receive Email for Events</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" [checked]="invitationDetail?.emailSmsPreferences?.emailAnnouncement"  (change)="updatePreference($event,'emailAnnouncement')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Receive Email for Announcements</label>
+            </div>
+
+        </div>
+        <!-- toggle area end -->
+    </div>
+    <!-- accept invitation area start -->
+
+    <!-- music live area start -->
+    <div class="musicliveBox">
+        <div class="musicliveBlock">
+            <div><img src="assets/images/microphone.png" alt="" srcset=""></div>
+            <div class="musicContnt">
+                <div><span>{{invitationDetail?.communityDetails[0]?.communityName}}</span></div>
+                <div>{{invitationDetail?.communityDetails[0]?.communityEmail}}</div>
+            </div>
+        </div>
+        <div class="musicliveBlock">
+            <div class="location"><img src="assets/images/location_icon.png" alt="" srcset=""></div>
+            <div class="musicContnt">
+                <div>{{invitationDetail?.communityDetails[0]?.address?.firstAddressLine}}, 
+                     {{invitationDetail?.communityDetails[0]?.address?.secondAddressLine}}, 
+                     {{invitationDetail?.communityDetails[0]?.address?.city}},
+                     {{invitationDetail?.communityDetails[0]?.address?.state}},
+                     {{invitationDetail?.communityDetails[0]?.address?.country}},
+                     {{invitationDetail?.communityDetails[0]?.address?.zipcode}}
+                </div>
+            </div>
+        </div>
+        <div class="musicliveBlock">
+            <div><img src="assets/images/calendar.png" alt="" srcset=""></div>
+            <div class="musicContnt">
+                <!-- <div>Invitation sent at 15th March 2023 ; 01:17 P.M.</div> -->
+                <div>Invitation sent at {{invitationDetail?.communityDetails[0]?.members?.invitationDate  | date:'longDate' }}; {{invitationDetail?.communityDetails[0]?.members?.invitationDate  | date:'shortTime' }}</div>
+            </div>
+        </div>
+    </div>
+    <!-- music live area end -->
+
+    <!-- personal details area start -->
+    <div class="musicliveBox musicliveBox2">
+        <a  class="editIcon" *ngIf="!editable" (click)="enableEdit()"><img src="assets/images/editIcon.png" alt="" srcset=""></a>
+        <a  class="crossIcon" *ngIf="editable" (click)="cancelEdit()"><img src="assets/images/crosspink.png" alt="" srcset=""></a>
+        <a  class="tickIcon" *ngIf="editable" (click)="completeEdit()"><img src="assets/images/tick.png" alt="" srcset=""></a>
+        <div class="heading">Personal Details</div>
+        <div>
+            <form [formGroup]="userInvitationForm" class="formArea">
+                <div class="formBlock">
+                    <label>User type *</label>
+                    <input type="text" class="personalfld" formControlName="userType" readonly/>
+                </div>
+                <div class="formBlock">
+                    <label>Language Preference</label>
+
+                    <!-- <input type="text" class="personalfld" formControlName="language" *ngIf="!editable" /> -->
+
+                    <select  [class]="!editable ? 'personalfld disabled' : 'personalfld' " formControlName="language" >
+                        <option value="" disabled selected hidden>Select Language</option>
+                        <option value="en" >English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="bn">Bengali</option>
+                    </select>
+                    
+                </div>
+                <div class="formBlock">
+                    <label>Name *</label>
+                    <input type="text" class="personalfld" formControlName="firstname" [readonly]="!editable" />
+
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('firstname')?.errors?.['required'] && (userInvitationForm.get('firstname')?.dirty || userInvitationForm.get('firstname')?.touched)"
+                            class="error">Please Enter First Name.</p>
+                    </div>
+                </div>
+                <!-- <div class="formBlock">
+                    <label>Middle Name</label>
+                    <input type="text" class="personalfld" formControlName="middlename" [readonly]="!editable" />
+                </div> -->
+                <!-- <div class="formBlock">
+                    <label>Last Name *</label>
+                    <input type="text" class="personalfld" formControlName="lastname" [readonly]="!editable" />
+
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('lastname')?.errors?.['required'] && (userInvitationForm.get('lastname')?.dirty || userInvitationForm.get('lastname')?.touched)"
+                            class="error">Please Enter Last Name.</p>
+                    </div>
+                </div> -->
+                <div class="formBlock">
+                    <label>Email Address *</label>
+                    <input type="text" class="personalfld" formControlName="email" readonly="true" />
+
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('email')?.errors?.['required'] && (userInvitationForm.get('email')?.dirty || userInvitationForm.get('email')?.touched)"
+                            class="error">Please Enter Last Name.</p>
+                    </div>
+                </div>
+                <!-- <div class="formBlock">
+                    <label>Phone Code</label>
+                    <div class="loginformflidArea">
+                        <input type="text"
+                        class="countryno countryno_mat"
+                        placeholder="Pick One"
+                        aria-label="Number"
+                        matInput
+                        [matAutocomplete]="auto"
+                        formControlName="phoneCode"
+                        (keyup)="searchCountry($event)"
+                        [readonly]="!editable"
+                        >
+                        <ng-container class="login_mat_select_with_map_ngContainer">
+                            <mat-autocomplete #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                            <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                              <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                            </mat-option>
+                          </mat-autocomplete>
+                        </ng-container>
+                      </div>
+                </div> -->
+                <div class="formBlock">
+                    <label>Phone *</label>
+                    <input type="text" class="personalfld" formControlName="phone" readonly="true" />
+                </div>
+                <div class="formBlock">
+                    <label>Address Line 1 *</label>
+                    <input type="text" class="personalfld" formControlName="firstAddressLine" [readonly]="!editable" />
+
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('firstAddressLine')?.errors?.['required'] && (userInvitationForm.get('firstAddressLine')?.dirty || userInvitationForm.get('firstAddressLine')?.touched)"
+                            class="error">Please Enter Address Line 1.</p>
+                    </div>
+                </div>
+                <div class="formBlock">
+                    <label>Address Line 2</label>
+                    <input type="text" class="personalfld" formControlName="secondAddressLine" [readonly]="!editable" />
+                </div>
+                <div class="formBlock">
+                    <label>Country</label>
+
+                    <!-- <input type="text" class="personalfld" formControlName="country" [readonly]="!editable"  *ngIf="!editable"/> -->
+
+                    <select [class]="!editable ? 'personalfld disabled' : 'personalfld' " formControlName="country" (change)="changeState($event)" >
+                        <option value="" disabled hidden selected>Country *</option>
+                        <option [value]="country.code" *ngFor="let country of countryCodes" >{{country.name}}</option>
+                    </select>
+
+                </div>
+                <div class="formBlock">
+                    <label>State</label>
+
+                    <!-- <input type="text" class="personalfld" formControlName="state" [readonly]="!editable" /> -->
+
+                    <select [class]="!editable ? 'personalfld disabled' : 'personalfld' " formControlName="state">
+                        <option value="" disabled hidden selected>State *</option>
+                        <option [value]="state.stateCode" *ngFor="let state of states">
+                            {{state.name}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="formBlock">
+                    <label>City *</label>
+                    <input type="text" class="personalfld" formControlName="city" [readonly]="!editable" />
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('city')?.errors?.['InvalidValue'] && (userInvitationForm.get('city')?.dirty || userInvitationForm.get('city')?.touched)"
+                            class="error">City is required.</p>
+                    </div>
+                </div>
+                <div class="formBlock">
+                    <label>Zip code *</label>
+                    <input type="text" class="personalfld" formControlName="zipcode" [readonly]="!editable" (keypress)="isNumber($event)"/>
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('zipcode')?.errors?.['InvalidValue'] && (userInvitationForm.get('zipcode')?.dirty || userInvitationForm.get('zipcode')?.touched)"
+                            class="error">Zip code is required.</p>
+                    </div>
+                    <div class="form_field_error_msg">
+                        <p *ngIf="userInvitationForm.get('zipcode')?.errors?.['invalidPin'] && (userInvitationForm.get('zipcode')?.dirty || userInvitationForm.get('zipcode')?.touched)"
+                            class="error"> Zipcode must be 6 digit.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>&nbsp;</div>
+    <!-- personal details area end -->
+
+    <!------OpenModal for accept invitaion start------>
+    <div class="modal fade custom_modal" id="acceptInvitation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img class="envelopIcon" src="assets/images/envelopeIcon.png" alt="" srcset="">
+                    <h5 class="modal-title">Are you sure to accept the <br> invitation?</h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Please check your profile details & headcounts before confirming the invitation. You can still
+                        edit the necessary changes before approval.
+                    </div>
+                    <div class="btnArea"><button class="acceptButton" (click)="acceptInvitation()">Yes, Accept</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------OpenModal for accept invitaion end------>
+
+    <!------OpenModal for reject invitaion start------>
+    <!-- <div class="modal fade custom_modal" id="rejectInvitation" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
+        <div class="modal fade custom_modal" id="rejectInvitation">
+        <div class="modal-dialog">
+            <form [formGroup]="rejectInvitationForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img class="envelopIcon" src="assets/images/rejectenvelopeIcon.png" alt="" srcset="">
+                        <h5 class="modal-title">Are you sure to Reject the <br> invitation?</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <textarea class="commenttextarea" placeholder="Write your comments here" formControlName="message"></textarea>
+
+                            <div class="form_field_error_msg">
+                                <p *ngIf="rejectInvitationForm.get('message')?.errors?.['required'] && (rejectInvitationForm.get('message')?.dirty || rejectInvitationForm.get('message')?.touched)"
+                                    class="error">Please Enter Comment.</p>
+                            </div>
+
+                        </div>
+                        <div class="btnArea">
+                            <button class="acceptButton" (click)="rejectInvitation()" [disabled]="!rejectInvitationForm.valid">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+    <!------OpenModal for reject invitaion end------>
+
+    <!------OpenModal for Block invitaion start------>
+    <div class="modal fade custom_modal" id="blockInvitation">
+        <div class="modal-dialog">
+            <form [formGroup]="blockInvitationForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img class="envelopIcon" src="assets/images/envelopeIcon.png" alt="" srcset="">
+                        <h5 class="modal-title">{{invitationDetail?.communityDetails[0]?.communityName}} will no longer be <br> able to invite you</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            You wouldn't receive any SMS or Email notification from the "{{invitationDetail?.communityDetails[0]?.communityName}}" joining from Admin in future
+                        </div>
+                        <div>
+                            <textarea class="commenttextarea" placeholder="Write your comments here (Optional)" formControlName="message"></textarea>
+                        </div>
+                        <div class="btnArea"><button class="blockButton" (click)="blockInvitation()">Yes, Block</button></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!------OpenModal for Block invitaion end------>
+</div>
+<!-- container area end -->
+
+
+
+<div class="wrpperContainer"  *ngIf="invalidTokenMessage!=''">
+    <div class="acceptArea">
+            <h3>{{invalidTokenMessage}}</h3>
+    </div>
+</div>

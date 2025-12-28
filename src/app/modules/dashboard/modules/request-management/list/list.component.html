@@ -1,0 +1,122 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title filter-headingArea">
+      <h4>Requested Members</h4>
+
+      <div class="filterArea">
+        <a href="javascript:void(0)" class="_filterSearch_iconBtn"  (click)="searchToggle()">
+          <img src="assets/images/filter-search-icon.png" />
+        </a>
+      </div>
+    </div>
+    <!-- page title -- section -- end  -->
+  
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/dashboard']">Back to dashboard</a>
+    </div>
+    <!-- -- back btn section start --  -->
+    <!-- filter and heading area start -->
+  
+    <!-- ===  new filter search start === -->
+    <div class="filter_search_sec" *ngIf="seachFilter">
+      <div class="filter_sec_block_seach">
+        <div class="form_row">
+          <form [formGroup]="searchForm">
+            <div class="input_block_box filter_search_text">
+              <div class="filter_input_block">
+                <div class="filter_input_box">
+                  <input class="input_appearance_none filter_input" type="text" placeholder="Search by member name" formControlName="search" (keyup)="getMembers(current)">
+                </div>
+                <div class="filter_input_box_btn">
+                  <button class="button_appearance_none filter_btn_search" type="button" (click)="getMembers(current)">Search</button>
+                  <button class="button_appearance_none filter_btn_clear" type="button" (click)="clear()">Clear</button>
+                </div>
+              </div>
+            </div>
+          </form>
+  
+        </div>
+      </div>
+    </div>
+    <!-- ===  new filter search end === -->
+  
+    <!-- filter and heading area start -->
+  
+    <!-- table area start -->
+    <div class="tableBox">
+        <div class="table-responsive">
+            <table class="table_list" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Profile Image</th>
+                    <th>Requested Date</th>
+                    <th>Role</th>
+                    <th>Action Items</th>
+                  </tr>
+                </thead>
+  
+                <tbody>
+                  <tr *ngFor="let item of getRequestMembers, let i = index">
+                    <td *ngIf="(current*limit)-((limit-1)-i) < 10">
+                        {{'M100'+(current*10-(9-i))}}
+                    </td>
+                    <td *ngIf="(current*limit)-((limit-1)-i) >= 10">
+                        {{'M10'+(current*10-(9-i))}}
+                    </td>
+                    <td class="td_readMore_bg">
+                        <p *ngIf="item?.members?.user?.name">{{item?.members?.user?.name}}</p>
+                        <p *ngIf="!item?.members?.user?.name">{{'N/A'}}</p>
+                    </td>
+                    <td>
+                        <div class="blog_td_img">
+                            <img [src]="item?.members?.user?.profileImage ? item?.members?.user?.profileImage : 'assets/images/no-image-found-01.png'" />
+                        </div>
+                    </td>
+                    <td>
+                        <span *ngIf="item?.members?.joinedAt">{{item?.members?.joinedAt | date:'dd/MM/YYYY'}}</span>
+                        <span *ngIf="!item?.members?.joinedAt">{{'N/A'}}</span>
+                    </td>
+                    <td *ngIf="item?.members?.roles[0]">
+                      <span *ngIf="item?.members?.roles[0] === 'board_member'">Board Member</span>
+                      <span *ngIf="item?.members?.roles[0] === 'executive_member'">Executive Member</span>
+                      <span *ngIf="item?.members?.roles[0] === 'member'">Member</span>
+                      <span *ngIf="item?.members?.roles[0] === 'fan'">Fan</span>
+                    </td>
+                    <td *ngIf="!item?.members?.roles[0]">N/A</td>
+                    <td>
+                        <button class="button_appearance_none small_capsule_btn green_btn" (click)="memberapproval(true,item?.members?.memberId)">Accept</button>
+                        <button class="button_appearance_none small_capsule_btn pink_btn" (click)="memberapproval(false,item?.members?.memberId)">Reject</button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngIf="!getRequestMembers?.length">
+                    <td colspan="6">No Data Found</td>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+  
+        <ng-template [ngIf]="totalPageNo && totalPageNo!==0">
+          <div class="table_pagination_sec">
+            <div class="table_pagi_left pagination_block">
+              <span *ngIf="totalData > limit"><app-pagination
+              [current]="current" [total]="totalPageNo" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"
+              ></app-pagination></span>
+            </div>
+            <div class="table_pagi_right">
+              <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+            </div>
+          </div>
+        </ng-template>
+        <!-- ---  table bottom Pagination section -- end --  -->
+    </div>
+    <!-- table area end -->
+  </div>
+  
+  
+
+  

@@ -1,0 +1,34 @@
+<div class="dashboard_panel_bg editWebPage">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title mb_30">
+    <h2>Analytics</h2>
+  </div>
+
+</div>
+
+<div class="onboard_form onboard_form_big edit_webPage analytics_contBg">
+
+  <div class="edit_webPage_top_tab">
+    <ul>
+      <li [ngClass]="{'active': eventTypeActiveTab}">
+        <a href="javascript:void(0)" (click)="showEventType()">Event Type wise Participation</a>
+      </li>
+      <li [ngClass]="{'active': communityWiseActiveTab}">
+        <a href="javascript:void(0)" (click)="showCommunityWise()">Community Wise No Of Yes RSVPs</a>
+      </li>
+      <li [ngClass]="{'active': communityNameVsSpentActiveTab}">
+        <a href="javascript:void(0)" (click)="showCommunityNameVsSpent()">Community Name Vs Spent Contribution</a>
+      </li>
+      <li [ngClass]="{'active': mySpentAmountActiveTab}">
+        <a href="javascript:void(0)" (click)="showMySpentAmount()">My Spent Analytics</a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+
+
+</div>
+
+

@@ -1,0 +1,52 @@
+<!-- container area start -->
+<div class="wrpperContainer">
+    <!-- logo area start -->
+    <div class="logoArea">
+        <img src="assets/images/logo_small.svg" alt="" >
+    </div>
+    <!-- logo area end -->
+
+    <!-- thank you box start -->
+    <div class="thankyouBox">
+        <div class="envelopIconArea">
+            <img class="envelopIcon" src="assets/images/envelopeIcon.png" alt="">
+        </div>
+        
+        <div class="thankyoutext">Thank you {{invitationDetail?.userDetails.name}}</div>
+
+        <div class="acceptInvitationArea">
+            <div class="acceptBlock">
+                <div class="acceptText">SMS for Events</div>
+                <div><img [src]="invitationDetail?.emailSmsPreferences?.smsEvent ? 'assets/images/tick-yellow.png' : 'assets/images/cross.png' " alt="" srcset=""></div>
+            </div>
+
+            <div class="acceptBlock">
+                <div class="acceptText">SMS for Announcements</div>
+                <div><img [src]="invitationDetail?.emailSmsPreferences?.smsAnnouncement ? 'assets/images/tick-yellow.png' : 'assets/images/cross.png' " srcset=""></div>
+            </div>
+
+            <div class="acceptBlock">
+                <div class="acceptText">Email for Events</div>
+                <div><img [src]="invitationDetail?.emailSmsPreferences?.emailEvent ? 'assets/images/tick-yellow.png' : 'assets/images/cross.png' " alt="" srcset=""></div>
+            </div>
+
+            <div class="acceptBlock">
+                <div class="acceptText">Email for Announcements</div>
+                <div><img [src]="invitationDetail?.emailSmsPreferences?.emailAnnouncement ? 'assets/images/tick-yellow.png' : 'assets/images/cross.png' " alt="" srcset=""></div>
+            </div>
+        </div>
+
+        <div class="messageArea">
+            You have been added to the notifications for <b>{{communityName}}</b>, and will receive future event and announcement notifications from this community according to your preferences chosen above.
+        </div>
+
+        <div class="borderbottom"></div>
+    </div>
+    <!-- thank you box end -->
+    <p class="applink-instraction">SangaRaahi is also available in Android & iOS. Download the app to explore more about us & be an active user</p>
+    <div class="app-icon-wrapper">
+        <a href="https://apps.apple.com/in/app/sangaraahi/id1661511878" ><img src="assets/images/appleAppIcon.png" alt="AppleAppIcon"></a>
+        <a href="https://play.google.com/store/apps/details?id=com.communitynetworkingapp&hl=en"><img src="assets/images/androidAppIcon.png" alt="AndroidAppIcon"></a>
+    </div>
+</div>
+<!-- container area end -->

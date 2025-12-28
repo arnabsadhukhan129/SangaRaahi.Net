@@ -1,0 +1,27 @@
+<!-- <div class="table_pagination_sec" > -->              
+<!-- <div class="table_pagination_sec" > -->
+
+  <div class="table_pagi_left pagination_block">
+
+    <div class="pagination">
+      <li *ngIf="current > 1"><a href="javascript:void(0)" [attr.aria-disabled]="current === 1"
+        (click)="onPrevious()">&laquo;</a></li>
+
+      <li *ngFor="let page of pages;"><a href="javascript:void(0)" [attr.aria-current]="page === current ? 'page' : null"
+        [attr.aria-label]="
+          page === current ? 'Current Page, Page ' + page : 'Go to Page ' + page
+        "
+        [class.active]="page === current"
+        tabindex="0"
+        (click)="onGoTo(page)"
+        (keyup.enter)="onGoTo(page)" >{{page}}</a></li>
+
+      <li *ngIf="current < total"><a href="javascript:void(0)" aria-label="Go To Next Page"
+        [attr.aria-disabled]="current === total"
+        (click)="onNext()">&raquo;</a></li>
+    </div>
+  <!-- <div class="table_pagi_right">
+    <p>Showing {{current}} - {{total}}</p>
+  </div> -->
+
+<!-- </div> -->

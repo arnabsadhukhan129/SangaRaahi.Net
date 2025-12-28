@@ -1,0 +1,70 @@
+
+<div class="loginBg">
+    <div class="blackBox">
+        <div class="fullcintentArea">
+            <div class="form_top_text">
+                <div class="logo"><img src="assets/images/logo.svg" /></div>
+                <h1>Welcome to your SangaRaahi<br /> organization Portal !</h1>
+                <!-- <h2>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium <br> doloremque
+                    laudantium, totam rem aperiam.</h2> -->
+                <h2>Build Transparent Supportive Communities </h2>
+                    <!-- <br/>
+                    Those who are on the same path together.</h2> -->
+            </div>
+
+            <div class="formarea">
+                <form [formGroup]="loginForm" (ngSubmit)="submit()" autocomplete="off">
+                    <div class="loginformflidArea">
+
+                        <input type="text"
+                            class="countryno countryno_mat"
+                            placeholder="Country Code"
+                            aria-label="Number"
+                            matInput
+                            formControlName="countryCode"
+                            [matAutocomplete]="auto"
+                            (keyup)="searchCountry($event)"
+                            >
+                        <ng-container class="login_mat_select_with_map_ngContainer">
+                        <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_with_map">
+                            <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                                <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                            </mat-option>
+                        </mat-autocomplete>
+                        </ng-container>
+
+                        <!--
+                        <mat-select  formControlName="countryCode" class="login_mat_select login_mat_select_with_map">
+                          <mat-option value=""> Select Country </mat-option>
+                          <mat-option *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                           <img with="20" height="20" [src]="country.flag"> {{country.name}} - [{{country.dialCode}}]
+                          </mat-option>
+                        </mat-select>
+                        -->
+
+                        <input type="tel" formControlName="phone"  (keypress)="numericOnly($event)"  (keydown.space)="$event.preventDefault()" (keydown.enter)="onEnterKey($event)" placeholder="Enter Your Registered Mobile Number" aria-label="Number"
+                        class="numberfld" />
+                        <!-- <input matInput type="number" formControlName="phone" (keypress)="numericOnly($event)" (keydown.space)="$event.preventDefault()"> -->
+
+                    </div>
+                    <div class="buttonArea">
+                        <!-- <button class="formBtn_layout" type="submit">Send OTP</button> -->
+
+                        <button class="formBtn_layout"  type="submit" [ngClass]="{'disabled': !loginForm.valid}">Send OTP</button>
+                    </div>
+                </form>
+            </div>
+            <div class="signup_link_block">
+              <p>Not a member yet! Start your own Community to create announcement, groups, events & many more ,
+                <a class="green_text" href="javascript:void(0)" [routerLink]="['/auth/sign-up']" >Sign up now</a>
+              </p>
+            </div>
+            <div class="line">
+                <img class="form_page_line_img" src="assets/images/line.png" />
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

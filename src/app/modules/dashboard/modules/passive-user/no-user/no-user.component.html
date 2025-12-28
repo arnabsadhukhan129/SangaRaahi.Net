@@ -1,0 +1,926 @@
+<div class="dashboard_panel_bg memberlistpage">
+  <!-- filter and heading area start -->
+  <div class="filter-headingArea">
+      <!-- <h4 class="block_sec_title headeingArea">Onboarding Passive User</h4> -->
+      <div class="filterArea">
+          <!--
+          <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+            <img src="assets/images/filter-search-icon.png" />
+          </a>
+          <a href="javascript:void(0)" class="filter" >Filter</a>
+          <a href="javascript:void(0)" class="track" >Track</a>
+           -->
+          <!-- <a href="#" class="pinkbtnsmall">Onboard passive users</a> -->
+      </div>
+  </div>
+  <!-- ===  new filter search start === -->
+
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- ===  new filter section start === -->
+
+  <!-- ===  new filter section end === -->
+  <!-- filter and heading area end -->
+
+  <!-- ===  Onboarding Passive User section -- start === -->
+
+  <div class="onboard_form_section">
+    <form [formGroup]="addMemberForm" autocomplete="off" (keydown.enter)="$event.preventDefault()">
+    <!-- Onboarding Form Card -- start --  -->
+    <div class="onboard_form onboard_form_big">
+        <!-- --- onboard big form -- start --  -->
+        <div class="onboard_form_row gpa_30">
+
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="userRole">
+                  <option value="" disabled selected hidden>Enter User Type *</option>
+                  <option value="board_member" [disabled]="getRole === 'executive_member'" >Board Member</option>
+                  <option value="executive_member">Executive Member</option>
+                  <option value="member">Member</option>
+                  <option value="fan">Fan</option>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('userRole')?.errors && (addMemberForm.get('userRole')?.dirty || addMemberForm.get('userRole')?.touched))">
+                <div class="form_field_error_msg">
+                  User type is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('userRole')?.errors && (addMemberForm.get('userRole')?.dirty || addMemberForm.get('userRole')?.touched))">
+              User role is required.
+            </label> -->
+          </div>
+
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input onboard_input_border">
+              <select class="input_appearance_none filter_input onboard_select" formControlName="language">
+                <option value="" disabled selected hidden>Language Preference</option>
+                <option value="en" >English</option>
+                <option value="hi">Hindi</option>
+                <option value="bn">Bengali</option>
+              </select>
+            </div>
+            <!-- <div class="form_input_row_error">
+              <div class="form_field_error_msg">
+                Phone number is required.
+              </div>
+            </div> -->
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input onboard_input_border">
+              <select class="input_appearance_none filter_input onboard_select" formControlName="gender">
+                <option value="" disabled selected hidden>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <!-- <div class="form_input_row_error">
+              <div class="form_field_error_msg">
+                Phone number is required.
+              </div>
+            </div> -->
+          </div>
+
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="First Name *" formControlName="firstname">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('firstname')?.errors && (addMemberForm.get('firstname')?.dirty || addMemberForm.get('firstname')?.touched))">
+                <div class="form_field_error_msg">
+                  First name is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('firstname')?.errors && (addMemberForm.get('firstname')?.dirty || addMemberForm.get('firstname')?.touched))">
+              First name is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Middle Name" formControlName="middlename">
+              </div>
+              <!-- <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  Phone number is required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Last Name *" formControlName="lastname">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('lastname')?.errors && (addMemberForm.get('lastname')?.dirty || addMemberForm.get('lastname')?.touched))">
+                <div class="form_field_error_msg">
+                  Last name is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('lastname')?.errors && (addMemberForm.get('lastname')?.dirty || addMemberForm.get('lastname')?.touched))">
+              Last name is required.
+            </label> -->
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Email *" formControlName="email" [readOnly]="hasEmail()">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('email')?.errors?.['InvalidValue'] && (addMemberForm.get('email')?.dirty || addMemberForm.get('email')?.touched))">
+                <div class="form_field_error_msg">
+                  Email is required.
+                </div>
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('email')?.errors?.['invalidEmail'] && (addMemberForm.get('email')?.dirty || addMemberForm.get('email')?.touched))">
+                <div class="form_field_error_msg">
+                  Invalid email.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('email')?.errors && (addMemberForm.get('email')?.dirty || addMemberForm.get('email')?.touched))">
+              Email is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_row_tel">
+              <!-- <div class="form_country_code onboard_input_border">
+                <div class="onboard_form_input">
+                    <div class="loginformflidArea">
+                      <input type="text"
+                      class="countryno"
+                      placeholder="{{data.params.data.phoneCode ? data.params.data.phoneCode : 'Pick one'}}"
+                      aria-label="Number"
+                      matInput
+                      formControlName="countryCode"
+                      [matAutocomplete]="auto"
+                      (keyup)="searchCountry($event)"
+                      [readonly]="hasCountryCode()"
+                      >
+                      <ng-container class="login_mat_select_with_map_ngContainer">
+                          <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_with_map">
+                          <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                                {{country.dialCode}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div> -->
+              <!-- <div class="form_tel_num onboard_input_border"> -->
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border">
+                    <input class="input_appearance_none" type="tel" placeholder="000 000 0000" formControlName="phone" [readonly]="hasPhone()" (keypress)="isNumber($event)">
+                  </div>
+                  <div class="form_input_row_error" *ngIf="(addMemberForm.get('phone')?.errors && (addMemberForm.get('phone')?.dirty || addMemberForm.get('phone')?.touched))">
+                    <div class="form_field_error_msg">
+                      Phone number is required.
+                    </div>
+                  </div>
+                </div>
+              <!-- </div> -->
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('phone')?.errors && (addMemberForm.get('phone')?.dirty || addMemberForm.get('phone')?.touched))">
+              Phone number is required.
+            </label> -->
+          </div>
+
+          <div class="onboard_form_box width_33">
+
+            <div class="onboard_form_input onboard_input_border">
+
+              <!-- <input class="input_appearance_none calender_input_style" placeholder="Year of birth" type="text" formControlName="yearOfBirth" onfocus="(this.type='date')" onblur="(this.type='text')" /> -->
+              <!-- <input class="input_appearance_none" type="date" formControlName="yearOfBirth"> -->
+              <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth">
+                <option value="" disabled selected hidden>Year of birth *</option>
+                <ng-container *ngFor="let year of arrYear">
+                  <option [value]="year">
+                    {{year}}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(addMemberForm.get('yearOfBirth')?.errors && (addMemberForm.get('yearOfBirth')?.dirty || addMemberForm.get('yearOfBirth')?.touched))">
+              <div class="form_field_error_msg">
+                Year of birth  is required.
+              </div>
+            </div>
+            <!--<label class="error_text" *ngIf="(addMemberForm.get('email')?.errors && (addMemberForm.get('email')?.dirty || addMemberForm.get('email')?.touched))">
+              Email is required.
+            </label> -->
+          </div>
+
+        </div>
+
+        <div class="onboard_form_row gpa_30">
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Address Line 1 *" formControlName="addressLine1">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('addressLine1')?.errors && (addMemberForm.get('addressLine1')?.dirty || addMemberForm.get('addressLine1')?.touched))">
+                <div class="form_field_error_msg">
+                  Address is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('addressLine1')?.errors && (addMemberForm.get('addressLine1')?.dirty || addMemberForm.get('addressLine1')?.touched))">
+              Address is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_50">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Address Line 2" formControlName="addressLine2">
+              </div>
+              <!-- <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  Phone number is required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30" *ngIf="!hasCountry">
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="country" (change)="changeState($event)">
+                  <option value="" disabled selected hidden>Country *</option>
+                  <ng-container *ngFor="let country of filteredOptions">
+                    <option [value]="country.code">
+                      <img src="{{country.flag}}" alt=""> {{country.name}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('country')?.errors && (addMemberForm.get('country')?.dirty || addMemberForm.get('country')?.touched))">
+                <div class="form_field_error_msg">
+                  Country is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('country')?.errors && (addMemberForm.get('country')?.dirty || addMemberForm.get('country')?.touched))">
+              Country is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="City *" formControlName="city">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('city')?.errors && (addMemberForm.get('city')?.dirty || addMemberForm.get('city')?.touched))">
+                <div class="form_field_error_msg">
+                  City is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('city')?.errors && (addMemberForm.get('city')?.dirty || addMemberForm.get('city')?.touched))">
+              City is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_33">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="ZipCode *" formControlName="zipcode" (keypress)="isNumber($event)">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('zipcode')?.errors?.['InvalidValue'] && (addMemberForm.get('zipcode')?.dirty || addMemberForm.get('zipcode')?.touched))">
+                <div class="form_field_error_msg">
+                  Zipcode is required.
+                </div>
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('zipcode')?.errors?.['invalidPin'] && (addMemberForm.get('zipcode')?.dirty || addMemberForm.get('zipcode')?.touched))">
+                <div class="form_field_error_msg">
+                  Zipcode must be 5 digits or 6 digits.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" class="error_text" *ngIf="(addMemberForm.get('zipcode')?.errors && (addMemberForm.get('zipcode')?.dirty || addMemberForm.get('zipcode')?.touched))">
+              Zipcode is required.
+            </label> -->
+          </div>
+        </div>
+
+        <div class="onboard_form_row gpa_30" *ngIf="hasCountry">
+          <div class="onboard_form_box width_25">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="country" (change)="changeState($event)">
+                  <option value="" disabled selected hidden>Country *</option>
+                  <ng-container *ngFor="let country of filteredOptions">
+                    <option [value]="country.code">
+                      <img src="{{country.flag}}" alt=""> {{country.name}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <!-- <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  Phone number is required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="onboard_form_box width_25">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="state">
+                  <option value="" disabled selected hidden>State *</option>
+                  <ng-container *ngFor="let state of getState">
+                    <option [value]="state.stateCode">
+                      {{state.name}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('state')?.errors && (addMemberForm.get('state')?.dirty || addMemberForm.get('state')?.touched))">
+                <div class="form_field_error_msg">
+                  State is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('state')?.errors && (addMemberForm.get('state')?.dirty || addMemberForm.get('state')?.touched))">
+              State is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_25">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="City *" formControlName="city">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('city')?.errors && (addMemberForm.get('city')?.dirty || addMemberForm.get('city')?.touched))">
+                <div class="form_field_error_msg">
+                  City is required.
+                </div>
+              </div>
+            </div>
+            <!-- <label class="error_text" *ngIf="(addMemberForm.get('city')?.errors && (addMemberForm.get('city')?.dirty || addMemberForm.get('city')?.touched))">
+              City is required.
+            </label> -->
+          </div>
+          <div class="onboard_form_box width_25">
+            <div class="onboard_form_input ">
+              <div class="onboard_form_input onboard_input_border" *ngIf="code === 'IN' || code === 'US'">
+                <input class="input_appearance_none" type="text" placeholder="ZipCode *" formControlName="zipcode" (keypress)="isNumber($event)">
+              </div>
+              <div class="onboard_form_input onboard_input_border" *ngIf="code === 'GB' || code === 'CA'">
+                <input class="input_appearance_none" type="text" placeholder="ZipCode *" formControlName="zipcode" oninput="this.value = this.value.toUpperCase()" (keypress)="onlyCapsValue($event)">
+              </div>
+              <div class="form_input_row_error" *ngIf="(addMemberForm.get('zipcode')?.errors?.['InvalidValue'] && (addMemberForm.get('zipcode')?.dirty || addMemberForm.get('zipcode')?.touched))">
+                <div class="form_field_error_msg">
+                  Zipcode is required.
+                </div>
+              </div>
+              <!-- <div class="form_input_row_error" *ngIf="(addMemberForm.get('zipcode')?.errors?.['invalidPin'] && (addMemberForm.get('zipcode')?.dirty || addMemberForm.get('zipcode')?.touched))">
+                <div class="form_field_error_msg">
+                  Zipcode must be 5 digits or 6 digits.
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- --- onboard big form -- end --  -->
+
+      <!-- </form> -->
+      <!-- toggle area start -->
+
+<!--
+        <div class="toggleArea">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="checkboxSmsEvent" formControlName="smsEvent">
+            <label class="form-check-label" for="checkboxSmsEvent">Receive SMS for Events</label>
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="checkboxSMSAnnouncement" formControlName="smsAnnouncement">
+            <label class="form-check-label" for="checkboxSMSAnnouncement">Receive SMS for Announcements</label>
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailEvent" formControlName="emailEvent">
+            <label class="form-check-label" for="checkboxEmailEvent">Receive Email for Events</label>
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailAnnouncement" formControlName="emailAnnouncement">
+            <label class="form-check-label" for="checkboxEmailAnnouncement">Receive Email for Announcements</label>
+          </div>
+        </div> -->
+
+      <!-- toggle area end -->
+    </div>
+    <!-- Onboarding Form Card -- end --  -->
+
+
+    <!-- ========  New toggle  ==== start ===== -->
+
+    <div class="onboard_form onboard_form_big" >
+
+      <div  class="editWebPage_row announcement_form_row_toggle">
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxSmsEvent" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSmsEvent" formControlName="smsEvent">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text"> Receive SMS for Events </div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxSMSAnnouncement" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSMSAnnouncement" formControlName="smsAnnouncement">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive SMS for Announcements</div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxEmailEvent" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailEvent" formControlName="emailEvent">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive Email for Events</div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxEmailAnnouncement" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailAnnouncement" formControlName="emailAnnouncement">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive Email for Announcements</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- ========  New toggle  ==== end ===== -->
+
+    <!-- Onboarding Form Card -- start --  -->
+    <div formArrayName="familyMember">
+      <ng-container *ngFor="let data of familyMember.controls; let i= index">
+        <!-- --- onboard big form -- start --  -->
+      <div class="onboard_form onboard_form_big"  *ngIf="hideSection">
+
+        <div [formGroupName]="i">
+          <div class="onboard_form_row gpa_30">
+            <div class="onboard_form_box width_33">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <input class="input_appearance_none" type="text" placeholder="First Name *" formControlName="firstName">
+                </div>
+                <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('firstName')?.errors && (familyMember.controls[i].get('firstName')?.dirty || familyMember.controls[i].get('firstName')?.touched))">
+                  <div class="form_field_error_msg">
+                    First name is required.
+                  </div>
+                </div>
+                <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('firstName')?.errors && (familyMember.controls[i].get('firstName')?.dirty || familyMember.controls[i].get('firstName')?.touched))">
+                  First name is required.
+                </label> -->
+              </div>
+            </div>
+            <div class="onboard_form_box width_33">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <input class="input_appearance_none" type="text" placeholder="Middle Name" formControlName="middleName">
+                </div>
+                <!-- <div class="form_input_row_error">
+                  <div class="form_field_error_msg">
+                    Phone number is required.
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="onboard_form_box width_33">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <input class="input_appearance_none" type="text" placeholder="Last Name *" formControlName="lastName">
+                </div>
+                <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('lastName')?.errors && (familyMember.controls[i].get('lastName')?.dirty || familyMember.controls[i].get('lastName')?.touched))">
+                  <div class="form_field_error_msg">
+                    Last name is required.
+                  </div>
+                </div>
+                <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('lastName')?.errors && (familyMember.controls[i].get('lastName')?.dirty || familyMember.controls[i].get('lastName')?.touched))">
+                  Last name is required.
+                </label> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="onboard_form_row gpa_30">
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="memberType" (change)="getValue(realtion,i,data)" #realtion>
+                  <option value="" disabled selected hidden>User Group *</option>
+                  <option value="spouse">Partner/Spouse</option>
+                  <option value="adult">Adult</option>
+                  <option value="minor">Minor</option>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('memberType')?.errors && (familyMember.controls[i].get('memberType')?.dirty || familyMember.controls[i].get('memberType')?.touched))">
+                <div class="form_field_error_msg">
+                  User group is required.
+                </div>
+              </div>
+              <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('memberType')?.errors && (familyMember.controls[i].get('memberType')?.dirty || familyMember.controls[i].get('memberType')?.touched))">
+                User group is required.
+              </label> -->
+            </div>
+
+            <div class="onboard_form_box width_25" *ngIf="getType === 'spouse'">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="relationType">
+                  <option value="" disabled selected hidden>Relation *</option>
+                  <option value="wife">Wife</option>
+                  <option value="husband">Husband</option>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('relationType')?.errors && (familyMember.controls[i].get('relationType')?.dirty || familyMember.controls[i].get('relationType')?.touched))">
+                <div class="form_field_error_msg">
+                  Realtion type is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="onboard_form_box width_25" *ngIf="getType !== 'spouse'">
+              <div class="onboard_form_input onboard_input_border">
+                <input class="input_appearance_none" type="text" placeholder="Relation *" formControlName="relationType">
+              </div>
+              <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('relationType')?.errors && (familyMember.controls[i].get('relationType')?.dirty || familyMember.controls[i].get('relationType')?.touched))">
+                <div class="form_field_error_msg">
+                  Realtion type is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input onboard_input_border">
+
+                <!-- <input class="input_appearance_none calender_input_style" placeholder="Year of birth" type="text" formControlName="yearOfBirth" onfocus="(this.type='date')" onblur="(this.type='text')" /> -->
+                <!-- <input class="input_appearance_none" type="date" formControlName="yearOfBirth"> -->
+                <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth">
+                  <option value="" disabled selected hidden>Year of birth *</option>
+                  <ng-container *ngFor="let year of arrYear">
+                    <option [value]="year">
+                      {{year}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('yearOfBirth')?.errors && (familyMember.controls[i].get('yearOfBirth')?.dirty || familyMember.controls[i].get('yearOfBirth')?.touched))">
+                <div class="form_field_error_msg">
+                  Year of birth is required.
+                </div>
+              </div>
+              <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('yearOfBirth')?.errors && (familyMember.controls[i].get('yearOfBirth')?.dirty || familyMember.controls[i].get('yearOfBirth')?.touched))">
+                Year of birth is required.
+              </label> -->
+            </div>
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input onboard_input_border">
+                <select class="input_appearance_none filter_input onboard_select" formControlName="gender">
+                  <option value="" disabled selected hidden>Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <!-- <option value="other">Other</option> -->
+                </select>
+              </div>
+              <!-- <div class="form_input_row_error">
+                <div class="form_field_error_msg">
+                  Phone number is required.
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="onboard_form_row gpa_30" *ngIf="spouseCheck(data)">
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <select class="input_appearance_none filter_input onboard_select" formControlName="userRole">
+                    <option value="" disabled selected hidden>Enter User Type *</option>
+                    <option value="board_member" [disabled]="getRole === 'executive_member'">Board Member</option>
+                    <option value="executive_member">Executive Member</option>
+                    <option value="member">Member</option>
+                    <option value="fan">Fan</option>
+                  </select>
+                </div>
+                <!-- <div class="form_input_row_error">
+                  <div class="form_field_error_msg">
+                    Phone number is required.
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="onboard_form_box width_25">
+              <div class="onboard_form_input ">
+                <div class="onboard_form_input onboard_input_border">
+                  <input class="input_appearance_none" type="text" placeholder="Email *" formControlName="email">
+                </div>
+                <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('email')?.errors && (familyMember.controls[i].get('email')?.dirty || familyMember.controls[i].get('email')?.touched))">
+                  <div class="form_field_error_msg">
+                    Email is required.
+                  </div>
+                </div>
+                <!-- <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('email')?.errors?.['invalidEmail'] && (familyMember.controls[i].get('email')?.dirty || familyMember.controls[i].get('email')?.touched))">
+                  <div class="form_field_error_msg">
+                    Invalid email.
+                  </div>
+                </div> -->
+                <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('email')?.errors && (familyMember.controls[i].get('email')?.dirty || familyMember.controls[i].get('email')?.touched))">
+                  Email is required.
+                </label> -->
+              </div>
+            </div>
+
+            <div class="onboard_form_box width_50">
+              <div class="onboard_form_row onboard_form_row_tel">
+
+                <div class="onboard_form_box width_25">
+                  <div class="onboard_form_input onboard_input_border">
+                    <div class="loginformflidArea">
+                      <input type="text"
+                      class="countryno countryno_mat countryno_100"
+                      placeholder="Phone Code *"
+                      aria-label="Number"
+                      matInput
+                      [matAutocomplete]="auto"
+                      (keyup)="searchCountry($event)"
+                      formControlName="phoneCode"
+                      >
+                      <ng-container class="login_mat_select_with_map_ngContainer">
+                        <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                          <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country,i)">
+                            <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                          </mat-option>
+                        </mat-autocomplete>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="onboard_form_box width_75">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <input class="input_appearance_none" type="text" placeholder="Phone *" formControlName="phone" (keypress)="isNumber($event)">
+                    </div>
+                    <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('phone')?.errors && (familyMember.controls[i].get('phone')?.dirty || familyMember.controls[i].get('phone')?.touched))">
+                      <div class="form_field_error_msg">
+                        Phone number is required.
+                      </div>
+                    </div>
+                    <!-- <label class="error_text" *ngIf="(familyMember.controls[i].get('phone')?.errors && (familyMember.controls[i].get('phone')?.dirty || familyMember.controls[i].get('email')?.touched))">
+                      Phone number is required.
+                    </label> -->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="onboard_form_row gpa_30" *ngIf="!spouseCheck(data)">
+              <div class="onboard_form_box width_50" >
+                <div class="onboard_form_input ">
+                  <div class="onboard_form_input onboard_input_border" *ngIf="getType !== 'adult'">
+                    <input class="input_appearance_none" type="text" placeholder="Email" formControlName="email">
+                  </div>
+                  <div class="onboard_form_input onboard_input_border" *ngIf="getType === 'adult'">
+                    <input class="input_appearance_none" type="text" placeholder="Email *" formControlName="email">
+                  </div>
+                  <!-- <div class="form_input_row_error" *ngIf="(familyMember.controls[i].get('email')?.errors && (familyMember.controls[i].get('email')?.dirty || familyMember.controls[i].get('email')?.touched))">
+                    <div class="form_field_error_msg">
+                      Email is required.
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+
+              <div class="onboard_form_box width_50">
+                <div class="onboard_form_row onboard_form_row_tel">
+
+                  <div class="onboard_form_box width_25">
+                    <div class="onboard_form_input onboard_input_border">
+                      <div class="loginformflidArea"  *ngIf="getType !== 'adult'">
+                        <input type="text"
+                        class="countryno countryno_mat"
+                        placeholder="Phone Code"
+                        aria-label="Number"
+                        matInput
+                        [matAutocomplete]="auto"
+                        (keyup)="searchCountry($event)"
+                        formControlName="phoneCode"
+                        >
+                        <ng-container class="login_mat_select_with_map_ngContainer">
+                            <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                            <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country,i)">
+                              <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                            </mat-option>
+                          </mat-autocomplete>
+                        </ng-container>
+                      </div>
+                      <div class="loginformflidArea" *ngIf="getType === 'adult'">
+                        <input type="text"
+                        class="countryno countryno_mat"
+                        placeholder="Phone Code *"
+                        aria-label="Number"
+                        matInput
+                        [matAutocomplete]="auto"
+                        (keyup)="searchCountry($event)"
+                        formControlName="phoneCode"
+                        >
+                        <ng-container class="login_mat_select_with_map_ngContainer">
+                          <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                            <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country,i)">
+                              <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                            </mat-option>
+                          </mat-autocomplete>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="onboard_form_box width_75" *ngIf="getType !== 'adult'">
+                    <div class="onboard_form_input">
+                      <div class="onboard_form_input onboard_input_border">
+                        <input class="input_appearance_none" type="text" placeholder="Phone" formControlName="phone" (keypress)="isNumber($event)">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="onboard_form_box width_75" *ngIf="getType === 'adult'">
+                    <div class="onboard_form_input">
+                      <div class="onboard_form_input onboard_input_border">
+                        <input class="input_appearance_none" type="text" placeholder="Phone *" formControlName="phone" (keypress)="isNumber($event)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+          </div>
+
+          <!-- toggle area start  -- old  -->
+
+<!--
+            <div class="toggleArea" *ngIf="familyMember.controls[i].get('memberType')?.value && familyMember.controls[i].get('memberType')?.value === 'spouse'">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSmsEvent-{{i}}" formControlName="smsEvent">
+                <label class="form-check-label" for="checkboxSmsEvent-{{i}}">Receive SMS for Events</label>
+              </div>
+
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSMSAnnouncement-{{i}}" formControlName="smsAnnouncement">
+                <label class="form-check-label" for="checkboxSMSAnnouncement-{{i}}">Receive SMS for Announcements</label>
+              </div>
+
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailEvent-{{i}}" formControlName="emailEvent">
+                <label class="form-check-label" for="checkboxEmailEvent-{{i}}">Receive Email for Events</label>
+              </div>
+
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailAnnouncement-{{i}}" formControlName="emailAnnouncement">
+                <label class="form-check-label" for="checkboxEmailAnnouncement-{{i}}">Receive Email for Announcements</label>
+              </div>
+            </div>
+-->
+
+        <!-- toggle area end  -- old -->
+
+
+        <!-- ========  New toggle  ==== start ===== -->
+
+    <div *ngIf="familyMember.controls[i].get('memberType')?.value && familyMember.controls[i].get('memberType')?.value === 'spouse'">
+
+      <div  class="editWebPage_row announcement_form_row_toggle">
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxSmsEvent-{{i}}" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSmsEvent-{{i}}" formControlName="smsEvent">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive SMS for Events</div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxSMSAnnouncement-{{i}}" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxSMSAnnouncement-{{i}}" formControlName="smsAnnouncement">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive SMS for Announcements</div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxEmailEvent-{{i}}" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailEvent-{{i}}" formControlName="emailEvent">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive Email for Events</div>
+          </div>
+
+        </div>
+
+        <div  class="toggle_box width_50">
+          <div  class="toggle_left">
+            <div  class="toggle_btn">
+              <label for="checkboxEmailAnnouncement-{{i}}" class="switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkboxEmailAnnouncement-{{i}}" formControlName="emailAnnouncement">
+                <div  class="slider round"></div>
+              </label>
+            </div>
+            <div  class="toggle_text">Receive Email for Announcements</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- ========  New toggle  ==== end ===== -->
+
+
+
+
+        </div>
+          <button class="button_appearance_none onboard_form_close_btn"  type="button"  (click)="removeDetails(i)">
+            <img src="assets/images/crosspink.png" />
+          </button>
+      </div>
+       <!-- --- onboard big form -- end --  -->
+      <!--
+        <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink"  type="button"  (click)="removeDetails(i)">Remove</button>
+        </div>
+       -->
+  </ng-container>
+    </div>
+    <!-- Onboarding Form Card -- end --  -->
+
+
+
+    <!-- --- card outside form button -- start --  -->
+    <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside">
+      <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow"  type="submit">Save Settings</button> -->
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow"  type="button" (click)="addFields()">Add family member</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink"  type="button"  (click)="cancel()">Cancel</button>
+      <button class="button_appearance_none onboard_form_btn onboard_form_btn_green"  type="submit" (click)="saveData()" [ngClass]="{'disabled': !addMemberForm.valid}">Send join message to member</button>
+    </div>
+    <!-- --- card outside form button -- end --  -->
+    </form>
+  </div>
+  <!-- </div> -->
+
+
+
+  <!-- ===  Onboarding Passive User section -- end === -->
+
+
+</div>

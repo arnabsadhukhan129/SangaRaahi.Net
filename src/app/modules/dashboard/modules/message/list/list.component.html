@@ -1,0 +1,235 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Email Responses List</h4>
+
+    <div class="filterArea">
+
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" (click)="toggleSearch()">
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+
+      <a href="javascript:void(0)" class="filter" (click)="toggle()">Filter</a>
+      <!-- <a href="javascript:void(0)" class="track" >Track</a> -->
+      <!-- <a class="pinkbtnsmall" [routerLink]="['/groups/add']" >Create Group</a> -->
+    </div>
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+   <!-- ===  new filter search start === -->
+   <div class="filter_search_sec" *ngIf="seachFilter">
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form [formGroup]="searchForm">
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by email" formControlName="search" (keyup)="getMessageList(current)">
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" (click)="getMessageList(current)">Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button" (click)="clearDateFilter()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- ===  new filter search end === -->
+
+
+  <!-- ===  new filter section -- adjust start === -->
+  <div class="fliter_sec_bg" *ngIf="toggleFilter">
+    <div class="filter_sec_block">
+        <form [formGroup]="searchForm">
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_date">
+                    <mat-form-field>
+                      <mat-label>Invitation sent date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate matInput placeholder="Start date" formControlName="feedbackStartDate">
+                        <input matEndDate matInput placeholder="End date" formControlName="feedbackEndDate">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" formControlName="status" (change)="getMessageList(current)">
+                      <option value="" disabled selected hidden>Message Status</option>
+                      <option value="" >All</option>
+                      <option value="NotViewed">New</option>
+                      <option value="Viewed">Viewed</option>
+                      <option value="Replied">Replied</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box_btn">
+                    <button class="button_appearance_none filter_btn_search" (click)="getMessageList(current)">Submit</button>
+                    <button class="button_appearance_none filter_btn_clear" (click)="clearDateFilter()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div>
+  <!-- ===  new filter section -- adjust end === -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" (click)="back()">Back to dashboard</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+  <!-- ===  new filter search start === -->
+
+  <!-- ===  new filter search end === -->
+  <!-- ===  new filter section -- adjust start === -->
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- table area start -->
+  <div class="tableBox">
+      <div class="table-responsive">
+          <table class="table_list" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Contact Email</th>
+                  <th>Message content</th>
+                  <!-- <th>Invitation sent date</th> -->
+                  <th>Feedback Recieved date</th>
+                  <th>Message Status</th>
+                  <th>Action Items</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of feedbacks; let i = index">
+                  <td *ngIf="current*10-(9-i) < 10">
+                    {{'M0'+(current*10-(9-i))}}
+                  </td>
+                  <td *ngIf="current*10-(9-i) >= 10">
+                    {{'M'+(current*10-(9-i))}}
+                  </td>
+                  <td>
+                    {{item.email ? item.email : 'N/A'}}
+                  </td>
+                  <td>
+                    <div class="td_msg_cont">
+                      {{item.message | truncate: 35 }}
+                    </div>
+                  </td>
+                  <!-- <td>{{item.createdAt ? item.createdAt : 'N/A'}}</td> -->
+                  <td>{{item.createdAt | date:'medium'}}</td>
+                  <td>
+                    <button class="button_appearance_none td_status_btn td_active_btn pointer_event_none" *ngIf="item.messageStatus === 'Replied'">Replied</button>
+                    <button class="button_appearance_none td_status_btn td_inactive_btn pointer_event_none" *ngIf="item.messageStatus === 'Viewed'">Viewed</button>
+                    <button class="button_appearance_none td_status_btn td_new_btn pointer_event_none" *ngIf="item.messageStatus === 'NotViewed'">New</button>
+                  </td>
+                  <td>
+                    <div class="active_item_td">
+                      <button class="button_appearance_none active_item_td_btn td_btn_green" title="Show Message" (click)="showMessage(item,i)">
+                        <img src="assets/images/active_item_btn_02.png" />
+                      </button>
+                      <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Send Mail" (click)="sendMail(item,i)">
+                        <img src="assets/images/active_item_btn_05.png" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!feedbacks?.length">
+                  <td colspan="6">No Data Found</td>
+                </tr>
+              </tbody>
+              <!-- <tfoot>
+                <tr>
+                  <td colspan="8">No Data Found</td>
+                </tr>
+              </tfoot> -->
+          </table>
+      </div>
+      <!-- ---  table bottom Pagination section -- start --  -->
+      <div class="table_pagination_sec">
+        <div class="table_pagi_left pagination_block">
+          <span *ngIf="totalData > 10">
+            <app-pagination [current]="current" [total]="total" (goTo)="onGoTo($event)" (next)="onNext($event)" (previous)="onPrevious($event)"></app-pagination>
+          </span>
+        </div>
+        <div class="table_pagi_right">
+          <p>Showing {{from}} - {{to}} of {{totalData}}</p>
+        </div>
+      </div>
+      <!-- ---  table bottom Pagination section -- end --  -->
+  </div>
+  <!-- table area end -->
+
+
+</div>
+
+
+<!------OpenModal For Message------>
+<div class="modal fade custom_modal" id="messageDetails">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Message content</h5>
+      </div>
+      <div class="modal-body">
+           <p>{{message}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!----EndModal For Message------>
+
+
+<!------Open Modal For Send Email------>
+<div class="modal fade custom_modal" id="sendReply" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Reply</h5>
+      </div>
+      <form [formGroup]="mailForm">
+      <div class="modal-body">
+        <div class="onboard_form_input modal_form_box">
+          <div class=" onboard_input_border mb_30">
+            <label class="form_label_green ">To :</label>
+              <input class="input_appearance_none" type="text" placeholder="to" value="{{reciver}}" readonly>
+          </div>
+          <!-- <div class="onboard_form_input onboard_input_border">
+            <label class="form_label_green mb_10">From :</label>
+              <input class="input_appearance_none" type="text" placeholder="from" value="{{communityEmail}}" readonly>
+          </div> -->
+          <div class=" onboard_input_border mb_30">
+            <label class="form_label_green ">Subject :</label>
+              <input class="input_appearance_none" type="text" placeholder="Subject" formControlName="subject">
+          </div>
+          <div class=" textArea_block editWebPage_row">
+            <label class="form_label_green mb_10">Email Body :</label>
+            <textarea class="input_appearance_none editWeb_textArea" formControlName="body"></textarea>
+          </div>
+        </div>
+        <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="sendReply()">Send</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!----End Modal For Send Email------>

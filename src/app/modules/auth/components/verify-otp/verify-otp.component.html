@@ -1,0 +1,103 @@
+<div class="loginBg">
+    <div class="blackBox">
+        <div class="fullcintentArea">
+            <div class="form_top_text">
+                <div class="logo"><img src="assets/images/logo.svg" /></div>
+                <h1>Welcome to your SangaRaahi<br /> organization Portal !</h1>
+            </div>
+
+            <div class="formarea">
+                <form [formGroup]="otpForm" (ngSubmit)="submit()" autocomplete="off">
+                    <!--
+                    <div class="loginformflidArea loginformflidArea_otp">
+                        <input type="text" aria-label="Number" id="first" class="otpfld"
+                            formControlName="first_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'first')"
+                            (keyup)="movetoNext($event,'second')"
+                            (keydown.enter)="onEnterKey($event)"
+                            #focus_field/>
+
+                        <input type="text" aria-label="Number" id="second" class="otpfld"
+                            formControlName="second_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'second')"
+                            (keyup)="movetoNext($event,'third')"
+                            (keydown.enter)="onEnterKey($event)"  />
+
+                        <input type="text" aria-label="Number" id="third" class="otpfld"
+                            formControlName="third_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'third')"
+                            (keyup)="movetoNext($event,'fourth')"
+                            (keydown.enter)="onEnterKey($event)"  />
+
+                        <input type="text" aria-label="Number" id="fourth" class="otpfld"
+                            formControlName="fourth_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'fourth')"
+                            (keyup)="movetoNext($event,'fifth')"
+                            (keydown.enter)="onEnterKey($event)"  />
+
+                        <input type="text" aria-label="Number" id="fifth" class="otpfld"
+                            formControlName="fifth_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'fifth')"
+                            (keyup)="movetoNext($event,'sixth')"
+                            (keydown.enter)="onEnterKey($event)"  />
+
+                        <input type="text" aria-label="Number" id="sixth" class="otpfld"
+                            formControlName="sixth_number" maxlength="1"
+                            (keypress)="numericOnly($event)"
+                            (keydown)="filterCharOnKeyDown($event,'sixth')"
+                            (keyup)="movetoNext($event,'')"
+                            (keydown.enter)="onEnterKey($event)"  />
+                    </div>
+                    -->
+
+                    <div class="loginformflidArea loginformflidArea_otp">
+                        <!-- new OTP input  -->
+                        <input class="new_otp_input"
+                          type="text"
+                          placeholder="OTP"
+                          formControlName="otpNum"
+                          maxlength="6"
+                          inputmode="numeric"
+                          pattern="[0-9]*"
+                          (keypress)="numericOnly($event)"
+                          (input)="enforceMaxLength($event)">
+
+                        <!-- new OTP input  -->
+                    </div>
+
+                    <div class="robotArea">
+                        <ngx-recaptcha2
+                            [siteKey]="siteKey"
+                            formControlName="recaptcha"
+                            (resolved)="onCaptchaResolved($event)">
+                        </ngx-recaptcha2>
+                    </div>
+
+                    <!-- Keep invisibleInput if you still want it, but it’s no longer required -->
+                    <input type="text" style="opacity: 0; position: absolute;" (keydown.enter)="onEnterKey($event)" #invisibleInput>
+
+                    <div class="otpmessage">
+                        <h3>If you want to get OTP again,
+                            <a href="javascript:void(0)" (click)="otpResend()" *ngIf="!disableOtpResend"> click here.</a>
+                            <a class="disabled" *ngIf="disableOtpResend"> click here.</a>
+                            <br>
+                            Note, It will be triggered after 02 minutes of first attempt.</h3>
+                    </div>
+
+                    <div class="buttonArea">
+                        <button class="formBtn_layout" type="submit" [ngClass]="{'disabled': !otpForm.valid}" >Continue</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="line">
+                <img class="form_page_line_img" src="assets/images/line.png" />
+            </div>
+        </div>
+    </div>
+</div>

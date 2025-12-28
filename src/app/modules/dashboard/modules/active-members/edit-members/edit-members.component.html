@@ -1,0 +1,156 @@
+<!-- -- Dashboard panel / My Community details bg -- start --  -->
+<div class="dashboard_panel_bg community_details_bg">
+  <div class="community_details">
+
+    <!-- page title -- section -- start  -->
+    <div class="page_top_title">
+      <h4>Edit Family Member Details</h4>
+    </div>
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/active-members/view/'+userId]">Back To List Page</a>
+    </div>
+    <!-- page title -- section -- end  -->
+    <form [formGroup]="familyMemberEditForm">
+      <div class="edit_profile_box">
+        <div class="editprofile_form passive_users_form">
+          <div class="edit_webPage_tab_body_bg">
+            <div class="onboard_form onboard_form_big edit_webPage onboard_form_event">
+
+              <div class="onboard_form_row form_row gpa_30">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">Name *</label>
+                        <input class="input_appearance_none pr_10" type="text" placeholder="Name" formControlName="name">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row form_row gpa_30">
+                <div class="onboard_form_box width_100">
+                  <div class="onboard_form_input ">
+                      <div class="onboard_form_input onboard_input_border">
+                        <label class="form_label_green mb_10">Email *</label>
+                      <span class="width_100 " >
+                        <input class="input_appearance_none pr_10" type="text" placeholder="email" formControlName="email" readonly>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row form_row gpa_30">
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input onboard_input_border">
+                    <label class="form_label_green mb_10">User Group *</label>
+                    <select class="input_appearance_none filter_input onboard_select" formControlName="ageOfMinority" >
+                      <option value="" disabled selected hidden>Select User Group</option>
+                      <option value="spouse">Partner/Spouse</option>
+                      <option value="adult">Adult</option>
+                      <option value="minor">Minor</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">Realtion. *</label>
+                      <input class="input_appearance_none" type="text" placeholder="Realtion" formControlName="relationType">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row form_row gpa_30">
+                <div class="form_country_code " class="onboard_form_box width_30">
+                  <label class="form_label_green mb_10">Phone Code. *</label>
+                  <div class="form_input_row onboard_input_border">
+                    <div class="onboard_form_input_icon">
+                      <img class="onboard_form_icon" src="assets/images/profile-edit-form-icon-02.png">
+                    </div>
+                    <div class="onboard_form_input">
+                      <div class="loginformflidArea">
+                            <input type="text"
+                            class="countryno countryno_mat"
+                            placeholder="Pick one"
+                            aria-label="Number"
+                            matInput
+                            formControlName="countryCode"
+                            [matAutocomplete]="auto"
+                            (keyup)="searchCountry($event)"
+                            readonly
+                            >
+                          <ng-container class="login_mat_select_with_map_ngContainer">
+                              <mat-autocomplete  #auto="matAutocomplete" class="login_mat_select login_mat_select_onboard login_mat_select_with_map">
+                              <mat-option  *ngFor="let country of filteredOptions" [value]="country.dialCode" (click)="addCountryCode(country)">
+                                <img with="20" height="20" [src]="country.flag">  {{country.name}} - [{{country.dialCode}}]
+                              </mat-option>
+                            </mat-autocomplete>
+                          </ng-container>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="onboard_form_box width_70">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">Phone No. *</label>
+                      <input class="input_appearance_none" type="text" placeholder="Primary Phone No." formControlName="phone" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="onboard_form_row form_row gpa_30">
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">Year of birth *</label>
+                      <select class="input_appearance_none filter_input onboard_select" formControlName="yearOfBirth">
+                        <option value="" disabled selected hidden>Select Year of birth</option>
+                        <ng-container *ngFor="let year of arrYear">
+                          <option [value]="year">
+                            {{year}}
+                          </option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="onboard_form_box width_50">
+                  <div class="onboard_form_input ">
+                    <div class="onboard_form_input onboard_input_border">
+                      <label class="form_label_green mb_10">Gender *</label>
+                      <select class="input_appearance_none filter_input onboard_select" formControlName="gender">
+                        <option value="" disabled selected hidden>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non Binary">Non Binary</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            
+         <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+         <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" [routerLink]="['/active-members/view/'+userId]">Cancel</button>
+          <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData()">Submit</button>
+        </div>
+        <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+
+<!-- -- Dashboard panel / My Community details bg -- end --  -->

@@ -1,0 +1,299 @@
+<!-- page title -- section -- start  -->
+<div class="page_top_title filter-headingArea">
+  <h4 >Create Email</h4>
+  <div class="filterArea">
+    <!-- -- back btn section start --  -->
+    <div class="top_back_section">
+      <a href="javascript:void(0)" [routerLink]="['/email-template/template-list']">Back to list</a>
+    </div>
+    <!-- -- back btn section start --  -->
+  </div>
+</div>
+
+<form [formGroup]="mailTemplateForm">
+  <!-- === Edit web page Compontnt -- tab content body -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+
+
+    <div class="onboard_form onboard_form_big edit_webPage onboard_form_event" >
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 onboard_form_big_imgblock editWeb_img_up mb_30">
+
+        <div class="onboard_form_box width_50" >
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Select Event Name</label>
+              <select class="input_appearance_none filter_input onboard_select" formControlName="eventId" [ngClass]="{'disabled': templateId}"
+                style="max-height: 160px; overflow: auto;"
+                onfocus="this.size=this.options.length;"
+                onblur="this.size=1;"
+                onchange="this.size=1; this.blur();" (change)="getEventByID($event)">
+                <option value="" disabled selected hidden>Select Event Name</option>
+                <ng-container *ngFor="let val of evetList">
+                  <option [value]="val.id">
+                    {{val.title}}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('eventId')?.errors?.['InvalidValue'] && (mailTemplateForm.get('eventId')?.dirty || mailTemplateForm.get('eventId')?.touched))">
+              <div class="form_field_error_msg">
+                Event Name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+         <!--event banner image -- start -->
+        <div class="announcement_box_block ">
+          <div class="announcement_box_block_top announcement_box_pink">
+            <div class="announcement_left_round_img">
+              <img [class]="(templateImage && templateImage!='') ? 'announcement_left_upload_img' : 'announcement_left_default_img' "  [src]="(templateImage && templateImage!='') ? templateImage : 'assets/images/banner-img-up.png' ">
+              <!-- <img class="announcement_left_default_img" src="assets/images/banner-img-up.png" >
+              <img class="announcement_left_upload_img" src="assets/images/banner-img-up.png" style="display: none;" > -->
+            </div>
+            <div class=" up_img_delete_btn_block" *ngIf="templateImage && templateImage!=''">
+              <button class="button_appearance_none up_img_delete_btn" (click)="deleteImage()">
+                <img src="assets/images/trash-delete.png">
+              </button>
+            </div>
+            <div class="announcement_top_des">
+
+              <!-- img / upload img -- start -->
+              <div class="profile_img_edit_btn_block">
+                <button class="button_appearance_none profile_edit_btn">
+                  <img src="assets/images/profileimage-edit-btn.png">
+                </button>
+                <input class="input_appearance_none input_upload_btn" type="file" accept="image/*"  (change)="uploadImage($event, 'image')"/>
+              </div>
+              <!-- img / upload img -- end -->
+
+              <h4>Choose Template Image</h4>
+              <p>(Image size should be within 2-5MB)</p>
+            </div>
+
+             <!-----Image croped start----->
+
+             <div class="crop_window"  *ngIf="openCropImageModal">
+                  <image-cropper
+                        [imageChangedEvent]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="4/1"
+                        (imageCropped)="cropImg($event)">
+                  >
+                </image-cropper>
+                <div class="crop_btn_bottom">
+                  <button class="button_appearance_none crop_btn crop_btn_close" *ngIf="openCropImageModal"   (click)="closeImage()">
+                    <img src="assets/images/crosspink.png">
+                  </button>
+                  <button class="button_appearance_none crop_btn crop_btn_done" *ngIf="openCropImageModal" (click)="saveImage()">
+                    <img src="assets/images/tick.png">
+                  </button>
+                </div>
+              </div>
+
+                <!-----Image croped end------->
+
+          </div>
+          <!-- <div class="form_input_row_error textRight">
+            <div class="form_field_error_msg">
+              Error message
+            </div>
+          </div> -->
+        </div>
+         <!--event banner image -- end -->
+
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_100">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Mail Template Name *</label>
+                <input class="input_appearance_none" type="text" placeholder="Mail Template Name *" formControlName="mailTemplateName" >
+            </div>
+            <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('mailTemplateName')?.errors?.['InvalidValue'] && (mailTemplateForm.get('mailTemplateName')?.dirty || mailTemplateForm.get('mailTemplateName')?.touched))">
+              <div class="form_field_error_msg">
+                Mail template name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_100">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Mail Header *</label>
+                <input class="input_appearance_none" type="text" placeholder="Mail Header *"  formControlName="mailHeader">
+            </div>
+            <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('mailHeader')?.errors?.['InvalidValue'] && (mailTemplateForm.get('mailHeader')?.dirty || mailTemplateForm.get('mailHeader')?.touched))">
+              <div class="form_field_error_msg">
+                Mail header is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_100">
+          <div class="onboard_form_input ">
+            <div class="onboard_form_input onboard_input_border">
+              <label class="form_label_green mb_10">Mail Title *</label>
+                <input class="input_appearance_none" type="text" placeholder="Mail Title *"  formControlName="mailTitle">
+            </div>
+            <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('mailTitle')?.errors?.['InvalidValue'] && (mailTemplateForm.get('mailTitle')?.dirty || mailTemplateForm.get('mailTitle')?.touched))">
+              <div class="form_field_error_msg">
+                Mail title is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Customized Message *</label>
+        </div>
+        <div class="textArea_block editWebPage_row">
+          <!-- <textarea class="input_appearance_none editWeb_textArea"></textarea> -->
+          <ckeditor class="input_appearance_none editWeb_textArea " formControlName="description"></ckeditor>
+        </div>
+        <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('description')?.errors?.['InvalidValue'] && (mailTemplateForm.get('description')?.dirty || mailTemplateForm.get('description')?.touched))">
+          <div class="form_field_error_msg">
+             Description is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="onboard_form_row gpa_30 " *ngIf="eventDetails">
+        <div class="onboard_form_box width_100">
+          <!-- <label class="form_label_green mb_10">Event Details</label> -->
+
+
+<!--
+              <ng-container>
+                Address Line1: &nbsp;{{eventDetails.venueDetails.firstAddressLine ? eventDetails.venueDetails.firstAddressLine : 'N/A'}}<br/>
+                Address Line2: &nbsp;{{eventDetails.venueDetails.secondAddressLine ? eventDetails.venueDetails.secondAddressLine : 'N/A'}}<br/>
+                Country: &nbsp;{{countryName ? countryName : 'N/A'}}<br/>
+                State: &nbsp;{{stateName ? stateName : 'N/A'}}<br/>
+                City: &nbsp;{{eventDetails.venueDetails.city ? eventDetails.venueDetails.city : 'N/A'}}<br/>
+                Zip Code: &nbsp;{{eventDetails.venueDetails.zipcode ? eventDetails.venueDetails.zipcode : 'N/A'}}<br/>
+                Contact Number: &nbsp;{{eventDetails.venueDetails.phoneNo ? eventDetails.venueDetails.phoneCode + eventDetails.venueDetails.phoneNo : 'N/A'}}<br/>
+                Event Description: &nbsp;{{eventDetails.description ? eventDetails.description : 'N/A'}}
+              </ng-container>
+ -->
+
+            <div class="form_card_block">
+              <h3 class="card_inner_title">Event Details</h3>
+
+              <div class="form_card_sub_block_col">
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">Address Line1 : </label>
+                  <p class="card_inner_description">{{eventDetails.venueDetails.firstAddressLine ? eventDetails.venueDetails.firstAddressLine : 'N/A'}}
+                  </p>
+                </div>
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">Address Line2 : </label>
+                  <p class="card_inner_description">{{eventDetails.venueDetails.secondAddressLine ? eventDetails.venueDetails.secondAddressLine : 'N/A'}}
+                  </p>
+                </div>
+              </div>
+
+              <div class="form_card_sub_block_col">
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">Country : </label>
+                  <p class="card_inner_description">{{countryName ? countryName : 'N/A'}}</p>
+                </div>
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">State : </label>
+                  <p class="card_inner_description">{{stateName ? stateName : 'N/A'}}</p>
+                </div>
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">City : </label>
+                  <p class="card_inner_description">{{eventDetails.venueDetails.city ? eventDetails.venueDetails.city : 'N/A'}}</p>
+                </div>
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">Zip Code : </label>
+                  <p class="card_inner_description">{{eventDetails.venueDetails.zipcode ? eventDetails.venueDetails.zipcode : 'N/A'}}</p>
+                </div>
+              </div>
+
+              <div class="form_card_sub_block_col">
+                <div class="form_card_sub_block">
+                  <label class="card_inner_label">Contact Number : </label>
+                  <p class="card_inner_description">{{eventDetails.venueDetails.phoneNo ? eventDetails.venueDetails.phoneCode + eventDetails.venueDetails.phoneNo : 'N/A'}}</p>
+                </div>
+              </div>
+
+            </div>
+
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+      <!-- onboard_form_row -- ck editor block row -- start  -->
+      <!-- <div class="onboard_form_row describe_textarea ">
+        <div class="block_sec_title_row">
+          <label class="form_label_green mb_10">Customized Message CK Editor </label>
+        </div>
+        <div class="textArea_block editWebPage_row" >
+          <div class="text_count_block">
+            123/500
+          </div>
+        </div>
+        <div class="form_input_row_error ">
+          <div class="form_field_error_msg">
+            Error message
+          </div>
+        </div>
+      </div> -->
+      <!-- onboard_form_row -- ck editor block row -- end  -->
+
+      <!-- onboard_form_row  -->
+      <div class="onboard_form_row gpa_30 " >
+        <div class="onboard_form_box width_100">
+
+          <div class="onboard_form_input ">
+            <label class="form_label_green mb_10">Event Details Links of the Publicity Website</label>
+            <div class="onboard_form_input onboard_input_border onboard_form_currency_input">
+                <input class="input_appearance_none url_input" type="text" placeholder="URL Links"  formControlName="eventLink">
+                <!-- <div class="currency_input_block"><span class="currency_input_active"> Active / Inactive </span></div> -->
+            </div>
+            <!-- <div class="form_input_row_error" *ngIf="(mailTemplateForm.get('eventLink')?.errors?.['InvalidValue'] && (mailTemplateForm.get('eventLink')?.dirty || mailTemplateForm.get('eventLink')?.touched))">
+              <div class="form_field_error_msg">
+                Event details link is required.
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- onboard_form_row  -->
+
+
+      <!-- ---- Edit Web Page bottom Button section -- start ---  -->
+      <div class="onboard_form_row onboard_form_row_btn onboard_form_row_btn_outside editWeb_sub_button_section">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="cancel()">Cancel</button>
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_green" type="submit" (click)="saveData(1)">Save as draft</button>
+        <!-- <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="submit" (click)="saveData(2)">Save & Publish</button> -->
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_yellow" type="submit" (click)="saveData(2)">Ready to send</button>
+      </div>
+      <!-- ---- Edit Web Page bottom Button section -- end ---  -->
+
+    </div>
+
+  </div>
+  <!-- === Edit web page Compontnt -- tab content body -- section -- end ===  -->
+
+</form>

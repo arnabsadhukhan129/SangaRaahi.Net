@@ -1,0 +1,254 @@
+<div class="dashboard_panel_bg memberlistpage group_listing_page">
+  <!-- page title -- section -- start  -->
+  <div class="page_top_title filter-headingArea">
+    <h4>Blog Preview</h4>
+
+    <!-- <div class="filterArea">
+      <a href="javascript:void(0)" class="_filterSearch_iconBtn" >
+        <img src="assets/images/filter-search-icon.png" />
+      </a>
+      <a href="javascript:void(0)" class="filter" >Filter</a>
+      <a class="pinkbtnsmall"  [routerLink]="['/events/add']" >Create Event</a>
+    </div> -->
+
+  </div>
+  <!-- page title -- section -- end  -->
+
+  <!-- -- back btn section start --  -->
+  <div class="top_back_section">
+    <a href="javascript:void(0)" [routerLink]="['/blog']">Back to List</a>
+  </div>
+  <!-- -- back btn section start --  -->
+  <!-- filter and heading area start -->
+
+  <!-- ===  new filter search start === -->
+  <!-- <div class="filter_search_sec" >
+    <div class="filter_sec_block_seach">
+      <div class="form_row">
+        <form >
+          <div class="input_block_box filter_search_text">
+            <div class="filter_input_block">
+              <div class="filter_input_box">
+                <input class="input_appearance_none filter_input" type="text" placeholder="Search by Event Name" >
+              </div>
+              <div class="filter_input_box_btn">
+                <button class="button_appearance_none filter_btn_search" type="button" >Search</button>
+                <button class="button_appearance_none filter_btn_clear" type="button"  >Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+  <!-- ===  new filter search end === -->
+
+  <!-- ===  new filter section -- adjust start === -->
+
+  <!-- <div class="fliter_sec_bg"  >
+    <div class="filter_sec_block">
+        <form >
+            <div class="form_row">
+              <div class="input_block_box">
+                <div class="filter_input_block">
+                  <div class="filter_input_box filter_search_select">
+                    <select class="input_appearance_none filter_input" >
+                      <option value="" disabled selected hidden>Status</option>
+                      <option value="" >All</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="past">Past</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div> -->
+
+  <!-- ===  new filter section -- adjust end === -->
+  <!-- filter and heading area start -->
+
+  <!-- === Blog page -- view -- section -- start ===  -->
+  <div class="edit_webPage_tab_body_bg ">
+    <div class="onboard_form onboard_form_big edit_webPage" >
+
+      <div class="blog_view_sec mb_50">
+        <div class="blog_banner">
+          <div class="blog_banner_img">
+            <img src="{{blogDetails?.thumbnailImage ? blogDetails?.thumbnailImage : 'assets/images/blog_banner_img.jpg'}}" alt="" />
+          </div>
+          <div class="blog_banner_cont">
+            <p>{{blogDetails?.blogTitle }}</p>
+            <div class="blog_banner_cont_meta">
+              <ul>
+                <li>Blog posted on {{blogDetails?.createdAt | date:'dd MMMM, yyyy'}}</li>
+                <!-- <li>By Tanmoy Samanta (Board Member)</li> -->
+                <li>By {{blogDetails?.postedBy}} ({{blogDetails?.role}})</li>
+                <li>{{blogDetails?.blogCategory}} Blog</li>
+                <li>Event Name : {{blogDetails?.eventName}}</li>
+                <!-- <li>Blog Id : {{getBlogId}}</li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">Uploads</h4>
+          <!-- <div class="block_title_btn_div">
+            <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button>
+          </div> -->
+        </div>
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section ">
+            <!-- carousal no data found -->
+            <div class="no_data_card" *ngIf="blogDetails?.image?.length === 0">
+              <h5>No Image Found</h5>
+            </div>
+            <!-- carousal -- main -- start --  -->
+            <!-- <owl-carousel-o  class="owl_car_block" > -->
+              <div class="owl_car_block" >
+                <owl-carousel-o [options]="customOptions" class="owl_car_block" *ngIf="blogDetails?.image?.length > 0">
+                    <ng-template carouselSlide *ngFor="let img of blogDetails?.image">
+                      <div class="owl_item">
+                        <a href="javascript:void(0)">
+                          <div class="owl_item_imgVideo_block">
+                            <img class="owl_item_imgVideo"  src="{{img ? img : 'assets/images/no-image-found-3.png'}}">
+                          </div>
+                        </a>
+                        <!-- -- hover sec -- start --  -->
+                        <div class="list_block_hoverBg">
+                          <div class="active_item_td">
+                            <button class="button_appearance_none active_item_td_btn td_btn_pink" title="Show" (click)="showImage(img)">
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+                          <!-- -- hover sec -- end --  -->
+                      </div>
+                    </ng-template>
+                </owl-carousel-o>
+              </div>
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+      </div>
+      <!-- carousal section bg -- end --  -->
+
+      <!-- carousal section bg -- start --  -->
+      <div class=" editWeb_carousel_sec editWeb_subSection">
+
+        <div class="block_sec_title_row editWeb_carousel_sec_title">
+          <h4 class="block_sec_title green_text">Documents</h4>
+          <!-- <div class="block_title_btn_div">
+            <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button>
+          </div> -->
+        </div>
+        <div class="editWeb_carousel_sec_body">
+          <div class="event_carousal_section ">
+            <!-- carousal no data found -->
+            <div class="no_data_card" *ngIf="blogDetails?.pdf?.length === 0">
+              <h5>No Pdf Found</h5>
+            </div>
+            <!-- carousal -- main -- start --  -->
+
+            <!-- <owl-carousel-o  class="owl_car_block" > -->
+              <div class="owl_car_block">
+
+                <owl-carousel-o [options]="customOptions" class="owl_car_block owl_car_block_doc" *ngIf="blogDetails?.pdf?.length > 0">
+                  <ng-template carouselSlide *ngFor="let pdf of blogDetails?.pdfFile">
+                    <div class="owl_item">
+                      <a href="javascript:void(0)">
+                        <div class="owl_item_imgVideo_block">
+                          <img class="owl_item_imgVideo" src="assets/images/pdf-icon-img.png">
+                        </div>
+                      </a>
+                      <div class="owl_item_imgVideo_title">
+                        <h5>{{pdf.name | truncate:27}}.</h5>
+                      </div>
+                      <!-- -- hover sec -- start --  -->
+                      <div class="list_block_hoverBg">
+                        <div class="active_item_td">
+                          <button class="button_appearance_none active_item_td_btn td_btn_yellow" title="Download" (click)="downloadFile(pdf.url,pdf.name)">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <!-- -- hover sec -- end --  -->
+                    </div>
+                  </ng-template>
+                </owl-carousel-o>
+
+                  <!-- <ng-template > -->
+                    <!-- <div class="owl_item owl_item_doc">
+                      <a href="javascript:void(0)">
+                        <div class="owl_item_imgVideo_block">
+                          <img class="owl_item_imgVideo" src="assets/images/pdf-icon-img.png">
+                        </div>
+                      </a>
+                      <div class="list_block_hoverBg">
+                        <div class="active_item_td">
+                          <button class="button_appearance_none active_item_td_btn td_btn_yellow" >
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div> -->
+                  <!-- </ng-template> -->
+              </div>
+            <!-- </owl-carousel-o> -->
+
+            <!-- carousal -- main -- end --  -->
+          </div>
+        </div>
+
+      </div>
+      <!-- carousal section bg -- end --  -->
+
+      <!-- carousal section bg -- start --  -->
+      <div class="editWeb_subSection blog_cont_bg">
+        <div class="block_sec_title_row ">
+          <h4 class="block_sec_title green_text">Editor’s Notes</h4>
+          <!-- <div class="block_title_btn_div">
+            <button type="submit" class="button_appearance_none block_title_btn green_btn">Button</button>
+          </div> -->
+        </div>
+        <div class="blog_cont">
+          <div class="mb_10" [innerHTML]="blogDetails?.blogDescription"></div>
+        </div>
+
+      </div>
+      <!-- carousal section bg -- end --  -->
+
+    </div>
+  </div>
+  <!-- === Blog page -- view -- section -- end ===  -->
+</div>
+
+
+<!--View Image Modal-->
+<div class="modal fade custom_modal" id="viewImage">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="modal_qr_block">
+          <img src="{{getImage ? getImage : ''}}">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="button_appearance_none onboard_form_btn onboard_form_btn_pink" type="button" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Close Upload Image Modal-->
+
+
+
+
+
